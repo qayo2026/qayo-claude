@@ -1,0 +1,11 @@
+{
+  "project": "QAYO WORLD SEARCH",
+  "masterVideo": {
+    "path": "/media/qayo-dunya-axtaris.mp4",
+    "sha256": "b21dba902b658485d2ce152cbb32a93cd44092d346d685c871c1b1c02277f12c",
+    "format": "1080x1920, 30 fps, H.264, AAC",
+    "duration_s": 10,
+    "source": "GitHub qayo2026/qayo-claude/media/qayo-dunya-axtaris.mp4"
+  },
+  "status": "candidate"
+}
