@@ -3,7 +3,7 @@ from PIL import Image, ImageDraw, ImageFont
 W,H=1080,1920; S=2
 FD='/usr/share/fonts/opentype/inter/Inter-%s.otf'
 def F(w,s): return ImageFont.truetype(FD%w,int(s*S))
-CX,CY=540,930; RX,RY=415,505; NR=60
+CX,CY=540,930; RX,RY=420,420; NR=60
 CY_=(92,225,255); RED=(255,59,84)
 MODS=[(60,'KOMPYUTER\nPROQRAMLARI','monitor'),(120,'MOBİL\nTƏTBİQLƏR','phone'),
       (240,'AĞILLI CİHAZ\nSİSTEMLƏRİ','device'),(300,'WEB\nPLATFORMALAR','web')]

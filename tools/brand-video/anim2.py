@@ -5,7 +5,7 @@ back=cv2.imread('back.png')[...,::-1].astype(np.float32)
 back0=cv2.imread('back0.png')[...,::-1].astype(np.float32)
 import math as _m
 MODC=[(300,0),(60,1),(240,2),(120,3)]
-MODPOS=[(540+415*_m.sin(_m.radians(a)),930-505*_m.cos(_m.radians(a))) for a,_ in MODC]
+MODPOS=[(540+420*_m.sin(_m.radians(a)),930-420*_m.cos(_m.radians(a))) for a,_ in MODC]
 MODT=[1.3,1.8,2.3,2.8]
 DIFF=back-back0
 trgb=np.load('t_rgb.npy').astype(np.float32); tm=np.load('t_m.npy').astype(np.float32)[...,None]
@@ -118,7 +118,7 @@ def frame(t):
     ta=np.clip((t-0.3)/0.9,0,1); ta=ta*ta*(3-2*ta)
     pulse=1+0.05*math.sin(t*2.4)
     f=f*(1-tm*ta)+trgb*ta*pulse
-    tt='QAYO TEXNOLOGİYA'; ft=ImageFont.truetype('/usr/share/fonts/opentype/inter/Inter-Black.otf',70*S)
+    tt='QAYO TEXNOLOGİYA'; ft=ImageFont.truetype('/usr/share/fonts/opentype/inter/Inter-Black.otf',62*S)
     Lr=Image.new('RGBA',(W*S,260*S),(0,0,0,0)); dl=ImageDraw.Draw(Lr)
     tr=7*S; wd=sum(dl.textlength(c,font=ft) for c in tt)+tr*(len(tt)-1); x=(W*S-wd)/2
     for k,c in enumerate(tt):
@@ -131,7 +131,7 @@ def frame(t):
     la=np.array(Lr).astype(np.float32); ma=la[...,3:4]/255.
     la=cv2.resize(la,(W,260),interpolation=cv2.INTER_AREA); ma=cv2.resize(ma[...,0],(W,260),interpolation=cv2.INTER_AREA)[...,None]
     glw=cv2.GaussianBlur(la[...,:3]*ma,(0,0),14)*1.2*np.array([.55,.85,1.0],np.float32)+cv2.GaussianBlur(la[...,:3]*ma,(0,0),4)*.5
-    YT=215
+    YT=205
     f[YT:YT+260]=f[YT:YT+260]*(1-ma)+la[...,:3]*ma+glw
     f*=min(1,t/0.4)
     f=np.clip(f,0,255).astype(np.uint8)
