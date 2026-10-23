@@ -1,0 +1,21 @@
+{
+  "project": "QAYO BRAND TEXNOLOGİYA",
+  "isolated": true,
+  "masterVideo": {
+    "path": "/media/qayo-brand-master.mp4",
+    "status": "live",
+    "sha256": "ea09f6219d4a695a4d49a1e78e5f46938e693649fad75a95855cf9e25b5607f8",
+    "size_bytes": 3837582,
+    "duration_s": 7.5,
+    "format": "1080x1920, 30 fps, H.264, AAC",
+    "source": "GitHub qayo2026/qayo-claude/media/qayo-brand-master.mp4"
+  },
+  "customerDelivery": {
+    "source": "same masterVideo",
+    "requireMatchingSha256": true
+  },
+  "release": {
+    "status": "live",
+    "reason": "Anar: esas olan bu videodur"
+  }
+}

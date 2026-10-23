@@ -1,0 +1,1 @@
+QAYO KOSMOS — ayrıca Hatchable layihəsi üçün başlanğıc paket. Orijinal 10 saniyəlik MP4 daxil edilib. Layihə adı: QAYO KOSMOS. Başqa layihələrə toxunulmur.

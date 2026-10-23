@@ -1,0 +1,15 @@
+{
+  "project": "QAYO BRAND TEXNOLOGİYA",
+  "type": "native-code-animation",
+  "modules": [
+    "mobile",
+    "web",
+    "desktop",
+    "smart-devices",
+    "server-api",
+    "automation"
+  ],
+  "source": "public/index.html",
+  "originalVideo": "preserved separately; not embedded",
+  "status": "code preview, not rendered MP4"
+}
