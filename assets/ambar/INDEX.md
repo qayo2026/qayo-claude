@@ -9,3 +9,6 @@ Qayda: xam kadr kimi saxlanır; xəritə/yazı kodla qoyulur (Gemini-nin xərit�
 | 04-hekaye-...-30s.mp4 | 30 s | 03-ün uzun variantı | https://share.gemini.google/tv6kpn4RcY3uP |
 
 İstifadə: Dünya+Brend (B) üçün 02; Azərbaycan·Bakı·İnşaat (C) üçün 03/04.
+
+## referans/ — Anarın göndərdiyi kadr şəkilləri (konsept nümunələri, 2026-10-24)
+Konsept: QAYO mərkəzdə, ətrafında platforma dairələri (Maliyyə, CRM, Analitika...), dünya xəritəsi üzərində; ofis masasında kompüterin yanında. Dünya axtarışı iki formada: qlobus + düz xəritə, kəsib calamaq.
