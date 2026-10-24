@@ -131,6 +131,7 @@ for n_,(a_,b_) in enumerate(MODS):
     pl=Image.new('RGBA',(LWB,100),(0,0,0,0)); ImageDraw.Draw(pl).rounded_rectangle([14,0,LWB-15,95],radius=18,fill=(4,16,36,215),outline=(88,216,245,150),width=2); sc=np.asarray(pl).astype(np.float32).copy()
     nt_,_=text_sprite('%02d'%(n_+1),22,0.12,FB); nh,nw=nt_.shape; nx=(LWB-nw)//2; aa=nt_[...,None]; sc[0:nh,nx:nx+nw,:3]=sc[0:nh,nx:nx+nw,:3]*(1-aa)+np.float32([88,216,245])*aa; sc[0:nh,nx:nx+nw,3]=np.maximum(sc[0:nh,nx:nx+nw,3],nt_*255)
     for j,tt in enumerate((a_,b_)):
+        if not tt: continue
         tx,_=text_sprite(tt,24,0.06,FB); th,tw=tx.shape
         if tw>LWB-44: tx=cv2.resize(tx,(LWB-44,th),interpolation=cv2.INTER_AREA); tw=LWB-44
         y0=30+j*31; x0=(LWB-tw)//2; aa=tx[...,None]; sc[y0:y0+th,x0:x0+tw,:3]=sc[y0:y0+th,x0:x0+tw,:3]*(1-aa)+255*aa; sc[y0:y0+th,x0:x0+tw,3]=np.maximum(sc[y0:y0+th,x0:x0+tw,3],tx*255)
