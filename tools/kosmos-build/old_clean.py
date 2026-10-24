@@ -157,10 +157,25 @@ if __name__=='__main__':
         os.makedirs(OUT,exist_ok=True)
         for i in [int(x) for x in sys.argv[4].split(',')]: cv2.imwrite(f'{OUT}/c_{i:04d}.png',proc(cv2.imread(f'{tmp}/f_{i:04d}.png'),i))
     else:
+        HOLD_AT,HOLD_N=276,60      # xəritə tam açılandan sonra ~2 san nəfəs (kadr 276-da, çox yavaş sürüşmə)
+        aud=(f"[1:a]asplit=3[a0][a1][a2];[a0]atrim=0:{HOLD_AT/30},asetpts=PTS-STARTPTS[x0];"
+             f"[a1]atrim={HOLD_AT/30-2.0}:{HOLD_AT/30},asetpts=PTS-STARTPTS,volume=0.6,afade=t=in:d=0.4,afade=t=out:d=0.5[x1];"
+             f"[a2]atrim={HOLD_AT/30},asetpts=PTS-STARTPTS[x2];[x0][x1][x2]concat=n=3:v=0:a=1[aout]")
         cmd=['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','bgr24','-s','1080x1920','-r','30','-i','-','-i',SRC,
-             '-map','0:v','-map','1:a','-c:v','libx264','-preset','slow','-crf','17','-pix_fmt','yuv420p','-r','30','-c:a','copy','-shortest','-movflags','+faststart',OUT]
+             '-filter_complex',aud,'-map','0:v','-map','[aout]','-c:v','libx264','-preset','slow','-crf','17','-pix_fmt','yuv420p','-r','30','-c:a','aac','-b:a','192k','-shortest','-movflags','+faststart',OUT]
         p=subprocess.Popen(cmd,stdin=subprocess.PIPE)
-        for i in range(1,n+1):
-            p.stdin.write(proc(cv2.imread(f'{tmp}/f_{i:04d}.png'),i).tobytes())
+        cache={}
+        def P(i):
+            if i not in cache:
+                cache[i]=proc(cv2.imread(f'{tmp}/f_{i:04d}.png'),i).astype(np.float32)
+                while len(cache)>8: cache.pop(next(iter(cache)))
+            return cache[i]
+        for k in range(1,n+HOLD_N+1):
+            if k<=HOLD_AT: fr=P(k)
+            elif k<=HOLD_AT+HOLD_N:
+                u=(k-HOLD_AT)/HOLD_N; src=HOLD_AT-6+6*ease_io(u); lo=int(src); fr_=src-lo
+                fr=P(lo)*(1-fr_)+P(min(lo+1,HOLD_AT))*fr_ if lo<HOLD_AT else P(HOLD_AT)
+            else: fr=P(k-HOLD_N)
+            p.stdin.write(np.clip(fr,0,255).astype(np.uint8).tobytes())
         p.stdin.close(); p.wait(); print('hazır',OUT)
     shutil.rmtree(tmp)
