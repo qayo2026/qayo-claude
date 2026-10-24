@@ -12,11 +12,20 @@ DURM=15.0; BY=600
 _L=cv2.imread(os.path.join(K.HERE,'..','..','assets','logo','qayo-texnologiya-logo-beyaz.png'),cv2.IMREAD_UNCHANGED)[:,:,3].astype(np.float32)/255
 def _crop(a):
     r=np.where((a>0.05).any(1))[0]; c=np.where((a>0.05).any(0))[0]; return a[r[0]:r[-1]+1,c[0]:c[-1]+1]
-_q=_crop(_L[0:700]); _t=_crop(_L[900:1221])
-_qh=112; _qw=int(_q.shape[1]*_qh/_q.shape[0]); _q=cv2.resize(_q,(_qw,_qh),interpolation=cv2.INTER_AREA)
-_tw=470; _th=int(_t.shape[0]*_tw/_t.shape[1]); _t=cv2.resize(_t,(_tw,_th),interpolation=cv2.INTER_AREA)
-_gap=30; _cv=np.zeros((_qh,_qw+_gap+_tw),np.float32); _cv[:,:_qw]=_q; _cv[_qh-_th:,_qw+_gap:]=_t
-K.LA=_cv; K.LW=_cv.shape[1]; K.LH=_cv.shape[0]; K.LCY=225
+_qa=_L[0:700]; _ta=_L[900:1221]
+def _ext(a,c0,c1):
+    cols=np.where((a>0.05).any(0))[0]; w=cols[-1]-cols[0]; x0=cols[0]+int(w*c0); x1=cols[0]+int(w*c1); r=np.where((a[:,x0:x1]>0.05).any(1))[0]; return r[0],r[-1]
+_q=_crop(_qa); _t=_crop(_ta)
+qr0,qr1=_ext(_q,0.42,0.62); tr0,tr1=_ext(_t,0.0,0.07)   # A/Y və T hərflərinin hündürlüyü
+CAP=88
+for _it in range(2):
+    _sq=CAP/(qr1-qr0+1); _st=CAP/(tr1-tr0+1); _w=_q.shape[1]*_sq+34+_t.shape[1]*_st; CAP=CAP*min(1.0,980/_w)
+_sq=CAP/(qr1-qr0+1); _st=CAP/(tr1-tr0+1)
+_q2=cv2.resize(_q,(int(_q.shape[1]*_sq),int(_q.shape[0]*_sq)),interpolation=cv2.INTER_AREA); _t2=cv2.resize(_t,(int(_t.shape[1]*_st),int(_t.shape[0]*_st)),interpolation=cv2.INTER_AREA)
+_gap=34; qb=int(qr1*_sq); tb_=int(tr1*_st); top=max(qb,tb_)
+_Hc=max(_q2.shape[0]+(top-qb),_t2.shape[0]+(top-tb_)); _cv=np.zeros((_Hc,_q2.shape[1]+_gap+_t2.shape[1]),np.float32)
+_cv[top-qb:top-qb+_q2.shape[0],:_q2.shape[1]]=_q2; _cv[top-tb_:top-tb_+_t2.shape[0],_q2.shape[1]+_gap:]=_t2
+K.LA=_cv; K.LW=_cv.shape[1]; K.LH=_cv.shape[0]; K.LCY=215
 K.spr[:]=[(a_,b_,c_,d_,e_,352,g_) for (a_,b_,c_,d_,e_,f_,g_) in K.spr]
 
 # ofis kadrları
@@ -126,7 +135,8 @@ mm=np.ones((MH_,MW_),np.float32); mm[:40]*=np.linspace(0,1,40)[:,None]; mm[-40:]
 for gx_ in range(0,MW_,int(PXD*20)): MAP[:,gx_]=np.clip(MAP[:,gx_]+np.float32([40,30,8]),0,255)
 for gy_ in range(0,MH_,int(PXD*20)): MAP[gy_,:]=np.clip(MAP[gy_,:]+np.float32([40,30,8]),0,255)
 def mp(lon,lat): return (lon+125)*PXD, MY0+(90-lat)*PXD
-B_ARC0,B_STEP,B_GROW=0.8,0.4,0.4; B_FIN=B_ARC0+8*B_STEP+B_GROW+0.15
+MSET=[6,7,8,9]; GSET=[0,1,2,3,4,5]; K.ARCSET=[5,3,2,1,4]; K.ARCSTEP=1.4
+B_ARC0,B_STEP,B_GROW=0.8,0.8,0.4; B_FIN=B_ARC0+4*B_STEP+B_GROW+0.15
 def bez(a,b,n=40):
     d=math.hypot(b[0]-a[0],b[1]-a[1]); c=((a[0]+b[0])/2,(a[1]+b[1])/2-0.35*d); return [((1-u)**2*a[0]+2*u*(1-u)*c[0]+u*u*b[0],(1-u)**2*a[1]+2*u*(1-u)*c[1]+u*u*b[1]) for u in [i/n for i in range(n+1)]]
 Y0L,HL=MY0-200,MH_+300
@@ -158,8 +168,8 @@ def shotB(t):
     tb=t-5.2; img=K.bg.copy(); a=ease_out(tb/0.5)
     m=(mm*a)[...,None]; img[MY0:MY0+MH_]=img[MY0:MY0+MH_]*(1-m)+MAP*m
     lay=np.zeros((HL,W),np.float32); head=np.zeros((HL,W),np.float32); hub=mp(*K.HUB)
-    for k in range(1,len(COUNTRIES)):
-        t0=B_ARC0+(k-1)*B_STEP; p=(tb-t0)/B_GROW
+    for ki,k in enumerate(MSET):
+        t0=B_ARC0+ki*B_STEP; p=(tb-t0)/B_GROW
         if p<=0: continue
         pts=bez(hub,mp(COUNTRIES[k][3],COUNTRIES[k][4])); m_=max(1,int(len(pts)*min(1.0,ease_out(p))))
         age=tb-t0-B_GROW; f=1.0 if p<1 else (max(0.28,1-0.72*min(1.0,age/0.6)) if tb<B_FIN else 0.28+0.72*ease_out((tb-B_FIN)/0.6))
@@ -174,14 +184,14 @@ def shotB(t):
     bl=cv2.GaussianBlur(lay,(0,0),9); bs=cv2.GaussianBlur(lay,(0,0),3); hb=cv2.GaussianBlur(head,(0,0),8)
     al=np.clip(bl*1.6+bs*1.0+lay,0,1.4)[...,None]; reg=img[Y0L:Y0L+HL]; pr=np.float32(PRIM)
     reg[:]=np.clip(reg+pr*al*0.9+255*np.clip(lay*0.9+head+hb*0.6,0,1)[...,None]*0.7,0,255)
-    for k in range(len(COUNTRIES)): chip_pop(img,k,0.6 if k==0 else B_ARC0+(k-1)*B_STEP+B_GROW,tb)
+    for ki,k in enumerate(MSET): chip_pop(img,k,B_ARC0+ki*B_STEP+B_GROW,tb)
     return img
 def shotC(t):
     tl=4.2+(t-10.0)*1.9; K.TA=lambda k:1e9; img=K.bg.copy(); g=K.globe(tl); ox,oy=CX-S//2,CY-S//2
     reg=img[oy:oy+S,ox:ox+S]; reg[:]=reg+g; K.draw_arcs(reg,tl)
-    for k in range(len(COUNTRIES)):
+    for k in GSET:
         x,y,v=K.proj(COUNTRIES[k][3],COUNTRIES[k][4],tl)
-        if v: put_label(img,k,x,y,ease_out((tl-(0.6 if k==0 else T_ARC0+(k-1)*T_STEP+T_GROW))/0.35),offs=OFFG)
+        if v: put_label(img,k,x,y,ease_out((tl-(0.6 if k==0 else T_ARC0+K.ARCSET.index(k)*K.ARCSTEP+T_GROW))/0.35),offs=OFFG)
     return img
 def lerp(a,b,w): return a*(1-w)+b*w
 def compose_m(i):

@@ -31,7 +31,7 @@ PHI0=math.radians(22)
 atm=np.zeros((S,S),np.float32); out=(DD>=1)&(DD<1.25); atm[out]=np.exp(-((DD[out]-1)/0.045)); atm_in=(1-NZ)**3*INS
 SUN=np.array([0.95,0.15,0.30]); SUN/=np.linalg.norm(SUN); DAY=np.clip((NX*SUN[0]+NY*SUN[1]+NZ*SUN[2])*1.4+0.18,0,1)*INS
 LIGHT=np.clip(0.30+0.85*NZ**0.55,0,1.15)*INS
-def lam0(t): return 78-40*ease_io(t/DUR)
+def lam0(t): return -30+85*ease_io(min(max((t-4.0)/9.0,0.0),1.0))
 def globe(t):
     l0=math.radians(lam0(t)); lat=np.arcsin(np.clip(NY*math.cos(PHI0)+NZ*math.sin(PHI0),-1,1)); lon=l0+np.arctan2(NX,NZ*math.cos(PHI0)-NY*math.sin(PHI0))
     u=((np.degrees(lon)+180)%360)/360*(TW-1); v=(90-np.degrees(lat))/180*(TH-1)
@@ -66,13 +66,15 @@ def arc_pts(a,b,n=70):
 def TA(k): return 0.9+k*0.9
 T_PANEL=4.0
 def land_t(k): return T_ARC0+k*T_STEP+T_GROW
+ARCSET=list(range(1,len(COUNTRIES))); ARCSTEP=T_STEP
 def draw_arcs(img,t):
     lay=np.zeros((S,S),np.float32); head=np.zeros((S,S),np.float32); ox,oy=CX-S//2,CY-S//2
-    for k in range(1,len(COUNTRIES)):
-        t0=T_ARC0+(k-1)*T_STEP; p=(t-t0)/T_GROW
+    TF_=T_ARC0+(len(ARCSET)-1)*ARCSTEP+T_GROW+0.4
+    for ki,k in enumerate(ARCSET):
+        t0=T_ARC0+ki*ARCSTEP; p=(t-t0)/T_GROW
         if p<=0: continue
         pts=arc_pts(HUB,(COUNTRIES[k][3],COUNTRIES[k][4])); m=int(len(pts)*min(1.0,ease_out(p)))
-        age=t-t0-T_GROW; f=1.0 if p<1 else (max(0.28,1-0.72*min(1.0,age/0.8)) if t<T_FIN else 0.28+0.72*ease_out((t-T_FIN)/0.8))
+        age=t-t0-T_GROW; f=1.0 if p<1 else (max(0.28,1-0.72*min(1.0,age/0.8)) if t<TF_ else 0.28+0.72*ease_out((t-TF_)/0.8))
         sp=[proj(l,a,t,r) for l,a,r in pts[:max(m,1)]]
         for i in range(1,len(sp)):
             if sp[i][2] and sp[i-1][2]:
@@ -85,8 +87,8 @@ def draw_arcs(img,t):
             cv2.circle(head,e,7,1.0,-1,cv2.LINE_AA)
             if 0<pu<1.4: cv2.circle(lay,e,int(8+30*ease_out(pu/1.4)),float(1-pu/1.4),2,cv2.LINE_AA)
         elif sp and sp[-1][2]: cv2.circle(head,(int(sp[-1][0]-ox),int(sp[-1][1]-oy)),6,1.0,-1,cv2.LINE_AA)
-        if t>=T_FIN:
-            ph=((t-T_FIN)*0.55+k*0.173)%1.0; q=pts[int(ph*(len(pts)-1))]; qx,qy,qv=proj(q[0],q[1],t,q[2])
+        if t>=TF_:
+            ph=((t-TF_)*0.55+k*0.173)%1.0; q=pts[int(ph*(len(pts)-1))]; qx,qy,qv=proj(q[0],q[1],t,q[2])
             if qv: cv2.circle(head,(int(qx-ox),int(qy-oy)),5,1.0,-1,cv2.LINE_AA)
     hx,hy,hv=proj(HUB[0],HUB[1],t)
     for k in range(4):
