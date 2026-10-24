@@ -122,11 +122,11 @@ for i,c in enumerate(COUNTRIES):
     chips.append(sc)
 def chip_pos(i): r,c=divmod(i,2); return PX0+14+c*(CW+GX),PY0+20+r*(CH+GY)
 pm=Image.new('RGBA',(W,H),(0,0,0,0)); ImageDraw.Draw(pm).rounded_rectangle([PX0,PY0,W-PX0,PY0+450],radius=36,fill=(3,14,38,170),outline=(88,216,245,255),width=3); panel=np.asarray(pm).astype(np.float32)
-MODS=PACK.get('modules',[['WEB','PLATFORMALAR'],['MOBİL','TƏTBİQLƏR'],['KOMPYUTER','PROQRAMLARI'],['AĞILLI CİHAZ','SİSTEMLƏRİ']]); ICON=[0,3,1,2]; SIDES=[('L',0),('R',0),('L',1),('R',1)]
+MODS=PACK.get('modules',[['WEB','PLATFORMALAR'],['MOBİL','TƏTBİQLƏR'],['KOMPYUTER','PROQRAMLARI'],['AĞILLI CİHAZ','SİSTEMLƏRİ']]); ICON=[0,3,1,2,4]; SIDES=[('L',0),('R',0),('L',1),('R',1)]
 BR=78; MC=[(125,575),(955,575),(125,1105),(955,1105)]; mod_lab=[]
 bd=Image.new('RGBA',(2*BR+6,2*BR+6),(0,0,0,0)); ImageDraw.Draw(bd).ellipse([2,2,2*BR+3,2*BR+3],fill=(6,19,39,245),outline=(120,230,255,255),width=4); badge=np.asarray(bd).astype(np.float32)
 HS=2*BR+160; hl=np.zeros((HS,HS),np.float32); cv2.circle(hl,(HS//2,HS//2),BR+2,1.0,5,cv2.LINE_AA); halo=np.clip(cv2.GaussianBlur(hl,(0,0),14)*3.2+cv2.GaussianBlur(hl,(0,0),5)*1.2,0,1.3)
-LWB=210
+LWB=250
 for n_,(a_,b_) in enumerate(MODS):
     pl=Image.new('RGBA',(LWB,100),(0,0,0,0)); ImageDraw.Draw(pl).rounded_rectangle([14,0,LWB-15,95],radius=18,fill=(4,16,36,215),outline=(88,216,245,150),width=2); sc=np.asarray(pl).astype(np.float32).copy()
     nt_,_=text_sprite('%02d'%(n_+1),22,0.12,FB); nh,nw=nt_.shape; nx=(LWB-nw)//2; aa=nt_[...,None]; sc[0:nh,nx:nx+nw,:3]=sc[0:nh,nx:nx+nw,:3]*(1-aa)+np.float32([88,216,245])*aa; sc[0:nh,nx:nx+nw,3]=np.maximum(sc[0:nh,nx:nx+nw,3],nt_*255)
@@ -156,6 +156,10 @@ def icon(img,k,cx,cy,tt,a):
         for d in (-8,0,8):
             cv2.line(img,(cx+d,cy-14),(cx+d,cy-21),C,2,L); cv2.line(img,(cx+d,cy+14),(cx+d,cy+21),C,2,L); cv2.line(img,(cx-14,cy+d),(cx-21,cy+d),C,2,L); cv2.line(img,(cx+14,cy+d),(cx+21,cy+d),C,2,L)
         q=(tt*1.1)%1.0; cv2.circle(img,(cx,cy),int(24+14*q),tuple(int(c*a*(1-q)) for c in PRIM),2,L)
+    elif k==4:
+        cv2.circle(img,(cx,cy),16,Wc,2,L); cv2.circle(img,(cx,cy),6,C,-1,L)
+        for j in range(8):
+            an=tt*0.9+j*math.pi/4; cv2.line(img,(cx+int(16*math.cos(an)),cy+int(16*math.sin(an))),(cx+int(25*math.cos(an)),cy+int(25*math.sin(an))),C,5,L)
     else:
         cv2.rectangle(img,(cx-15,cy-27),(cx+15,cy+27),Wc,2,L); cv2.circle(img,(cx,cy+22),2,C,-1,L)
         for j in range(4):
