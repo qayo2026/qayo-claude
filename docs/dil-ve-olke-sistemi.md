@@ -19,3 +19,7 @@ Dil dəyişəndə **səs də dəyişir**. Gemini səsi yalnız Azərbaycan dilin
 
 ## 4. Tərcümə qaydası
 Adlar tərcümə cədvəlindən gəlir (avtomatik tərcümə yox), çünki coğrafi adlar rəsmi yazılışla olmalıdır. Yeni dil = yeni json faylı, kod dəyişmir.
+
+## Əsas qayda: beynəlxalq standart (2026-10-24)
+Sistem Azərbaycana görə yox, BEYNƏLXALQ qaydalara görə qurulur. Əsas (master) dil = ingilis; ad sistemləri, xidmət/məhsul adları və videodakı mətnlər beynəlxalq peşəkar terminlə təyin olunur (araşdırmaya əsasən). az/ru/tr yalnız tərcümə paketləridir (tools/lang/*.json). Marka adı (QAYO TEXNOLOGİYA) logo faylı kimi bütün dillərdə eyni qalır. Adlar hər dəfə yenidən müzakirə olunmur — paketdə təsdiqlənib, yalnız paket dəyişir.
+Proqram qrupları (master): 01 WEB PLATFORMS · 02 MOBILE APPS · 03 DESKTOP SOFTWARE · 04 IoT & EMBEDDED SYSTEMS.

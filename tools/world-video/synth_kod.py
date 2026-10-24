@@ -9,7 +9,7 @@ W,H,FPS,DUR=1080,1920,30,15.0
 OUT=sys.argv[1] if len(sys.argv)>1 else 'fr'; os.makedirs(OUT,exist_ok=True)
 FB='/usr/share/fonts/opentype/inter/Inter-Bold.otf'; FBL='/usr/share/fonts/opentype/inter/Inter-Black.otf'; EMO='/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf'
 PRIM=(245,216,88)  # BGR #58D8F5
-LANG=os.environ.get('KOSMOS_LANG','az'); PACK=json.load(open(os.path.join(HERE,'..','lang',LANG+'.json')))
+LANG=os.environ.get('KOSMOS_LANG','en'); PACK=json.load(open(os.path.join(HERE,'..','lang',LANG+'.json')))
 def T(key,default): return PACK.get('world',{}).get(key,default)
 # ---------- fon
 BGT,BGB=np.float32([4,18,40]),np.float32([2,9,24]); yy=np.linspace(0,1,H)[:,None,None]
