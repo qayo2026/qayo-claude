@@ -1,0 +1,114 @@
+[
+ {
+  "name": "Bakı",
+  "lon": 49.867,
+  "lat": 40.409,
+  "dx": 20,
+  "dy": 4,
+  "side": "r"
+ },
+ {
+  "name": "Sumqayıt",
+  "lon": 49.669,
+  "lat": 40.59,
+  "dx": 20,
+  "dy": -16,
+  "side": "l"
+ },
+ {
+  "name": "Xaçmaz",
+  "lon": 48.488,
+  "lat": 41.463,
+  "dx": 20,
+  "dy": -2,
+  "side": "r"
+ },
+ {
+  "name": "Şəki",
+  "lon": 47.17,
+  "lat": 41.191,
+  "dx": 0,
+  "dy": -34,
+  "side": "a"
+ },
+ {
+  "name": "Şəmkir",
+  "lon": 46.017,
+  "lat": 40.829,
+  "dx": 22,
+  "dy": -2,
+  "side": "l"
+ },
+ {
+  "name": "Gəncə",
+  "lon": 46.36,
+  "lat": 40.683,
+  "dx": 0,
+  "dy": 36,
+  "side": "b"
+ },
+ {
+  "name": "Mingəçevir",
+  "lon": 47.06,
+  "lat": 40.77,
+  "dx": 0,
+  "dy": -34,
+  "side": "a"
+ },
+ {
+  "name": "Yevlax",
+  "lon": 47.15,
+  "lat": 40.62,
+  "dx": 22,
+  "dy": 18,
+  "side": "r"
+ },
+ {
+  "name": "Ağdam",
+  "lon": 46.93,
+  "lat": 40.0,
+  "dx": 20,
+  "dy": -4,
+  "side": "l"
+ },
+ {
+  "name": "Xankəndi",
+  "lon": 46.752,
+  "lat": 39.815,
+  "dx": 20,
+  "dy": 10,
+  "side": "l"
+ },
+ {
+  "name": "Cəlilabad",
+  "lon": 48.505,
+  "lat": 39.206,
+  "dx": 20,
+  "dy": 0,
+  "side": "r"
+ },
+ {
+  "name": "Lənkəran",
+  "lon": 48.851,
+  "lat": 38.754,
+  "dx": 20,
+  "dy": 0,
+  "side": "r"
+ },
+ {
+  "name": "Astara",
+  "lon": 48.876,
+  "lat": 38.456,
+  "dx": 20,
+  "dy": 10,
+  "side": "r"
+ },
+ {
+  "name": "Naxçıvan",
+  "lon": 45.412,
+  "lat": 39.209,
+  "dx": 20,
+  "dy": -6,
+  "side": "r"
+ }
+]
