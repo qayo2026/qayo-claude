@@ -1,0 +1,1 @@
+QAYO DUNYA AXTARISI videosunun hazirlanma skripti. synth.py: gem.mp4 (Gemini video zolagi) + QAYO basliq + olke paneli, metn animasiyasi tools/text-fx. Cixis: 1080x1920, 30 fps, 10 s; ffmpeg ile H.264 + AAC, faststart. Master: media/qayo-dunya-axtaris.mp4
