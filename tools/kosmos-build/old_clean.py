@@ -100,9 +100,33 @@ def labels(img,i):
         px,py=OF.apply(w,MS.proj(lon,lat)); cx=px-full.shape[1]/2+sp.shape[1]/2
         glow(f,sp,cx,py,fade,AMBER,sigma=5,strength=0.55); blend(f,sp,cx,py,fade,AMBER)
     return np.clip(f,0,255).astype(np.uint8)
+SC_A,SC_B=190,300
+WIN_Y0,WIN_Y1=506,1410
+_scene=None
+def scene_frame(img,i):
+    """Azərbaycan parlayır hissəsi: referans stilində kodla xəritə (oldmap_scene). Qanad/şüa/səs/loqo toxunulmazdır."""
+    global _scene
+    if _scene is None:
+        import oldmap_scene as _o; _scene=_o
+    t=i-SC_A
+    ours=_scene.render(t) if t<100 else _scene.render(99)
+    old=img[WIN_Y0:WIN_Y1].astype(np.float32)
+    g=np.array((24,8,0),np.float32)
+    if i<=SC_A+6:
+        w=(i-SC_A+1)/7.0; win=old*(1-w)+ours*w
+    elif i<276:
+        win=ours
+    else:
+        d=float(np.clip(1-(i-277)/8.0,0,1))
+        base=ours*d+g*(1-d)
+        bl=float(np.clip((i-281)/10.0,0,1)); bl=bl*bl*(3-2*bl)
+        win=base*(1-bl)+old*bl
+    out=img.astype(np.float32); out[WIN_Y0:WIN_Y1]=win
+    return np.clip(out,0,255).astype(np.uint8)
 def proc(img,i):
     img=wing_lift(img,i)
-    if SM_A<=i<=SM_B: img=smear_fix(img)
+    if SM_A<=i<=SM_B and i<SC_A+8: img=smear_fix(img)
+    if SC_A<=i<=SC_B: return scene_frame(img,i)
     img=pill_text(img,i)
     return labels(img,i)
 if __name__=='__main__':
