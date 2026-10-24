@@ -17,3 +17,9 @@ Standart: 1080x1920, 9:16, MP4 H.264, 30 fps, AAC, faststart. Heç nə "Canlıya
 
 Mənbə videolar (Gemini): A77E9340 (peyk bucağı, şüa), BF13C375 (zəncir modeli), 0929A4C2 (real peyk, ağ sonluq), 1881C79F (şüa Azərbaycana enir, qaralma).
 Səs/söz: bizim, öz mühərrikimiz; mətn Anarın Notes-undan gələcək.
+
+## Açıq məsələlər (24.10 14:38)
+- Şəhər adları siyahısı (10) Anar təsdiqi gözləyir: Bakı, Gəncə, Sumqayıt, Naxçıvan, Şəki, Lənkəran, Mingəçevir, Şamaxı, Qəbələ, Xankəndi
+- Səs mətni: Anarın Notes-undan ("SESLENDİRME SOZ") — gəlməyib. Səs mühərriki: öz serverimizdə, sınaq nümunələri lazımdır
+- Qanad yazısı: qanad künclərinin izlənməsi (kadr-kadr) lazımdır
+- Quruluş mərhələsi başlamayıb; Anar "Başla" deməlidir
