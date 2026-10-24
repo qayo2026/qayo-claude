@@ -5,7 +5,7 @@ import sys, os, json, math, cv2, numpy as np
 HERE=os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0,os.path.join(HERE,'..','text-fx'))
 from text_fx import *
 from PIL import Image, ImageDraw, ImageFont
-W,H,FPS,DUR=1080,1920,30,10.0
+W,H,FPS,DUR=1080,1920,30,15.0
 OUT=sys.argv[1] if len(sys.argv)>1 else 'fr'; os.makedirs(OUT,exist_ok=True)
 FB='/usr/share/fonts/opentype/inter/Inter-Bold.otf'; FBL='/usr/share/fonts/opentype/inter/Inter-Black.otf'; EMO='/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf'
 PRIM=(245,216,88)  # BGR #58D8F5
@@ -50,13 +50,20 @@ def proj(lon,lat,t,r=1.0):
     return CX+R*r*nx, CY-R*r*ny, vis
 def vec(lon,lat):
     la,lo=math.radians(lat),math.radians(lon); return np.array([math.cos(la)*math.cos(lo),math.cos(la)*math.sin(lo),math.sin(la)])
-def arc_pts(a,b,n=70):
+def arc_pts_(a,b,n=70):
     va,vb=vec(*a),vec(*b); ang=math.acos(np.clip(np.dot(va,vb),-1,1)); pts=[]
     for i in range(n+1):
         s=i/n; v=(math.sin((1-s)*ang)*va+math.sin(s*ang)*vb)/max(math.sin(ang),1e-6); v/=np.linalg.norm(v)
         lon=math.degrees(math.atan2(v[1],v[0])); lat=math.degrees(math.asin(np.clip(v[2],-1,1))); r=1+(0.10+0.22*ang/math.pi)*math.sin(math.pi*s); pts.append((lon,lat,r))
     return pts
-T_ARC0,T_STEP,T_GROW=1.3,0.55,0.9
+T_ARC0,T_STEP,T_GROW=4.6,0.62,1.0
+_APC={}
+def arc_pts(a,b,n=70):
+    key=(a,b)
+    if key not in _APC: _APC[key]=arc_pts_(a,b,n)
+    return _APC[key]
+def TA(k): return 0.9+k*0.9
+T_PANEL=4.0
 def land_t(k): return T_ARC0+k*T_STEP+T_GROW
 def draw_arcs(img,t):
     lay=np.zeros((S,S),np.float32); head=np.zeros((S,S),np.float32); ox,oy=CX-S//2,CY-S//2
@@ -76,7 +83,21 @@ def draw_arcs(img,t):
             cv2.circle(head,e,7,1.0,-1,cv2.LINE_AA)
             if 0<pu<1.4: cv2.circle(lay,e,int(8+30*ease_out(pu/1.4)),float(1-pu/1.4),2,cv2.LINE_AA)
         elif sp and sp[-1][2]: cv2.circle(head,(int(sp[-1][0]-ox),int(sp[-1][1]-oy)),6,1.0,-1,cv2.LINE_AA)
+        if p>=1.0:
+            ph=((t-t0-T_GROW)*0.55+k*0.173)%1.0; q=pts[int(ph*(len(pts)-1))]; qx,qy,qv=proj(q[0],q[1],t,q[2])
+            if qv: cv2.circle(head,(int(qx-ox),int(qy-oy)),5,1.0,-1,cv2.LINE_AA)
     hx,hy,hv=proj(HUB[0],HUB[1],t)
+    for k in range(4):
+        tk=t-TA(k)-0.3
+        if tk<=0: continue
+        side,row=SIDES[k]; sx=(30+MW) if side=='L' else (W-30-MW); sy=MY[row]+MH/2
+        ctl=((sx+hx)/2,(sy+hy)/2+(-90 if row==0 else 90)); n=30; bz=[]
+        for i in range(n+1):
+            u=i/n; bz.append(((1-u)**2*sx+2*u*(1-u)*ctl[0]+u*u*hx,(1-u)**2*sy+2*u*(1-u)*ctl[1]+u*u*hy))
+        g=ease_out(tk/0.7); m=max(1,int(n*g))
+        for i in range(1,m+1): cv2.line(lay,(int(bz[i-1][0]-ox),int(bz[i-1][1]-oy)),(int(bz[i][0]-ox),int(bz[i][1]-oy)),0.55,2,cv2.LINE_AA)
+        if tk>0.8:
+            ph=((tk-0.8)/1.1)%1.0; b=bz[int(ph*n)]; cv2.circle(head,(int(b[0]-ox),int(b[1]-oy)),5,1.0,-1,cv2.LINE_AA)
     if hv:
         c=(int(hx-ox),int(hy-oy)); cv2.circle(head,c,9,1.0,-1,cv2.LINE_AA)
         for j in range(3):
@@ -100,31 +121,57 @@ for i,c in enumerate(COUNTRIES):
 def chip_pos(i): r,c=divmod(i,2); return PX0+14+c*(CW+GX),PY0+20+r*(CH+GY)
 pm=Image.new('RGBA',(W,H),(0,0,0,0)); ImageDraw.Draw(pm).rounded_rectangle([PX0,PY0,W-PX0,PY0+450],radius=36,fill=(3,14,38,170),outline=(88,216,245,255),width=3); panel=np.asarray(pm).astype(np.float32)
 MODS=PACK.get('modules',[['WEB','PLATFORMALAR'],['KOMPYUTER','PROQRAMLARI'],['AĞILLI CİHAZ','SİSTEMLƏRİ'],['MOBİL','TƏTBİQLƏR']]); SIDES=[('L',0),('R',0),('L',1),('R',1)]
-MW,MH=300,116; VY0,VH=440,790; MY=[VY0+10,VY0+VH-MH-10]; mod_sp=[]
+MW,MH=330,124; VY0,VH=440,790; MY=[VY0+10,VY0+VH-MH-10]; mod_sp=[]
 for a_,b_ in MODS:
     sc=Image.new('RGBA',(MW,MH),(0,0,0,0)); ImageDraw.Draw(sc).rounded_rectangle([0,0,MW-1,MH-1],radius=18,fill=(6,19,39,225),outline=(88,216,245,255),width=3); sc=np.asarray(sc).astype(np.float32)
     for j,tt in enumerate((a_,b_)):
         tx,_=text_sprite(tt,27,0.05,FB); th,tw=tx.shape
-        if tw>MW-30: tx=cv2.resize(tx,(MW-30,th),interpolation=cv2.INTER_AREA); tw=MW-30
-        y0=14+j*46; x0=(MW-tw)//2; sc[y0:y0+th,x0:x0+tw,:3]=sc[y0:y0+th,x0:x0+tw,:3]*(1-tx[...,None])+255*tx[...,None]; sc[y0:y0+th,x0:x0+tw,3:4]=np.maximum(sc[y0:y0+th,x0:x0+tw,3:4],tx[...,None]*255)
+        if tw>MW-110: tx=cv2.resize(tx,(MW-110,th),interpolation=cv2.INTER_AREA); tw=MW-110
+        y0=18+j*46; x0=98+(MW-110-tw)//2; sc[y0:y0+th,x0:x0+tw,:3]=sc[y0:y0+th,x0:x0+tw,:3]*(1-tx[...,None])+255*tx[...,None]; sc[y0:y0+th,x0:x0+tw,3:4]=np.maximum(sc[y0:y0+th,x0:x0+tw,3:4],tx[...,None]*255)
     mod_sp.append(sc)
 def blit(img,sc,x,y,o):
     h,w=sc.shape[:2]; xs,xe=max(0,x),min(W,x+w)
     if xe<=xs: return
     s0=xs-x; a=sc[:,s0:s0+xe-xs,3:4]/255*o; img[y:y+h,xs:xe]=img[y:y+h,xs:xe]*(1-a)+sc[:,s0:s0+xe-xs,[2,1,0]]*a
+def icon(img,k,cx,cy,tt,a):
+    C=tuple(int(c*a) for c in PRIM); Wc=tuple(int(255*a*0.9) for _ in range(3)); L=cv2.LINE_AA
+    if k==0:
+        cv2.rectangle(img,(cx-30,cy-22),(cx+30,cy+22),C,2,L); cv2.line(img,(cx-30,cy-12),(cx+30,cy-12),C,2,L)
+        for d in range(3): cv2.circle(img,(cx-23+d*7,cy-17),2,Wc,-1,L)
+        for j in range(3):
+            w=int(8+34*(0.5+0.5*math.sin(tt*2.2+j*1.7))); cv2.line(img,(cx-24,cy-3+j*9),(cx-24+w,cy-3+j*9),Wc,3,L)
+    elif k==1:
+        for j,Ln in enumerate((38,26,44,20)):
+            pr=min(1.0,max(0.0,(tt*1.2-j*0.4)%2.4)); x2=int(cx-30+Ln*pr); cv2.line(img,(cx-30,cy-20+j*13),(x2,cy-20+j*13),C if j%2 else Wc,3,L)
+            if 0<pr<1 and int(tt*4)%2==0: cv2.rectangle(img,(x2+2,cy-23+j*13),(x2+5,cy-17+j*13),Wc,-1)
+    elif k==2:
+        cv2.rectangle(img,(cx-14,cy-14),(cx+14,cy+14),Wc,2,L); cv2.rectangle(img,(cx-6,cy-6),(cx+6,cy+6),C,-1)
+        for d in (-8,0,8):
+            cv2.line(img,(cx+d,cy-14),(cx+d,cy-21),C,2,L); cv2.line(img,(cx+d,cy+14),(cx+d,cy+21),C,2,L); cv2.line(img,(cx-14,cy+d),(cx-21,cy+d),C,2,L); cv2.line(img,(cx+14,cy+d),(cx+21,cy+d),C,2,L)
+        q=(tt*1.1)%1.0; cv2.circle(img,(cx,cy),int(24+14*q),tuple(int(c*a*(1-q)) for c in PRIM),2,L)
+    else:
+        cv2.rectangle(img,(cx-15,cy-27),(cx+15,cy+27),Wc,2,L); cv2.circle(img,(cx,cy+22),2,C,-1,L)
+        for j in range(4):
+            y=cy-21+((j*12+tt*14)%48)
+            if cy-21<=y<=cy+16: cv2.line(img,(cx-10,int(y)),(cx+10 if j%2 else cx+4,int(y)),C,3,L)
 def draw_mods(img,t):
     for k,(side,row) in enumerate(SIDES):
-        o=ease_out((t-(0.9+k*0.25))/0.4)
+        o=ease_out((t-TA(k))/0.4)
         if o<=0: continue
         x=30 if side=='L' else W-30-MW; x+=int((1-o)*(-80 if side=='L' else 80)); blit(img,mod_sp[k],x,MY[row],o)
-HEAD=[(PACK.get('world',{}).get('brand','QAYO'),150,0.06,FBL,WHITE,168,0.0),(T('title','QAYO TEXNOLOGİYA'),40,0.04,FB,WHITE,300,0.5),
-      (T('sub1','RƏQƏMSAL BİZNES PLATFORMASI'),30,0.12,FB,CYAN,362,0.9),(T('sub2','SİSTEMLƏR · DATA · BİZNES PAKETLƏRİ'),26,0.14,FB,CYAN,410,1.2)]
+        icon(img,k,x+50,MY[row]+MH//2,t-TA(k),o)
+LOGO=cv2.imread(os.path.join(HERE,'..','..','assets','logo','qayo-texnologiya-logo-beyaz.png'),cv2.IMREAD_UNCHANGED)
+LW=420; LH=int(LOGO.shape[0]*LW/LOGO.shape[1]); LA=cv2.resize(LOGO[:,:,3].astype(np.float32)/255,(LW,LH),interpolation=cv2.INTER_AREA); LCY=100+LH//2
+HEAD=[(T('sub1','RƏQƏMSAL BİZNES PLATFORMASI'),30,0.12,FB,CYAN,362,0.9),(T('sub2','SİSTEMLƏR · DATA · BİZNES PAKETLƏRİ'),26,0.14,FB,CYAN,410,1.2)]
 spr=[]
 for t_,s,tr,f,col,y,st in HEAD:
     full,_=text_sprite(t_,s,tr,f)
     if full.shape[1]>W-60: s=int(s*(W-60)/full.shape[1]); full,_=text_sprite(t_,s,tr,f)
     spr.append((t_,s,tr,f,col,y,st))
 def draw_head(img,t):
+    pw=ease_io((t-0.15)/1.0)
+    if pw>0:
+        a=LA.copy(); a[:,int(LW*pw):]=0; glow(img,a,W/2,LCY,1.0,WHITE,sigma=14,strength=0.8); blend(img,a,W/2,LCY,1.0,WHITE)
     for t_,s,tr,f,col,y,st in spr:
         k=t-st
         if k<0: continue
@@ -137,13 +184,21 @@ def compose(i):
     # qlobus + atmosfer qatı birlikdə (additive atmosfer kənarda)
     reg[:]=reg+(g*gi)*1.0
     draw_arcs(reg,t)
-    po=ease_out((t-1.0)/0.5)
+    po=ease_out((t-T_PANEL)/0.5)
     if po>0: a=panel[:,:,3:4]/255*po; img[:]=img*(1-a)+panel[:,:,[2,1,0]]*a
+    hx,hy,hv=proj(HUB[0],HUB[1],t)
     for k in range(len(COUNTRIES)):
-        tk=0.7 if k==0 else land_t(k)-0.25; o=ease_out((t-tk)/0.35)
-        if o<=0: continue
-        x,y=chip_pos(k); y+=int((1-o)*-60); fl=max(0.0,1-(t-tk)/0.5)*0.55; sc=chips[k]; h,w=sc.shape[:2]; a=sc[:,:,3:4]/255*o
-        col=np.clip(sc[:,:,[2,1,0]]+np.float32([90,70,20])*fl,0,255); img[y:y+h,x:x+w]=img[y:y+h,x:x+w]*(1-a)+col*a
+        tk=T_PANEL+0.4 if k==0 else land_t(k)
+        u=(t-tk)/0.7
+        if u<=0: continue
+        if k==0: p0=(hx,hy)
+        else:
+            px,py,pv=proj(COUNTRIES[k][3],COUNTRIES[k][4],tk); p0=(px,py) if pv else (hx,hy)
+        ex,ey=chip_pos(k); e=ease_io(min(1.0,u)); sx0,sy0=p0[0]-CW/2,p0[1]-CH/2
+        x=int(sx0+(ex-sx0)*e); y=int(sy0+(ey-sy0)*e); o=ease_out(u/0.25)
+        fl=max(0.0,1-(t-tk-0.7)/0.5)*0.55 if u>=1 else 0.0
+        sc=chips[k].copy(); sc[:,:,:3]=np.clip(sc[:,:,:3]+np.float32([90,70,20])*fl,0,255) if fl>0 else sc[:,:,:3]
+        blit(img,sc,x,y,o)
     draw_mods(img,t); draw_head(img,t)
     img*=ease_out(t/0.4)
     return np.clip(img,0,255).astype(np.uint8)
