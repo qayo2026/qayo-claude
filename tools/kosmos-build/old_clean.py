@@ -8,6 +8,7 @@ from text_fx import text_sprite, blend, glow, ease_io, WHITE, CYAN, FONT_BOLD
 KEYS=json.load(open(os.path.join(HERE,'old-keys.json')))
 NAMES=['Bakı','Şəki','Gəncə','Naxçıvan','Lənkəran','Xaçmaz']
 LAB_A,LAB_B=225,280
+NEI=[('Rusiya',47.3,42.0),('Gürcüstan',44.6,41.7),('Ermənistan',44.95,40.15),('İran',47.3,38.3),('Xəzər dənizi',50.45,40.9)]
 SRC,OUT=sys.argv[1],sys.argv[2]
 SM_A,SM_B=175,284           # ləkə kadrları (1-əsaslı)
 KEY=[(1,210,920),(30,230,930),(60,240,920),(90,230,760),(108,230,700)]
@@ -17,18 +18,30 @@ def wing_params(i):
     return cx,cy,amt
 _yy,_xx=None,None
 def wing_lift(img,i):
+    """Qanad panellərinə işıq: rəng maskası (bənövşəyi-mavi panel) + hərəkətli parıltı zolağı + yumşaq xarici işıq."""
     cx,cy,amt=wing_params(i)
     if amt<=0: return img
     global _yy,_xx
     if _yy is None: _yy,_xx=np.mgrid[0:1920,0:1080].astype(np.float32)
-    d=np.sqrt(((_xx-cx)/270.0)**2+((_yy-cy)/240.0)**2)
-    m=np.clip(1.25-d,0,1)**1.3*amt
-    f=img.astype(np.float32)/255.0
-    g=np.power(f,0.88)*1.04                      # açma
-    lum=f.max(axis=2,keepdims=True); hi=np.clip((lum-0.45)/0.4,0,1)
-    bloom=cv2.GaussianBlur(f*hi,(0,0),14)*0.15    # yumşaq işıq
-    out=f*(1-m[...,None])+np.clip(g+bloom,0,1)*m[...,None]
-    return (out*255).astype(np.uint8)
+    d=np.sqrt(((_xx-cx)/340.0)**2+((_yy-cy)/310.0)**2)
+    roi=np.clip(1.15-d,0,1)
+    hsv=cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
+    Hh,Ss,Vv=hsv[...,0],hsv[...,1],hsv[...,2]
+    m=((Hh>=108)&(Hh<=135)&(Ss>45)&(Vv>70)).astype(np.uint8)
+    m=cv2.morphologyEx(m,cv2.MORPH_CLOSE,np.ones((9,9),np.uint8))
+    m=cv2.morphologyEx(m,cv2.MORPH_OPEN,np.ones((5,5),np.uint8))
+    M=cv2.GaussianBlur(m.astype(np.float32),(0,0),1.6)*(roi>0.05)*np.clip(roi*1.6,0,1)
+    f=img.astype(np.float32)
+    pulse=0.5+0.5*np.sin(i*0.22)
+    # hərəkətli parıltı zolağı (diaqonal)
+    t=(_xx*0.6-_yy*0.8)
+    band=np.exp(-((t-(-150+ (i%120)*8.0))/55.0)**2)
+    light=np.array((255,238,205),np.float32)      # BGR: soyuq ağ-mavi
+    lift=(0.13+0.07*pulse+0.38*band)[...,None]
+    out=f+M[...,None]*lift*light*0.55*amt
+    out=f*(1-M[...,None]*0.0)+(out-f)+ (f*M[...,None]*0.10*amt)   # panel parlaqlığı
+    glow=cv2.GaussianBlur(M,(0,0),16)[...,None]*np.array((255,215,120),np.float32)*(0.22+0.10*pulse)*amt
+    return np.clip(out+glow,0,255).astype(np.uint8)
 def _ss(t): t=np.clip(t,0,1); return t*t*(3-2*t)
 _fade=None
 def smear_fix(img):
@@ -40,15 +53,36 @@ def smear_fix(img):
         _fade=(_ss((xx-540)/280.0)*_ss((yy-950)/230.0))[...,None]
     g=np.array((24,8,0),np.float32)
     return np.clip(img.astype(np.float32)*(1-_fade)+g*_fade,0,255).astype(np.uint8)
+def pill_text(img,i):
+    """Gemini-nin bulanıq lövhə yazısını silir, yerinə kəskin text-fx 'QAYO TEXNOLOGİYA' yazır."""
+    if not (222<=i<=281): return img
+    w=OF.warp_for(KEYS,i); s=float(w[0,0]); hx,hy=OF.apply(w,MS.HUB)
+    pw=335*s; ph=84*s; cx=hx-41*s; cy=hy-35*s
+    x0,x1,y0,y1=int(cx-pw/2+ph*0.25),int(cx+pw/2+ph*0.02),int(cy-ph*0.32),int(cy+ph*0.32)
+    reg=img[y0:y1,x0:x1]
+    g=cv2.cvtColor(reg,cv2.COLOR_BGR2GRAY).astype(np.float32); bg=cv2.GaussianBlur(g,(0,0),9)
+    tm=((g>bg+14)|(g>205)).astype(np.uint8)*255; tm=cv2.dilate(tm,np.ones((5,5),np.uint8))
+    full=img.copy(); full[y0:y1,x0:x1]=cv2.inpaint(reg,tm,5,cv2.INPAINT_TELEA)
+    f=full.astype(np.float32)
+    nn=17; tf=text_sprite('QAYO TEXNOLOGİYA',40,0.10,FONT_BOLD,n=nn)[0]
+    sc=(pw*0.80)/tf.shape[1]
+    sp=cv2.resize(tf,None,fx=sc,fy=sc,interpolation=cv2.INTER_AREA) if tf.ndim==2 else cv2.resize(tf,None,fx=sc,fy=sc,interpolation=cv2.INTER_AREA)
+    a=min(1.0,(i-222)/6.0)*(1.0 if i<277 else max(0.0,(281-i)/4.0))
+    glow(f,sp,cx,cy,a,CYAN,sigma=6,strength=0.6); blend(f,sp,cx,cy,a,WHITE)
+    out=np.clip(f,0,255)
+    # keçid: 222-227 aralığında köhnə mətnlə qarışıq
+    k=min(1.0,(i-222)/6.0)
+    return np.clip(img.astype(np.float32)*(1-k)+out*k,0,255).astype(np.uint8) if False else out.astype(np.uint8)
 def labels(img,i):
     if not (LAB_A<=i<=LAB_B): return img
     w=OF.warp_for(KEYS,i); f=img.astype(np.float32)
     for k,c in enumerate(c for n in NAMES for c in MS.CITIES if c['name']==n):
-        t0=LAB_A+3+k*3; p=ease_io((i-t0)/14.0)
+        t0=LAB_A+2+k*2; p=ease_io((i-t0)/14.0)
         if p<=0: continue
         fade=1.0 if i<LAB_B-4 else max(0.0,(LAB_B-i)/4.0)
         nn=len(c['name']); n=min(nn,int(nn*p+0.999))
         if c['name']=='Lənkəran': c=dict(c,side='l',dx=16,dy=4)
+        if c['name']=='Gəncə': c=dict(c,side='l',dx=30,dy=14)
         sp=text_sprite(c['name'],30,0.04,FONT_BOLD,n=n)[0]; full=text_sprite(c['name'],30,0.04,FONT_BOLD,n=nn)[0]
         px,py=OF.apply(w,c['p']); y=py+c['dy']
         if c['side']=='r': x0=px+c['dx']
@@ -56,10 +90,19 @@ def labels(img,i):
         else: x0=px-full.shape[1]/2
         cx=x0+sp.shape[1]/2
         glow(f,sp,cx,y,fade,CYAN,sigma=5,strength=0.7); blend(f,sp,cx,y,fade,WHITE)
+    for k,(nm,lon,lat) in enumerate(NEI):
+        t0=LAB_A+2+(len(NAMES)+k)*2; p=ease_io((i-t0)/14.0)
+        if p<=0: continue
+        fade=(1.0 if i<LAB_B-4 else max(0.0,(LAB_B-i)/4.0))*0.78
+        nn=len(nm); n=min(nn,int(nn*p+0.999))
+        sp=text_sprite(nm,25,0.07,FONT_BOLD,n=n)[0]; full=text_sprite(nm,25,0.07,FONT_BOLD,n=nn)[0]
+        px,py=OF.apply(w,MS.proj(lon,lat)); cx=px-full.shape[1]/2+sp.shape[1]/2
+        glow(f,sp,cx,py,fade,CYAN,sigma=5,strength=0.5); blend(f,sp,cx,py,fade,WHITE)
     return np.clip(f,0,255).astype(np.uint8)
 def proc(img,i):
     img=wing_lift(img,i)
     if SM_A<=i<=SM_B: img=smear_fix(img)
+    img=pill_text(img,i)
     return labels(img,i)
 if __name__=='__main__':
     tmp=tempfile.mkdtemp(); subprocess.run(['ffmpeg','-v','error','-i',SRC,'-vf','fps=30',f'{tmp}/f_%04d.png'],check=True)
