@@ -24,7 +24,7 @@ HUB=(COUNTRIES[0][3],COUNTRIES[0][4])
 # ---------- qlobus
 TEX=cv2.imread(os.path.join(HERE,'..','..','assets','earth','earth-blue-marble.jpg')).astype(np.float32)
 NIGHT=cv2.imread(os.path.join(HERE,'..','..','assets','earth','earth-night.jpg')).astype(np.float32)
-TH,TW=TEX.shape[:2]; R=370; CX,CY=540,830; PAD=150; S=2*(R+PAD)
+TH,TW=TEX.shape[:2]; R=470; CX,CY=540,1090; PAD=70; S=2*(R+PAD)
 gx,gy=np.meshgrid(np.arange(S)-S/2,np.arange(S)-S/2); NX=gx/R; NY=-gy/R; D2=NX**2+NY**2; INS=D2<1.0; NZ=np.sqrt(np.clip(1-D2,0,1)); DD=np.sqrt(D2)
 PHI0=math.radians(22)
 # atmosfer

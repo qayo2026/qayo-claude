@@ -4,6 +4,7 @@ import sys, os, math
 HERE=os.path.dirname(os.path.abspath(__file__)); OUTD=sys.argv[1]; OFD=sys.argv[2]; sys.argv=[sys.argv[0],OUTD]+sys.argv[3:]
 sys.path.insert(0,HERE)
 import synth_kod as K
+from PIL import Image, ImageDraw
 from synth_kod import *
 os.makedirs(OUTD,exist_ok=True)
 DURM=15.0; BY=600
@@ -104,25 +105,42 @@ def shotA(t):
     r=z*(1-wm)+wc*wm; m=(vmR*a)[...,None]; img[REGY:REGY+RH]=img[REGY:REGY+RH]*(1-m)+r*m
     return img
 OFF_N=len(OFF)
-# düz xəritə
-MW_,MH_,MY0=1080,540,633
-MAP=cv2.resize(K.TEX,(MW_,MH_),interpolation=cv2.INTER_AREA)*np.float32([1.0,0.92,0.80])*0.80
+# düz xəritə (daha böyük, ölkələr birbaşa üstündə)
+PXD=1080/280.0; MW_=1080; MH_=int(180*PXD); MY0=790
+_m=cv2.resize(K.TEX,(int(360*PXD),MH_),interpolation=cv2.INTER_AREA); _x0=int(55*PXD)
+MAP=_m[:,_x0:_x0+MW_].copy()*np.float32([1.0,0.92,0.80])*0.85
 mm=np.ones((MH_,MW_),np.float32); mm[:40]*=np.linspace(0,1,40)[:,None]; mm[-40:]*=np.linspace(1,0,40)[:,None]; mm[:,:25]*=np.linspace(0,1,25)[None]; mm[:,-25:]*=np.linspace(1,0,25)[None]
-for gx_ in range(0,MW_,90): MAP[:,gx_]=np.clip(MAP[:,gx_]+np.float32([40,30,8]),0,255)
-for gy_ in range(0,MH_,90): MAP[gy_,:]=np.clip(MAP[gy_,:]+np.float32([40,30,8]),0,255)
-def mp(lon,lat): return (lon+180)/360*MW_, MY0+(90-lat)/180*MH_
+for gx_ in range(0,MW_,int(PXD*20)): MAP[:,gx_]=np.clip(MAP[:,gx_]+np.float32([40,30,8]),0,255)
+for gy_ in range(0,MH_,int(PXD*20)): MAP[gy_,:]=np.clip(MAP[gy_,:]+np.float32([40,30,8]),0,255)
+def mp(lon,lat): return (lon+125)*PXD, MY0+(90-lat)*PXD
 B_ARC0,B_STEP,B_GROW=0.8,0.4,0.4; B_FIN=B_ARC0+8*B_STEP+B_GROW+0.15
 def bez(a,b,n=40):
     d=math.hypot(b[0]-a[0],b[1]-a[1]); c=((a[0]+b[0])/2,(a[1]+b[1])/2-0.35*d); return [((1-u)**2*a[0]+2*u*(1-u)*c[0]+u*u*b[0],(1-u)**2*a[1]+2*u*(1-u)*c[1]+u*u*b[1]) for u in [i/n for i in range(n+1)]]
-Y0L,HL=MY0-170,MH_+200
-def draw_panel(img,po):
-    if po>0: a=K.panel[:,:,3:4]/255*po; img[:]=img*(1-a)+K.panel[:,:,[2,1,0]]*a
+Y0L,HL=MY0-200,MH_+300
+# kiçik ölkə çipləri (bayraq + ad)
+def mini_chip(k):
+    c=K.COUNTRIES[k]; tx,_=K.text_sprite(K.NAMES[c[0]],24,0.03,K.FB); th,tw=tx.shape; fl=K.flag(c[2],30); fh,fw=fl.shape[:2]
+    w=12+fw+10+tw+16; h=46; im=Image.new('RGBA',(w,h),(0,0,0,0)); ImageDraw.Draw(im).rounded_rectangle([0,0,w-1,h-1],radius=h//2,fill=(6,19,39,232),outline=(88,216,245,255),width=2)
+    sc=np.asarray(im).astype(np.float32).copy(); y0=(h-fh)//2; a=fl[:,:,3:4]/255
+    sc[y0:y0+fh,12:12+fw,:3]=sc[y0:y0+fh,12:12+fw,:3]*(1-a)+fl[:,:,:3]*a; sc[y0:y0+fh,12:12+fw,3:4]=np.maximum(sc[y0:y0+fh,12:12+fw,3:4],fl[:,:,3:4])
+    ty=(h-th)//2; tx0=12+fw+10; aa=tx[...,None]; sc[ty:ty+th,tx0:tx0+tw,:3]=sc[ty:ty+th,tx0:tx0+tw,:3]*(1-aa)+255*aa; sc[ty:ty+th,tx0:tx0+tw,3:4]=np.maximum(sc[ty:ty+th,tx0:tx0+tw,3:4],aa*255)
+    return sc
+MCH=[mini_chip(k) for k in range(len(K.COUNTRIES))]
+OFFS=[(125,-95),(-20,100),(-5,-125),(-195,55),(45,95),(0,80),(-200,-90),(60,-85),(0,85),(-40,-85)]
+OFFG=[(115,-60),(-10,85),(-5,-105),(-140,55),(30,65),(0,70),(-150,-60),(75,80),(55,-75),(-40,-70)]
+def put_label(img,k,px,py,o,fl=0.0,offs=None):
+    if o<=0: return
+    sc=MCH[k].copy()
+    if fl>0: sc[:,:,:3]=np.clip(sc[:,:,:3]+np.float32([20,70,95])*fl,0,255)
+    h,w=sc.shape[:2]; ox,oy=(offs or OFFS)[k]; cx,cy=int(px+ox),int(py+oy); cx=min(max(cx,w//2+8),W-w//2-8)
+    ex=cx-w//2 if px<cx-w//2 else (cx+w//2 if px>cx+w//2 else px); ey=cy+h//2 if py>cy+h//2 else (cy-h//2 if py<cy-h//2 else py)
+    ex=int(min(max(px,cx-w//2+20),cx+w//2-20)) if abs(px-cx)<w//2+20 else ex
+    cv2.line(img,(int(px),int(py)),(int(ex),int(ey)),(245,216,88),2,cv2.LINE_AA)
+    blit(img,sc,cx-w//2,cy-h//2,o)
 def chip_pop(img,k,tk,t):
     u=(t-tk)/0.35
     if u<=0: return
-    x,y=chip_pos(k); o=ease_out(u); fl=max(0.0,1-(t-tk-0.35)/0.6)*0.6; sc=K.chips[k].copy()
-    if fl>0: sc[:,:,:3]=np.clip(sc[:,:,:3]+np.float32([20,70,95])*fl,0,255)
-    blit(img,sc,x+int((1-o)*-40),y,o)
+    x,y=mp(K.COUNTRIES[k][3],K.COUNTRIES[k][4]); put_label(img,k,x,y,ease_out(u),max(0.0,1-(t-tk-0.35)/0.6)*0.6)
 def shotB(t):
     tb=t-5.2; img=K.bg.copy(); a=ease_out(tb/0.5)
     m=(mm*a)[...,None]; img[MY0:MY0+MH_]=img[MY0:MY0+MH_]*(1-m)+MAP*m
@@ -143,13 +161,14 @@ def shotB(t):
     bl=cv2.GaussianBlur(lay,(0,0),9); bs=cv2.GaussianBlur(lay,(0,0),3); hb=cv2.GaussianBlur(head,(0,0),8)
     al=np.clip(bl*1.6+bs*1.0+lay,0,1.4)[...,None]; reg=img[Y0L:Y0L+HL]; pr=np.float32(PRIM)
     reg[:]=np.clip(reg+pr*al*0.9+255*np.clip(lay*0.9+head+hb*0.6,0,1)[...,None]*0.7,0,255)
-    draw_panel(img,ease_out((tb-0.3)/0.5))
     for k in range(len(COUNTRIES)): chip_pop(img,k,0.6 if k==0 else B_ARC0+(k-1)*B_STEP+B_GROW,tb)
     return img
 def shotC(t):
     tl=4.2+(t-10.0)*1.9; K.TA=lambda k:1e9; img=K.bg.copy(); g=K.globe(tl); ox,oy=CX-S//2,CY-S//2
-    reg=img[oy:oy+S,ox:ox+S]; reg[:]=reg+g; K.draw_arcs(reg,tl); draw_panel(img,1.0)
-    for k in range(len(COUNTRIES)): x,y=chip_pos(k); blit(img,K.chips[k],x,y,1.0)
+    reg=img[oy:oy+S,ox:ox+S]; reg[:]=reg+g; K.draw_arcs(reg,tl)
+    for k in range(len(COUNTRIES)):
+        x,y,v=K.proj(COUNTRIES[k][3],COUNTRIES[k][4],tl)
+        if v: put_label(img,k,x,y,ease_out((tl-(0.6 if k==0 else T_ARC0+(k-1)*T_STEP+T_GROW))/0.35),offs=OFFG)
     return img
 def lerp(a,b,w): return a*(1-w)+b*w
 def compose_m(i):
