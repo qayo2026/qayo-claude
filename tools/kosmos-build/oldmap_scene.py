@@ -123,12 +123,15 @@ def bez2(p0,p2,t,lift):
     return ((1-t)**2*p0[0]+2*(1-t)*t*c[0]+t*t*p2[0],(1-t)**2*p0[1]+2*(1-t)*t*c[1]+t*t*p2[1])
 
 _ST=None; _D1=None; _D15=None
-def render(t,total=100):
+HOLD=36           # zərbə anı: şüa dəyib dağılır (≈1.2 san), sonra xəritə açılır
+def reveal_clock(tv): return 11.0 if tv<HOLD else 12.0+(tv-HOLD)*1.8
+def render(tv,total=100):
     global _ST,_D1,_D15
     if _ST is None:
         _ST=static(); _D1=hubdist(1.0); _D15=hubdist(K)
     base,outl=_ST
-    u=min(1.0,t/float(total))
+    t=reveal_clock(tv)
+    u=min(1.0,tv/float(total))
     H,_=homography(u)
     HK=(H@np.diag([1/K,1/K,1.0])).astype(np.float64)
     win=cv2.warpPerspective(cv2.GaussianBlur(base,(0,0),0.7),HK,(WW,WH),flags=cv2.INTER_LINEAR,borderMode=cv2.BORDER_REPLICATE).astype(np.float32)
@@ -137,6 +140,7 @@ def render(t,total=100):
     # qızılı sərhəd: dalğa ilə açılır
     reveal=np.clip((R-_D15)/60.0,0,1) if R>0 else np.zeros_like(outl)
     ol=outl*reveal
+    if R<=0 and tv>=4: ol=outl*0.38*min(1.0,(tv-4)/8.0)
     olw=cv2.warpPerspective(ol,HK,(WW,WH),flags=cv2.INTER_LINEAR)
     glowl=cv2.GaussianBlur(olw,(0,0),9)
     addc(win,glowl,GOLD,1.25); addc(win,olw,(200,235,255),0.16); addc(win,olw,GOLD,1.0)
@@ -194,19 +198,37 @@ def render(t,total=100):
             cv2.ellipse(rg,(int(x),int(y)),(int(8+26*ph),int(max(3,(8+26*ph)*0.6))),0,0,360,1.0,1,cv2.LINE_AA)
             addc(win,rg*(1-ph)*0.8,CY_BGR,0.9); rg[:]=0
     addc(win,cv2.GaussianBlur(nd,(0,0),7),CY_BGR,1.3); addc(win,nd,(255,255,255),1.0)
-    # şüa və zərbə
-    if t<46:
-        by=hy_*ease_out(t/6.0) if t<6 else hy_
-        dec=1.0 if t<20 else max(0.0,1-(t-20)/26.0); fl=0.85+0.15*math.sin(t*2.3)
+    # şüa və zərbə (tv = real kadr zamanı; hub-da dağılma ≈1.2 san)
+    if tv<56:
+        by=hy_*ease_out(tv/6.0) if tv<6 else hy_
+        dec=1.0 if tv<36 else max(0.0,1-(tv-36)/20.0); fl=0.85+0.15*math.sin(tv*2.3)
         bl=np.zeros((WH,WW),np.float32)
-        ptsb=[(hx_+math.sin(y*0.03+t)*4,y) for y in range(-10,int(by),10)]+[(hx_,by)]
+        ptsb=[(hx_+math.sin(y*0.03+tv)*4,y) for y in range(-10,int(by),10)]+[(hx_,by)]
         cv2.polylines(bl,[np.array(ptsb,np.int32).reshape(-1,1,2)],False,1.0,8,cv2.LINE_AA)
         bl*=fl*dec
         addc(win,cv2.GaussianBlur(bl,(0,0),16),CY_BGR,1.4*dec); addc(win,cv2.GaussianBlur(bl,(0,0),4),CY_BGR,1.2*dec); addc(win,bl,(255,255,255),1.0)
-    if 4<=t<30:
-        k=(t-4)/26.0; fr=np.zeros((WH,WW),np.float32)
-        cv2.ellipse(fr,(int(hx_),int(hy_)),(int(16+120*ease_out(k)),int(10+72*ease_out(k))),0,0,360,1.0,-1,cv2.LINE_AA)
-        addc(win,cv2.GaussianBlur(fr,(0,0),40)*(1-k),(255,235,170),1.2); addc(win,cv2.GaussianBlur(fr,(0,0),20)*(1-k)**2,(255,250,235),0.9)
+    if 4<=tv<58:
+        k=(tv-4)/54.0; kk=ease_out(min(1.0,k*1.6)); fr=np.zeros((WH,WW),np.float32)
+        cv2.ellipse(fr,(int(hx_),int(hy_)),(int(20+190*kk),int(12+112*kk)),0,0,360,1.0,-1,cv2.LINE_AA)
+        fade=max(0.0,1-k)
+        addc(win,cv2.GaussianBlur(fr,(0,0),46)*fade,(255,235,170),1.3); addc(win,cv2.GaussianBlur(fr,(0,0),22)*fade**2,(255,250,235),1.0)
+        # zərbə dalğaları (yer müstəvisində ellips)
+        sw=np.zeros((WH,WW),np.float32)
+        for j in range(3):
+            kj=(tv-4-j*7)/34.0
+            if 0<kj<1:
+                rx=40+520*ease_out(kj); cv2.ellipse(sw,(int(hx_),int(hy_)),(int(rx),int(rx*0.58)),0,0,360,1.0,3,cv2.LINE_AA)
+                addc(win,cv2.GaussianBlur(sw,(0,0),6)*(1-kj),CY_BGR,1.1); addc(win,sw*(1-kj),(255,250,235),0.9); sw[:]=0
+        # qığılcımlar (dağılan şüa)
+        rs=np.random.RandomState(7); spk=np.zeros((WH,WW),np.float32)
+        for q in range(46):
+            ang=rs.rand()*2*math.pi; sp=0.55+rs.rand()*0.9; t0=4+rs.rand()*6
+            kq=(tv-t0)/30.0
+            if kq<=0 or kq>=1: continue
+            d0=30*sp+330*sp*ease_out(kq); d1=max(0,d0-26-40*sp)
+            p0=(hx_+math.cos(ang)*d1,hy_+math.sin(ang)*d1*0.58); p1=(hx_+math.cos(ang)*d0,hy_+math.sin(ang)*d0*0.58)
+            cv2.line(spk,(int(p0[0]),int(p0[1])),(int(p1[0]),int(p1[1])),float(1-kq),2,cv2.LINE_AA)
+        addc(win,cv2.GaussianBlur(spk,(0,0),3),CY_BGR,1.0); addc(win,spk,(255,252,240),1.0)
     # lövhə QAYO TEXNOLOGİYA
     if t>=26:
         pk=ease_out((t-26)/10.0); cx,cy,pw,ph_=int(hx_-30),int(hy_-50),340,58
