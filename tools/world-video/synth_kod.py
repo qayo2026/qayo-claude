@@ -90,7 +90,7 @@ def draw_arcs(img,t):
     for k in range(4):
         tk=t-TA(k)-0.3
         if tk<=0: continue
-        side,row=SIDES[k]; sx=(30+MW) if side=='L' else (W-30-MW); sy=MY[row]+MH/2
+        sx,sy=MC[k]; row=SIDES[k][1]
         ctl=((sx+hx)/2,(sy+hy)/2+(-90 if row==0 else 90)); n=30; bz=[]
         for i in range(n+1):
             u=i/n; bz.append(((1-u)**2*sx+2*u*(1-u)*ctl[0]+u*u*hx,(1-u)**2*sy+2*u*(1-u)*ctl[1]+u*u*hy))
@@ -121,18 +121,21 @@ for i,c in enumerate(COUNTRIES):
 def chip_pos(i): r,c=divmod(i,2); return PX0+14+c*(CW+GX),PY0+20+r*(CH+GY)
 pm=Image.new('RGBA',(W,H),(0,0,0,0)); ImageDraw.Draw(pm).rounded_rectangle([PX0,PY0,W-PX0,PY0+450],radius=36,fill=(3,14,38,170),outline=(88,216,245,255),width=3); panel=np.asarray(pm).astype(np.float32)
 MODS=PACK.get('modules',[['WEB','PLATFORMALAR'],['KOMPYUTER','PROQRAMLARI'],['AĞILLI CİHAZ','SİSTEMLƏRİ'],['MOBİL','TƏTBİQLƏR']]); SIDES=[('L',0),('R',0),('L',1),('R',1)]
-MW,MH=330,124; VY0,VH=440,790; MY=[VY0+10,VY0+VH-MH-10]; mod_sp=[]
+BR=78; MC=[(125,575),(955,575),(125,1105),(955,1105)]; mod_lab=[]
+bd=Image.new('RGBA',(2*BR+6,2*BR+6),(0,0,0,0)); ImageDraw.Draw(bd).ellipse([2,2,2*BR+3,2*BR+3],fill=(6,19,39,245),outline=(120,230,255,255),width=4); badge=np.asarray(bd).astype(np.float32)
+HS=2*BR+160; hl=np.zeros((HS,HS),np.float32); cv2.circle(hl,(HS//2,HS//2),BR+2,1.0,5,cv2.LINE_AA); halo=np.clip(cv2.GaussianBlur(hl,(0,0),14)*3.2+cv2.GaussianBlur(hl,(0,0),5)*1.2,0,1.3)
+LWB=210
 for a_,b_ in MODS:
-    sc=Image.new('RGBA',(MW,MH),(0,0,0,0)); ImageDraw.Draw(sc).rounded_rectangle([0,0,MW-1,MH-1],radius=18,fill=(6,19,39,225),outline=(88,216,245,255),width=3); sc=np.asarray(sc).astype(np.float32)
+    sc=np.zeros((90,LWB,4),np.float32)
     for j,tt in enumerate((a_,b_)):
-        tx,_=text_sprite(tt,27,0.05,FB); th,tw=tx.shape
-        if tw>MW-110: tx=cv2.resize(tx,(MW-110,th),interpolation=cv2.INTER_AREA); tw=MW-110
-        y0=18+j*46; x0=98+(MW-110-tw)//2; sc[y0:y0+th,x0:x0+tw,:3]=sc[y0:y0+th,x0:x0+tw,:3]*(1-tx[...,None])+255*tx[...,None]; sc[y0:y0+th,x0:x0+tw,3:4]=np.maximum(sc[y0:y0+th,x0:x0+tw,3:4],tx[...,None]*255)
-    mod_sp.append(sc)
+        tx,_=text_sprite(tt,24,0.06,FB); th,tw=tx.shape
+        if tw>LWB-6: tx=cv2.resize(tx,(LWB-6,th),interpolation=cv2.INTER_AREA); tw=LWB-6
+        y0=j*31; x0=(LWB-tw)//2; sc[y0:y0+th,x0:x0+tw,:3]=255; sc[y0:y0+th,x0:x0+tw,3]=np.maximum(sc[y0:y0+th,x0:x0+tw,3],tx*255)
+    mod_lab.append(sc)
 def blit(img,sc,x,y,o):
-    h,w=sc.shape[:2]; xs,xe=max(0,x),min(W,x+w)
-    if xe<=xs: return
-    s0=xs-x; a=sc[:,s0:s0+xe-xs,3:4]/255*o; img[y:y+h,xs:xe]=img[y:y+h,xs:xe]*(1-a)+sc[:,s0:s0+xe-xs,[2,1,0]]*a
+    h,w=sc.shape[:2]; xs,xe=max(0,x),min(W,x+w); ys,ye=max(0,y),min(H,y+h)
+    if xe<=xs or ye<=ys: return
+    s0=xs-x; r0=ys-y; a=sc[r0:r0+ye-ys,s0:s0+xe-xs,3:4]/255*o; img[ys:ye,xs:xe]=img[ys:ye,xs:xe]*(1-a)+sc[r0:r0+ye-ys,s0:s0+xe-xs,[2,1,0]]*a
 def icon(img,k,cx,cy,tt,a):
     C=tuple(int(c*a) for c in PRIM); Wc=tuple(int(255*a*0.9) for _ in range(3)); L=cv2.LINE_AA
     if k==0:
@@ -158,11 +161,16 @@ def draw_mods(img,t):
     for k,(side,row) in enumerate(SIDES):
         o=ease_out((t-TA(k))/0.4)
         if o<=0: continue
-        x=30 if side=='L' else W-30-MW; x+=int((1-o)*(-80 if side=='L' else 80)); blit(img,mod_sp[k],x,MY[row],o)
-        icon(img,k,x+50,MY[row]+MH//2,t-TA(k),o)
+        cx,cy=MC[k]; cx+=int((1-o)*(-90 if side=='L' else 90)); tt=t-TA(k); pul=0.75+0.25*math.sin(tt*3.0)
+        hx0,hy0=cx-HS//2,cy-HS//2; xs,xe=max(0,hx0),min(W,hx0+HS); ys,ye=max(0,hy0),min(H,hy0+HS)
+        hh=halo[ys-hy0:ye-hy0,xs-hx0:xe-hx0,None]*o*pul; img[ys:ye,xs:xe]=np.clip(img[ys:ye,xs:xe]+np.float32(PRIM)*hh*0.95,0,255)
+        blit(img,badge,cx-BR-3,cy-BR-3,o)
+        tmp=np.zeros((150,150,3),np.uint8); icon(tmp,k,75,75,tt,1.0); tmp=cv2.resize(tmp,(210,210),interpolation=cv2.INTER_CUBIC); ic=tmp.astype(np.float32)*o
+        ys2,xs2=cy-105,cx-105; reg=img[ys2:ys2+210,xs2:xs2+210]; img[ys2:ys2+210,xs2:xs2+210]=np.clip(reg+ic*0.0,0,255)+0 if False else np.maximum(reg,ic)
+        lab=mod_lab[k]; blit(img,lab,cx-LWB//2,cy+BR+14,o)
 LOGO=cv2.imread(os.path.join(HERE,'..','..','assets','logo','qayo-texnologiya-logo-beyaz.png'),cv2.IMREAD_UNCHANGED)
 LW=420; LH=int(LOGO.shape[0]*LW/LOGO.shape[1]); LA=cv2.resize(LOGO[:,:,3].astype(np.float32)/255,(LW,LH),interpolation=cv2.INTER_AREA); LCY=100+LH//2
-HEAD=[(T('sub1','RƏQƏMSAL BİZNES PLATFORMASI'),30,0.12,FB,CYAN,362,0.9),(T('sub2','SİSTEMLƏR · DATA · BİZNES PAKETLƏRİ'),26,0.14,FB,CYAN,410,1.2)]
+HEAD=[(T('sub1','SOFTWARE & INTELLIGENCE'),36,0.16,FB,CYAN,372,0.9)]
 spr=[]
 for t_,s,tr,f,col,y,st in HEAD:
     full,_=text_sprite(t_,s,tr,f)
