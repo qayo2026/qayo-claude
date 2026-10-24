@@ -157,10 +157,10 @@ if __name__=='__main__':
         os.makedirs(OUT,exist_ok=True)
         for i in [int(x) for x in sys.argv[4].split(',')]: cv2.imwrite(f'{OUT}/c_{i:04d}.png',proc(cv2.imread(f'{tmp}/f_{i:04d}.png'),i))
     else:
-        HOLD_AT,HOLD_N=276,27      # xəritə tam açılandan sonra ~2 san nəfəs (kadr 276-da, çox yavaş sürüşmə)
+        HOLD_AT,HOLD_N=276,24      # xəritə tam açılandan sonra ~2 san nəfəs (kadr 276-da, çox yavaş sürüşmə)
         # Səs: heç bir iki musiqi anı üst-üstə qarışdırılmır. Söz bitəndən (9.45) logo zərbəsinə (10.75) qədər
         # musiqi parçası tembri/ucalığı pozmadan YAVAŞ uzadılır (atempo) — calaq, qarışma, təkrar yoxdur.
-        T0,T1=9.45,10.75; E=HOLD_N/30.0; XF=0.02; tempo=(T1-T0)/(T1-T0+E+2*XF)
+        T0,T1=9.7,10.78; E=HOLD_N/30.0; XF=0.02; tempo=(T1-T0)/(T1-T0+E+2*XF)
         aud=(f"[1:a]asplit=3[a0][a1][a2];[a0]atrim=0:{T0},asetpts=PTS-STARTPTS[x0];"
              f"[a1]atrim={T0}:{T1},asetpts=PTS-STARTPTS,rubberband=tempo={tempo:.5f}:pitch=1:transients=smooth:detector=soft:window=long[m];[a2]atrim={T1},asetpts=PTS-STARTPTS[x2];"
              f"[x0][m]acrossfade=d={XF}[p];[p][x2]acrossfade=d={XF}[aout]")
