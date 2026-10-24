@@ -1,0 +1,73 @@
+{
+ "country": "az",
+ "name_key": "Azərbaycan",
+ "hub": {
+  "lon": 47.75,
+  "lat": 40.42
+ },
+ "cities": [
+  {
+   "id": "Bakı",
+   "lon": 49.867,
+   "lat": 40.409
+  },
+  {
+   "id": "Xaçmaz",
+   "lon": 48.488,
+   "lat": 41.463
+  },
+  {
+   "id": "Şəki",
+   "lon": 47.17,
+   "lat": 41.191
+  },
+  {
+   "id": "Gəncə",
+   "lon": 46.36,
+   "lat": 40.683
+  },
+  {
+   "id": "Lənkəran",
+   "lon": 48.851,
+   "lat": 38.754
+  },
+  {
+   "id": "Naxçıvan",
+   "lon": 45.412,
+   "lat": 39.209
+  }
+ ],
+ "neighbors": [
+  {
+   "id": "Rusiya",
+   "lon": 47.3,
+   "lat": 42.0
+  },
+  {
+   "id": "Gürcüstan",
+   "lon": 44.6,
+   "lat": 41.7
+  },
+  {
+   "id": "Ermənistan",
+   "lon": 44.95,
+   "lat": 40.15
+  },
+  {
+   "id": "İran",
+   "lon": 47.3,
+   "lat": 38.3
+  },
+  {
+   "id": "Xəzər dənizi",
+   "lon": 50.45,
+   "lat": 40.9
+  }
+ ],
+ "map": {
+  "districts": "tools/az-map/az-districts.geojson",
+  "neighbors": "tools/az-map/neighbors.geojson",
+  "mode": "overlay-on-footage",
+  "note": "Gemini peyk kadrı yalnız Azərbaycan üçündür; başqa ölkə üçün kodla xəritə (mapscene/oldmap_scene) və ya yeni xam kadr"
+ }
+}

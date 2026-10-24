@@ -1,0 +1,24 @@
+{
+ "lang": "az",
+ "brand_pill": "QAYO TEXNOLOGİYA",
+ "cities": {
+  "Bakı": "Bakı",
+  "Şəki": "Şəki",
+  "Gəncə": "Gəncə",
+  "Naxçıvan": "Naxçıvan",
+  "Lənkəran": "Lənkəran",
+  "Xaçmaz": "Xaçmaz"
+ },
+ "neighbors": {
+  "Rusiya": "Rusiya",
+  "Gürcüstan": "Gürcüstan",
+  "Ermənistan": "Ermənistan",
+  "İran": "İran",
+  "Xəzər dənizi": "Xəzər dənizi"
+ },
+ "voice": {
+  "script": null,
+  "file": null,
+  "note": "Səs mətni əvvəl Azərbaycan dilində təsdiqlənir (Gemini səsindən transkript), sonra tərcümə + öz səs mühərriki ilə səsləndirmə; tərcümə mətni insan tərəfindən yoxlanır."
+ }
+}

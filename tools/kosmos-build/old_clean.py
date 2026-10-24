@@ -9,6 +9,9 @@ KEYS=json.load(open(os.path.join(HERE,'old-keys.json')))
 NAMES=['Bakı','Şəki','Gəncə','Naxçıvan','Lənkəran','Xaçmaz']
 LAB_A,LAB_B=225,280
 AMBER=(255,196,107)   # 'sərhəd qonşuları' kateqoriyasının ayrıca rəngi (#FFC46B); şəhər/rayon adları ağ-mavi qalır
+LANG=os.environ.get('KOSMOS_LANG','az'); PACK=json.load(open(os.path.join(HERE,'..','lang',LANG+'.json')))
+def T_city(n): return PACK['cities'].get(n,n)
+def T_nei(n): return PACK['neighbors'].get(n,n)
 NEI=[('Rusiya',47.3,42.0),('Gürcüstan',44.6,41.7),('Ermənistan',44.95,40.15),('İran',47.3,38.3),('Xəzər dənizi',50.45,40.9)]
 SRC,OUT=sys.argv[1],sys.argv[2]
 SM_A,SM_B=175,284           # ləkə kadrları (1-əsaslı)
@@ -84,7 +87,7 @@ def labels(img,i):
         nn=len(c['name']); n=min(nn,int(nn*p+0.999))
         if c['name']=='Lənkəran': c=dict(c,side='l',dx=16,dy=4)
         if c['name']=='Gəncə': c=dict(c,side='l',dx=30,dy=14)
-        sp=text_sprite(c['name'],30,0.04,FONT_BOLD,n=n)[0]; full=text_sprite(c['name'],30,0.04,FONT_BOLD,n=nn)[0]
+        lbl=T_city(c['name']); nn=len(lbl); n=min(nn,int(nn*p+0.999)); sp=text_sprite(lbl,30,0.04,FONT_BOLD,n=n)[0]; full=text_sprite(lbl,30,0.04,FONT_BOLD,n=nn)[0]
         px,py=OF.apply(w,c['p']); y=py+c['dy']
         if c['side']=='r': x0=px+c['dx']
         elif c['side']=='l': x0=px-c['dx']-full.shape[1]
@@ -95,9 +98,9 @@ def labels(img,i):
         t0=LAB_A+2+(len(NAMES)+k)*2; p=ease_io((i-t0)/14.0)
         if p<=0: continue
         fade=(1.0 if i<LAB_B-4 else max(0.0,(LAB_B-i)/4.0))*0.92
-        nn=len(nm); n=min(nn,int(nn*p+0.999))
+        nm=T_nei(nm); nn=len(nm); n=min(nn,int(nn*p+0.999))
         sp=text_sprite(nm,25,0.07,FONT_BOLD,n=n)[0]; full=text_sprite(nm,25,0.07,FONT_BOLD,n=nn)[0]
-        px,py=OF.apply(w,MS.proj(lon,lat)); cx=px-full.shape[1]/2+sp.shape[1]/2
+        px,py=OF.apply(w,MS.proj(lon,lat)); px=min(max(px,full.shape[1]/2+24),1080-full.shape[1]/2-24); cx=px-full.shape[1]/2+sp.shape[1]/2
         glow(f,sp,cx,py,fade,AMBER,sigma=5,strength=0.55); blend(f,sp,cx,py,fade,AMBER)
     return np.clip(f,0,255).astype(np.uint8)
 SC_A,SC_B=190,300
