@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS chain (pos INTEGER PRIMARY KEY, slug TEXT NOT NULL UNIQUE, name TEXT NOT NULL, kind TEXT NOT NULL, link TEXT, asset_status TEXT NOT NULL DEFAULT 'yoxdur', voice_text TEXT, voice_ok BOOLEAN NOT NULL DEFAULT false, bg_color TEXT, accent_color TEXT, transition_next TEXT, note TEXT, updated_at TIMESTAMPTZ NOT NULL DEFAULT now())

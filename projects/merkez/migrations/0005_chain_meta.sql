@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS chain_meta (key TEXT PRIMARY KEY, value TEXT, note TEXT, updated_at TIMESTAMPTZ NOT NULL DEFAULT now())
