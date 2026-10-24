@@ -17,6 +17,15 @@ Hər yeni video (Dünya, Azərbaycan, Smart Worker...) bu 8 maddədən keçməli
 ## YOXLAMA
 8. **Qırılma radarı** (`seam_radar.py`) hər namizəd üçün 4 ayrı başlıqda: SƏS, MUSİQİ, SÖZ, GÖRÜNTÜ. Radardan keçməyən fayl göndərilmir. Radar tapır, amma son qərarı insan qulağı verir (orijinalın öz zərbələri radara "qırılma" görünə bilər).
 
+## ÜMUMİ (bütün KOSMOS düzəlişlərindən)
+9. **Əsas video toxunulmazdır.** Seçilmiş orijinal qalır, yalnız kosmetika: qanadlara işıq, ləkə təmizliyi, adlar. Sevilən kadr (şüanın yerə vurması) heç vaxt kəsilmir.
+10. **Bir xəritə.** Zərbədən sonra ikinci xəritə yaradılmır; mövcud xəritənin üstünə rayon xətləri və adlar qoyulur. Əlavə şüa yoxdur.
+11. **Adlar kodla, real mənbədən** (Natural Earth, düzgün Azərbaycan yazılışı); Gemini-nin yazısına/xəritəsinə etibar yoxdur. Şəhər/rayon adları ağ-mavi, **sərhəd qonşuları ayrı rəngdə (kəhrəba #FFC46B)**.
+12. **Yazı oxunaqlı olmalıdır:** köhnə pill yazısı silinib kodla (text-fx) yenidən yazılır; rənglər canlı, solğun yox.
+13. **Ləkə (Gemini nişanı qalığı) kəsilmir/kopyalanmır** — yumşaq sönməyə salınır.
+14. **Hər versiya = bir dəyişiklik.** Yalnız bir namizəd fayl qalır, ötən versiyalar silinir. Fayl telefona göndərilir, canlıya yalnız "Canlıya qoy" sözündən sonra.
+15. **Əvvəl görüntü, sonra səs.** Görüntü təsdiqlənmədən səs işinə keçilmir.
+
 ## Qalan zəif yer / növbəti addım
 - Radar orijinalın öz zərbəsini calaqdan ayırmır → "orijinala nisbətən fərq" rejimi əlavə olunmalıdır.
 - Radarda "söz sonu təhlükəsi" yoxlaması (uzatma sözün son səsinə yaxındırmı) əlavə olunmalıdır.
