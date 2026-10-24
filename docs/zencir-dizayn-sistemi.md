@@ -2,7 +2,7 @@
 Konsept: 6 səhnə, 1 vizual dil (təbii görüntü + işıq). Hər halqa eyni sistemdən çıxır; baxan "hamısı bir əldən çıxıb" görməlidir.
 
 ## 1. Zəncir
-01 Kosmos → 02 Texnologiya → 03 Dünya → 04 Azərbaycan → 05 Bakı → 06 İnşaat → 07 Kataloq (web, son).
+01 Kosmos → 02 QAYO TEXNOLOGİYA (Brend + Dünya axtarışı, BİR layihə) → 04 Azərbaycan → 05 Bakı → 06 İnşaat → 07 Kataloq (web, son).
 Halqalar arasında **bir ortaq element** keçir: ağ-mavi işıq xətti (şüa / qövs). Əvvəlki halqa onunla bitir, növbəti onunla başlayır.
 
 ## 2. Vizual dil (referans: "Təbii görüntü + işıq" və "Təbii tonlar")
@@ -37,6 +37,7 @@ Halqalar arasında **bir ortaq element** keçir: ağ-mavi işıq xətti (şüa /
 | Halqa | Görüntü | Səs | Canlı |
 |---|---|---|---|
 | 01 KOSMOS | tamam (V37) | Gemini səsi, qırılma yoxdur; öz səs mühərriki hələ yox | V37 canlı |
-| 02–07 | başlanmayıb (hər biri bu sistemlə) | — | — |
+| 02 | QAYO TEXNOLOGİYA = Brend + Dünya axtarışı birləşdirildi (qərar 2026-10-24: texnologiyanı ölkələrə satmaq üçün axtarış, ona görə bir layihə). Namizəd: V3 videosu; canlı hədəf: qayo-brand; qayo-world-search köhnə qalır (canlıya qoy sözünə qədər toxunulmur) | namizəd | — |
+| 04–07 | başlanmayıb (hər biri bu sistemlə) | — | — |
 
 Qayda: DoD-dən keçməyən halqa tamam sayılmır və növbəti halqaya keçilmir.
