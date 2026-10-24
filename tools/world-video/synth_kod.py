@@ -166,7 +166,8 @@ def draw_mods(img,t):
         hh=halo[ys-hy0:ye-hy0,xs-hx0:xe-hx0,None]*o*pul; img[ys:ye,xs:xe]=np.clip(img[ys:ye,xs:xe]+np.float32(PRIM)*hh*0.95,0,255)
         blit(img,badge,cx-BR-3,cy-BR-3,o)
         tmp=np.zeros((150,150,3),np.uint8); icon(tmp,k,75,75,tt,1.0); tmp=cv2.resize(tmp,(210,210),interpolation=cv2.INTER_CUBIC); ic=tmp.astype(np.float32)*o
-        ys2,xs2=cy-105,cx-105; reg=img[ys2:ys2+210,xs2:xs2+210]; img[ys2:ys2+210,xs2:xs2+210]=np.clip(reg+ic*0.0,0,255)+0 if False else np.maximum(reg,ic)
+        ys2,xs2=cy-105,cx-105; xa,xb=max(0,xs2),min(W,xs2+210)
+        if xb>xa: img[ys2:ys2+210,xa:xb]=np.maximum(img[ys2:ys2+210,xa:xb],ic[:,xa-xs2:xb-xs2])
         lab=mod_lab[k]; blit(img,lab,cx-LWB//2,cy+BR+14,o)
 LOGO=cv2.imread(os.path.join(HERE,'..','..','assets','logo','qayo-texnologiya-logo-beyaz.png'),cv2.IMREAD_UNCHANGED)
 LW=420; LH=int(LOGO.shape[0]*LW/LOGO.shape[1]); LA=cv2.resize(LOGO[:,:,3].astype(np.float32)/255,(LW,LH),interpolation=cv2.INTER_AREA); LCY=100+LH//2
