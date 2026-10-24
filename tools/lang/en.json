@@ -38,5 +38,18 @@
    "IoT & EMBEDDED",
    "SYSTEMS"
   ]
- ]
+ ],
+ "world": {
+  "az": "AZERBAIJAN",
+  "tr": "TÜRKIYE",
+  "de": "GERMANY",
+  "fr": "FRANCE",
+  "ae": "UAE",
+  "us": "USA",
+  "gb": "UNITED KINGDOM",
+  "in": "INDIA",
+  "cn": "CHINA",
+  "jp": "JAPAN",
+  "sub1": "SOFTWARE & INTELLIGENCE"
+ }
 }
