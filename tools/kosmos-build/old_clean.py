@@ -157,13 +157,11 @@ if __name__=='__main__':
         os.makedirs(OUT,exist_ok=True)
         for i in [int(x) for x in sys.argv[4].split(',')]: cv2.imwrite(f'{OUT}/c_{i:04d}.png',proc(cv2.imread(f'{tmp}/f_{i:04d}.png'),i))
     else:
-        HOLD_AT,HOLD_N=276,60      # xəritə tam açılandan sonra ~2 san nəfəs (kadr 276-da, çox yavaş sürüşmə)
-        # Səs: söz təkrarlanmasın — boşluq yalnız musiqidən (9.45 san-dan sonra səsin sözü bitir) doldurulur
-        T=HOLD_AT/30+0.25
-        aud=(f"[1:a]asplit=4[a0][a1][a2][a3];[a0]atrim=0:{T},asetpts=PTS-STARTPTS[x0];"
-             f"[a1]atrim={T}:{T+1.15},asetpts=PTS-STARTPTS[f1];[a2]atrim={T}:{T+1.15},asetpts=PTS-STARTPTS[f2];"
-             f"[a3]atrim={T},asetpts=PTS-STARTPTS[x2];"
-             "[x0][f1]acrossfade=d=0.1[m1];[m1][f2]acrossfade=d=0.1[m2];[m2][x2]acrossfade=d=0.1[aout]")
+        HOLD_AT,HOLD_N=276,27      # xəritə tam açılandan sonra ~2 san nəfəs (kadr 276-da, çox yavaş sürüşmə)
+        # Səs: söz təkrarlanmasın; boşluq yalnız musiqidən, uzun (0.4 san) yumşaq keçidlə doldurulur
+        T=9.45; E=HOLD_N/30.0; XF=0.4; D=E+XF
+        aud=(f"[1:a]asplit=2[a0][a1];[a0]atrim=0:{T+D},asetpts=PTS-STARTPTS[x0];[a1]atrim={T},asetpts=PTS-STARTPTS[x2];"
+             f"[x0][x2]acrossfade=d={XF}:c1=qsin:c2=qsin[aout]")
         cmd=['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','bgr24','-s','1080x1920','-r','30','-i','-','-i',SRC,
              '-filter_complex',aud,'-map','0:v','-map','[aout]','-c:v','libx264','-preset','slow','-crf','17','-pix_fmt','yuv420p','-r','30','-c:a','aac','-b:a','192k','-shortest','-movflags','+faststart',OUT]
         p=subprocess.Popen(cmd,stdin=subprocess.PIPE)
@@ -174,9 +172,10 @@ if __name__=='__main__':
                 while len(cache)>8: cache.pop(next(iter(cache)))
             return cache[i]
         for k in range(1,n+HOLD_N+1):
-            if k<=HOLD_AT: fr=P(k)
-            elif k<=HOLD_AT+HOLD_N:
-                u=(k-HOLD_AT)/HOLD_N; src=HOLD_AT-6+6*ease_io(u); lo=int(src); fr_=src-lo
+            S0=HOLD_AT-6
+            if k<=S0: fr=P(k)
+            elif k<=HOLD_AT+HOLD_N:       # 270→276 çox yavaş sürüşmə (geri tullanma yox)
+                u=(k-S0)/(HOLD_N+6); src=S0+6*ease_io(u); lo=int(src); fr_=src-lo
                 fr=P(lo)*(1-fr_)+P(min(lo+1,HOLD_AT))*fr_ if lo<HOLD_AT else P(HOLD_AT)
             else: fr=P(k-HOLD_N)
             p.stdin.write(np.clip(fr,0,255).astype(np.uint8).tobytes())
