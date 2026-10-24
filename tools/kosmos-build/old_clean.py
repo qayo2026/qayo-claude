@@ -123,11 +123,32 @@ def scene_frame(img,i):
         win=base*(1-bl)+old*bl
     out=img.astype(np.float32); out[WIN_Y0:WIN_Y1]=win
     return np.clip(out,0,255).astype(np.uint8)
+_DL=None
+def _dist_layer():
+    global _DL
+    if _DL is None:
+        ln=np.zeros((1920,1080),np.uint8); fill=np.zeros((1920,1080),np.uint8)
+        for ft in MS.AZ:
+            MS.draw_geom(ln,ft['geometry'],line=255,lw=1); MS.draw_geom(fill,ft['geometry'],fill=255)
+        _DL=(ln,fill)
+    return _DL
+def districts(img,i):
+    """Rayon xətləri: köhnə xəritənin üstünə, ölkə daxilində, solğun."""
+    if not (LAB_A-4<=i<=LAB_B): return img
+    p=_ss((i-(LAB_A-4))/14.0)*(1.0 if i<LAB_B-4 else max(0.0,(LAB_B-i)/4.0))
+    if p<=0: return img
+    w=OF.warp_for(KEYS,i); ln,fill=_dist_layer()
+    L=cv2.warpAffine(ln,w,(1080,1920)).astype(np.float32)/255
+    F=cv2.warpAffine(fill,w,(1080,1920)); F=cv2.erode(F,np.ones((3,3),np.uint8),iterations=7).astype(np.float32)/255
+    m=cv2.GaussianBlur(F,(0,0),3)*np.clip(L*1.6,0,1)*0.55*p
+    f=img.astype(np.float32); col=np.array(CYAN[::-1],np.float32)
+    f=f*(1-m[...,None])+col*m[...,None]
+    return np.clip(f,0,255).astype(np.uint8)
 def proc(img,i):
     img=wing_lift(img,i)
-    if SM_A<=i<=SM_B and i<SC_A+8: img=smear_fix(img)
-    if SC_A<=i<=SC_B: return scene_frame(img,i)
+    if SM_A<=i<=SM_B: img=smear_fix(img)
     img=pill_text(img,i)
+    img=districts(img,i)
     return labels(img,i)
 if __name__=='__main__':
     tmp=tempfile.mkdtemp(); subprocess.run(['ffmpeg','-v','error','-i',SRC,'-vf','fps=30',f'{tmp}/f_%04d.png'],check=True)
