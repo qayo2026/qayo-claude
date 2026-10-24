@@ -34,6 +34,24 @@ LOGOC=cv2.resize(LQ[:,:,3],(124,int(LQ.shape[0]*124/LQ.shape[1])),interpolation=
 ew=np.ones((CH,CW),np.float32); ew[:,:10]*=np.linspace(0,1,10)[None]; ew[:,-10:]*=np.linspace(1,0,10)[None]; ew[:10]*=np.linspace(0,1,10)[:,None]; ew[-10:]*=np.linspace(1,0,10)[:,None]
 def stamp(c,al,cx,cy,col,o=1.0):
     h,w=al.shape; x0=cx-w//2; y0=cy-h//2; a=al[...,None]*o; c[y0:y0+h,x0:x0+w]=c[y0:y0+h,x0:x0+w]*(1-a)+col*a
+
+def glass(c,cx,cy,r,t,k,o=1.0):
+    R=r+3; sz=2*R+1; y,x=np.mgrid[-R:R+1,-R:R+1].astype(np.float32); d=np.sqrt(x*x+y*y)/r
+    mask=np.clip((1.0-d)*r/1.5,0,1)
+    top=np.float32([252,248,242]); bot=np.float32([232,196,120]); u=np.clip((y/r+1)/2,0,1)[...,None]
+    col=top*(1-u)+bot*u
+    rim=np.clip((d-0.72)/0.28,0,1)[...,None]**2; col=col*(1-rim*0.55)+np.float32(K.PRIM)*rim*0.55
+    # üst parıltı (specular)
+    sx,sy=(x+0.36*r)/(0.58*r),(y+0.52*r)/(0.26*r); sp=np.exp(-(sx*sx+sy*sy)*1.6)[...,None]
+    col=col+(255-col)*np.clip(sp*0.95,0,1)
+    # alt əks
+    rf=np.clip(1-np.abs(d-0.8)/0.12,0,1)*np.clip((y/r-0.35)/0.5,0,1); col=col+np.float32(K.PRIM)[None,None]*rf[...,None]*0.5
+    # süzülən işıq zolağı
+    sw=((t*0.45+k*0.23)%1.7)-0.35; uu=(x+y)/(2.0*r)*0.5+0.5
+    gl=np.exp(-((uu-sw)/0.06)**2)*np.clip(1.1-d,0,1); col=col+(255-col)*gl[...,None]*0.7
+    x0,y0=cx-R,cy-R; a=(mask*o)[...,None]
+    h,w=c.shape[:2]; xa,ya=max(0,x0),max(0,y0); xb,yb=min(w,x0+sz),min(h,y0+sz)
+    c[ya:yb,xa:xb]=c[ya:yb,xa:xb]*(1-a[ya-y0:yb-y0,xa-x0:xb-x0])+np.clip(col,0,255)[ya-y0:yb-y0,xa-x0:xb-x0]*a[ya-y0:yb-y0,xa-x0:xb-x0]
 def netcanvas(t):
     c=MAPC.copy(); lay=np.zeros((CH,CW),np.float32); P=np.float32(K.PRIM)
     ta=[0.9+0.4*k for k in range(5)]
@@ -41,8 +59,9 @@ def netcanvas(t):
         p=ease_out((t-ta[k]+0.3)/0.5)
         if p>0:
             e=(int(HUBC[0]+(nx-HUBC[0])*p),int(HUBC[1]+(ny-HUBC[1])*p)); cv2.line(lay,HUBC,e,1.0,4,cv2.LINE_AA)
-            ph=(t*0.55+k*0.27)%1.0
-            if p>=1: cv2.circle(lay,(int(HUBC[0]+(nx-HUBC[0])*ph),int(HUBC[1]+(ny-HUBC[1])*ph)),7,1.5,-1,cv2.LINE_AA)
+            if p>=1:
+                for jj in range(3):
+                    ph=(t*0.5+k*0.27+jj/3.0)%1.0; cv2.circle(lay,(int(HUBC[0]+(nx-HUBC[0])*ph),int(HUBC[1]+(ny-HUBC[1])*ph)),8,1.6,-1,cv2.LINE_AA)
     for a_,b_ in [(0,1),(1,3),(3,4),(4,2),(2,0)]:
         q=min(ease_out((t-ta[max(a_,b_)]-0.3)/0.6),1.0)
         if q>0:
@@ -55,14 +74,16 @@ def netcanvas(t):
     if ph_>0:
         hh=np.zeros((CH,CW),np.float32); cv2.circle(hh,HUBC,92,1.0,-1,cv2.LINE_AA); hh=cv2.GaussianBlur(hh,(0,0),22)*ph_*(0.8+0.2*math.sin(t*3))
         c=np.clip(c+P*hh[...,None]*0.9,0,255); r=int(84*ph_)
-        cv2.circle(c,HUBC,r,tuple(float(v) for v in WHT),-1,cv2.LINE_AA); cv2.circle(c,HUBC,r,tuple(float(v) for v in P),4,cv2.LINE_AA)
+        glass(c,HUBC[0],HUBC[1],r,t,9)
+        for j in range(6):
+            an=t*0.8+j*math.pi/3; cv2.circle(c,(int(HUBC[0]+112*math.cos(an)),int(HUBC[1]+112*math.sin(an))),4,tuple(float(v) for v in WHT),-1,cv2.LINE_AA)
         if ph_>0.6: stamp(c,LOGOC,HUBC[0],HUBC[1],NAVY)
     for k,(nx,ny) in enumerate(NODE):
         o=ease_out((t-ta[k])/0.4)
         if o<=0: continue
         hh=np.zeros((CH,CW),np.float32); cv2.circle(hh,(nx,ny),NR+6,1.0,-1,cv2.LINE_AA); hh=cv2.GaussianBlur(hh,(0,0),14)*o*(0.75+0.25*math.sin((t-ta[k])*3))
         c=np.clip(c+P*hh[...,None]*0.9,0,255)
-        r=int(NR*(0.6+0.4*o)); cv2.circle(c,(nx,ny),r,tuple(float(v) for v in WHT),-1,cv2.LINE_AA); cv2.circle(c,(nx,ny),r,tuple(float(v) for v in P),4,cv2.LINE_AA)
+        r=int(NR*(0.6+0.4*o))+int(2*math.sin(t*2.1+k)); ny=ny+int(5*math.sin(t*1.7+k*1.3)); glass(c,nx,ny,r,t,k,o)
         if o<0.6: continue
         tmp=np.zeros((150,150,3),np.uint8); K.icon(tmp,K.ICON[k],75,75,t-ta[k],1.0); m=cv2.resize(tmp.max(axis=2),(42,42),interpolation=cv2.INTER_CUBIC).astype(np.float32)/255
         L=NTXT[k]; th=sum(x.shape[0]+7 for x in L)-7; stamp(c,np.clip(m*1.3,0,1),nx,ny-52,np.float32([150,70,10])); y=ny+10-th//2+(4 if len(L)==2 else 0)
