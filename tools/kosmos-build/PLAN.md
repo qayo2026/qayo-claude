@@ -10,7 +10,7 @@ Standart: 1080x1920, 9:16, MP4 H.264, 30 fps, AAC, faststart. Heç nə "Canlıya
 | 3 | Açılma bucağı | A bucağı; kamera yuxarıdan Yerə doğru yavaş enir (3 və 4 bir hərəkət), şaquli çərçivədə mərkəzdən kəsmə | bağlandı |
 | 4 | Yerə enmə | Bulud qatından keçib Azərbaycanın üstündə şəffaf kürəyə çatır (birləşmə) | bağlandı |
 | 5 | Şüa vermə | Parlayan nöqtədən qalın şüa, göydən yerə düz (2-ci video 3–4 s üslubu) | bağlandı |
-| 6 | Təsir gücü (vurma) | qorunan kadr: media/kadrlar/qayo-sua-vurur-kadr.mp4 | açıq |
+| 6 | Təsir gücü (vurma) | Qısa partlayış (~0,5 s), sonra dalğa şəbəkəyə çevrilir; qorunan kadr: media/kadrlar/qayo-sua-vurur-kadr.mp4 | bağlandı |
 | 7 | Xəritə | Real mənbə: Natural Earth (tools/az-map/az-districts.geojson), adlar bizim siyahıdan, Gemini xəritəsi yox | açıq |
 | 8 | Xəritə üzərində işıq gücü | qorunan kadr: media/kadrlar/qayo-sua-azerbaycana-dusur-kadr.mp4 (yalnız şüa/kürə hissəsi) | açıq |
 | 9 | Loqo | tünd fonda, bizim kodla (Gemini-nin ağ sonluğu atılır) | açıq |
