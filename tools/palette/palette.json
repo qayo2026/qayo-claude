@@ -1,25 +1,79 @@
 {
-  "name": "QAYO ZƏNCİR RƏNG SİSTEMİ",
-  "version": "0.1-namizəd",
-  "rule": "Zəncirin 7 halqası EYNİ palitradan çıxır. Keçid rəngi = ground. Əlavə rəng yoxdur.",
-  "tokens": {
-    "ground":   {"hex": "#000818", "use": "ümumi fon və bütün keçidlər (fade through ground)"},
-    "panel":    {"hex": "#061327", "use": "panel, kart, ikinci fon (KOSMOS fonu)"},
-    "deep":     {"hex": "#020B1E", "use": "dərin fon (BREND fonu)"},
-    "primary":  {"hex": "#58D8F5", "use": "əsas xətt, xəritə, halqa, şüa (KOSMOS halqası)"},
-    "primary_dim": {"hex": "#1F7FA8", "use": "incə xətt, sərhəd, passiv element"},
-    "glow":     {"hex": "#B4F1FF", "use": "parıltı, vurğu nöqtəsi, partlayış mərkəzi"},
-    "text":     {"hex": "#FFFFFF", "use": "yazı"},
-    "text_dim": {"hex": "#9FB4C7", "use": "ikinci dərəcəli yazı"},
-    "brand_red": {"hex": "#D83030", "use": "yalnız marka elementi (qanad xətti, kiçik vurğu); xəritədə yox"}
+ "name": "QAYO ZƏNCİR RƏNG SİSTEMİ",
+ "version": "0.1-namizəd",
+ "rule": "Zəncirin 7 halqası EYNİ palitradan çıxır. Keçid rəngi = ground. Əlavə rəng yoxdur.",
+ "tokens": {
+  "ground": {
+   "hex": "#000818",
+   "use": "ümumi fon və bütün keçidlər (fade through ground)"
   },
-  "links": {
-    "1_kosmos": {"bg": "panel",  "accent": "primary"},
-    "2_brend":  {"bg": "deep",   "accent": "primary"},
-    "3_dunya":  {"bg": "ground", "accent": "primary"},
-    "4_azerbaycan": {"bg": "ground", "accent": "primary"},
-    "5_baki":   {"bg": "ground", "accent": "primary"},
-    "6_insaat": {"bg": "ground", "accent": "primary", "note": "şirkət rəngi brand_red ilə kiçik vurğu"},
-    "7_katalok": {"bg": "text", "accent": "brand_red", "note": "sayt öz rəngində (ağ/göy/qırmızı), toxunulmur; keçid ground-dan"}
+  "panel": {
+   "hex": "#061327",
+   "use": "panel, kart, ikinci fon (KOSMOS fonu)"
+  },
+  "deep": {
+   "hex": "#020B1E",
+   "use": "dərin fon (BREND fonu)"
+  },
+  "primary": {
+   "hex": "#58D8F5",
+   "use": "əsas xətt, xəritə, halqa, şüa (KOSMOS halqası)"
+  },
+  "primary_dim": {
+   "hex": "#1F7FA8",
+   "use": "incə xətt, sərhəd, passiv element"
+  },
+  "glow": {
+   "hex": "#B4F1FF",
+   "use": "parıltı, vurğu nöqtəsi, partlayış mərkəzi"
+  },
+  "text": {
+   "hex": "#FFFFFF",
+   "use": "yazı"
+  },
+  "text_dim": {
+   "hex": "#9FB4C7",
+   "use": "ikinci dərəcəli yazı"
+  },
+  "brand_red": {
+   "hex": "#D83030",
+   "use": "yalnız marka elementi (qanad xətti, kiçik vurğu); xəritədə yox"
   }
+ },
+ "links": {
+  "1_kosmos": {
+   "bg": "panel",
+   "accent": "primary"
+  },
+  "2_brend": {
+   "bg": "deep",
+   "accent": "primary"
+  },
+  "3_dunya": {
+   "bg": "ground",
+   "accent": "primary"
+  },
+  "4_azerbaycan": {
+   "bg": "ground",
+   "accent": "primary"
+  },
+  "5_baki": {
+   "bg": "ground",
+   "accent": "primary"
+  },
+  "6_insaat": {
+   "bg": "ground",
+   "accent": "primary",
+   "note": "şirkət rəngi brand_red ilə kiçik vurğu"
+  },
+  "7_katalok": {
+   "bg": "text",
+   "accent": "brand_red",
+   "note": "sayt öz rəngində (ağ/göy/qırmızı), toxunulmur; keçid ground-dan"
+  }
+ },
+ "neighbor_label": {
+  "hex": "#FFC46B",
+  "note": "sərhəd qonşuları kateqoriyası (Rusiya, Gürcüstan, Ermənistan, İran, Xəzər dənizi) — rayon/şəhər adlarından (ağ-mavi) ayrı rəng; namizəd"
+ }
 }
