@@ -1,7 +1,13 @@
 """Orijinal 12 san KOSMOS üçün kosmetik təmizlik (səs, kadr sırası, rəng toxunulmaz):
 1) xəritə kadrlarında sağ-aşağı Gemini iz ləkəsini doldurur; 2) peyk qanadlarına yumşaq işıq (açma).
 İstifadə: python3 old_clean.py <orijinal.mp4> <çıxış.mp4> [--test f1,f2,...]"""
-import sys, os, subprocess, cv2, numpy as np, tempfile, shutil
+import sys, os, subprocess, json, cv2, numpy as np, tempfile, shutil
+HERE=os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0,HERE); sys.path.insert(0,os.path.join(HERE,'..','az-map')); sys.path.insert(0,os.path.join(HERE,'..','text-fx'))
+import oldfit as OF, mapscene as MS
+from text_fx import text_sprite, blend, glow, ease_io, WHITE, CYAN, FONT_BOLD
+KEYS=json.load(open(os.path.join(HERE,'old-keys.json')))
+NAMES=['Bakı','Şəki','Gəncə','Naxçıvan','Lənkəran','Xaçmaz']
+LAB_A,LAB_B=225,280
 SRC,OUT=sys.argv[1],sys.argv[2]
 SM_A,SM_B=175,284           # ləkə kadrları (1-əsaslı)
 KEY=[(1,210,920),(30,230,930),(60,240,920),(90,230,760),(108,230,700)]
@@ -34,10 +40,27 @@ def smear_fix(img):
         _fade=(_ss((xx-540)/280.0)*_ss((yy-950)/230.0))[...,None]
     g=np.array((24,8,0),np.float32)
     return np.clip(img.astype(np.float32)*(1-_fade)+g*_fade,0,255).astype(np.uint8)
+def labels(img,i):
+    if not (LAB_A<=i<=LAB_B): return img
+    w=OF.warp_for(KEYS,i); f=img.astype(np.float32)
+    for k,c in enumerate(c for n in NAMES for c in MS.CITIES if c['name']==n):
+        t0=LAB_A+3+k*3; p=ease_io((i-t0)/14.0)
+        if p<=0: continue
+        fade=1.0 if i<LAB_B-4 else max(0.0,(LAB_B-i)/4.0)
+        nn=len(c['name']); n=min(nn,int(nn*p+0.999))
+        if c['name']=='Lənkəran': c=dict(c,side='l',dx=16,dy=4)
+        sp=text_sprite(c['name'],30,0.04,FONT_BOLD,n=n)[0]; full=text_sprite(c['name'],30,0.04,FONT_BOLD,n=nn)[0]
+        px,py=OF.apply(w,c['p']); y=py+c['dy']
+        if c['side']=='r': x0=px+c['dx']
+        elif c['side']=='l': x0=px-c['dx']-full.shape[1]
+        else: x0=px-full.shape[1]/2
+        cx=x0+sp.shape[1]/2
+        glow(f,sp,cx,y,fade,CYAN,sigma=5,strength=0.7); blend(f,sp,cx,y,fade,WHITE)
+    return np.clip(f,0,255).astype(np.uint8)
 def proc(img,i):
     img=wing_lift(img,i)
     if SM_A<=i<=SM_B: img=smear_fix(img)
-    return img
+    return labels(img,i)
 if __name__=='__main__':
     tmp=tempfile.mkdtemp(); subprocess.run(['ffmpeg','-v','error','-i',SRC,'-vf','fps=30',f'{tmp}/f_%04d.png'],check=True)
     n=len(os.listdir(tmp))
