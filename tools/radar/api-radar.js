@@ -8,7 +8,8 @@ const GH = 'qayo2026/qayo-claude';
 const MAX_BYTES = 10 * 1024 * 1024;
 const PROJECTS = {
   kosmos: { dir: 'kosmos', name: 'KOSMOS', key: 'KOSMOS', site: 'https://qayo-kosmos.hatchable.site', media: '/media/qayo-kosmos-original.mp4', gh: 'media/qayo-kosmos-original.mp4', tools: 'tools/kosmos-video', api: '/api/video' },
-  brand: { dir: 'brand', name: 'QAYO BRAND TEXNOLOGİYA', key: 'BRAND', site: 'https://qayo-brand.hatchable.site', media: '/media/qayo-brand-master.mp4', gh: 'media/qayo-brand-master.mp4', tools: 'tools/brand-video', api: '/api/video' }
+  brand: { dir: 'brand', name: 'QAYO BRAND TEXNOLOGİYA', key: 'BRAND', site: 'https://qayo-brand.hatchable.site', media: '/media/qayo-brand-master.mp4', gh: 'media/qayo-brand-master.mp4', tools: 'tools/brand-video', api: '/api/video' },
+  world: { dir: 'world', name: 'QAYO WORLD SEARCH', key: 'WORLD', site: 'https://qayo-world-search.hatchable.site', media: '/media/qayo-dunya-axtaris.mp4', gh: 'media/qayo-dunya-axtaris.mp4', tools: 'tools/world-video', api: '/api/video' }
 };
 
 function boxes(b, dv, s, e) {
