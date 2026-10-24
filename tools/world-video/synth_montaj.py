@@ -16,24 +16,22 @@ def shotA_old(t):
     m=(vm*a)[...,None]; img[BY:BY+OH]=img[BY:BY+OH]*(1-m)+f*m; MCA_=[(110,700),(970,700),(110,1010),(970,1010)]; K.MC[:]=MCA_; K.TA=lambda k:0.5+0.35*k; K.draw_mods(img,t); return img
 
 # --- V15: acıq rəng, adlar dairələrin içində, rəqəmsiz ---
-CW,CH=880,650
-SRC=np.float32([[0,0],[CW,0],[CW,CH],[0,CH]]); DST=np.float32([[150,8],[1022,0],[1010,602],[138,598]])
+CW,CH=910,570
+SRC=np.float32([[0,0],[CW,0],[CW,CH],[0,CH]]); DST=np.float32([[98,180],[1002,170],[1002,744],[78,748]])
 PM=cv2.getPerspectiveTransform(SRC,DST)
-MAPC=cv2.resize(K.TEX,(CW,CH),interpolation=cv2.INTER_AREA); g_=cv2.cvtColor(MAPC.astype(np.uint8),cv2.COLOR_BGR2GRAY).astype(np.float32)/255
-dots=np.zeros((CH,CW),np.float32); dots[::5,::5]=1.0; dots=cv2.dilate(dots,np.ones((2,2),np.uint8))
-BASE=np.float32([112,66,30]); land=np.clip(g_*1.6,0,1)
-MAPC=BASE+np.float32([150,120,70])*(land*(0.25+0.75*dots))[...,None]
-HUBC=(CW//2,262); NODE=[(165,112),(715,112),(165,400),(715,400),(440,505)]; NR=92
+NIGHT=cv2.imread(os.path.join(K.HERE,'..','..','assets','earth','earth-night.jpg')).astype(np.float32)
+MAPC=cv2.resize(NIGHT,(CW,CH),interpolation=cv2.INTER_AREA)*np.float32([1.9,1.6,1.25])+np.float32([34,18,6])
+HUBC=(CW//2,268); NODE=[(125,100),(785,100),(125,470),(785,470),(455,482)]; NR=76
 NAVY=np.float32([60,30,8]); WHT=np.float32([252,246,236])
 NLINES=[['WEB','PLATFORMS'],['MOBILE','APPS'],['DESKTOP','SOFTWARE'],['IoT &','EMBEDDED','SYSTEMS'],['AUTOMATION &','CONTROL','SYSTEMS']]
 def _ts(txt,mw):
-    tx,_=K.text_sprite(txt,18,0.04,K.FB); h,w=tx.shape
+    tx,_=K.text_sprite(txt,17,0.04,K.FB); h,w=tx.shape
     if w>mw: tx=cv2.resize(tx,(mw,int(h*mw/w)),interpolation=cv2.INTER_AREA)
     return tx
-NTXT=[[_ts(t,160) for t in L if t] for L in NLINES]
+NTXT=[[_ts(t,118) for t in L if t] for L in NLINES]
 LQ=cv2.imread(os.path.join(K.HERE,'..','..','assets','logo','qayo-texnologiya-logo-qara.png'),cv2.IMREAD_UNCHANGED)
-LOGOC=cv2.resize(LQ[:,:,3],(150,int(LQ.shape[0]*150/LQ.shape[1])),interpolation=cv2.INTER_AREA).astype(np.float32)/255
-ew=np.ones((CH,CW),np.float32); ew[:,:30]*=np.linspace(0,1,30)[None]; ew[:,-30:]*=np.linspace(1,0,30)[None]; ew[:30]*=np.linspace(0,1,30)[:,None]; ew[-45:]*=np.linspace(1,0,45)[:,None]
+LOGOC=cv2.resize(LQ[:,:,3],(124,int(LQ.shape[0]*124/LQ.shape[1])),interpolation=cv2.INTER_AREA).astype(np.float32)/255
+ew=np.ones((CH,CW),np.float32); ew[:,:10]*=np.linspace(0,1,10)[None]; ew[:,-10:]*=np.linspace(1,0,10)[None]; ew[:10]*=np.linspace(0,1,10)[:,None]; ew[-10:]*=np.linspace(1,0,10)[:,None]
 def stamp(c,al,cx,cy,col,o=1.0):
     h,w=al.shape; x0=cx-w//2; y0=cy-h//2; a=al[...,None]*o; c[y0:y0+h,x0:x0+w]=c[y0:y0+h,x0:x0+w]*(1-a)+col*a
 def netcanvas(t):
@@ -55,8 +53,8 @@ def netcanvas(t):
     c=np.clip(c+P*np.clip(bl*1.4+bs*0.9+lay*0.9,0,1.5)[...,None]*0.95+255*np.clip(lay-0.9,0,1)[...,None]*0.5,0,255)
     ph_=ease_out((t-0.25)/0.5)
     if ph_>0:
-        hh=np.zeros((CH,CW),np.float32); cv2.circle(hh,HUBC,100,1.0,-1,cv2.LINE_AA); hh=cv2.GaussianBlur(hh,(0,0),22)*ph_*(0.8+0.2*math.sin(t*3))
-        c=np.clip(c+P*hh[...,None]*0.9,0,255); r=int(95*ph_)
+        hh=np.zeros((CH,CW),np.float32); cv2.circle(hh,HUBC,92,1.0,-1,cv2.LINE_AA); hh=cv2.GaussianBlur(hh,(0,0),22)*ph_*(0.8+0.2*math.sin(t*3))
+        c=np.clip(c+P*hh[...,None]*0.9,0,255); r=int(84*ph_)
         cv2.circle(c,HUBC,r,tuple(float(v) for v in WHT),-1,cv2.LINE_AA); cv2.circle(c,HUBC,r,tuple(float(v) for v in P),4,cv2.LINE_AA)
         if ph_>0.6: stamp(c,LOGOC,HUBC[0],HUBC[1],NAVY)
     for k,(nx,ny) in enumerate(NODE):
@@ -66,20 +64,25 @@ def netcanvas(t):
         c=np.clip(c+P*hh[...,None]*0.9,0,255)
         r=int(NR*(0.6+0.4*o)); cv2.circle(c,(nx,ny),r,tuple(float(v) for v in WHT),-1,cv2.LINE_AA); cv2.circle(c,(nx,ny),r,tuple(float(v) for v in P),4,cv2.LINE_AA)
         if o<0.6: continue
-        tmp=np.zeros((150,150,3),np.uint8); K.icon(tmp,K.ICON[k],75,75,t-ta[k],1.0); m=cv2.resize(tmp.max(axis=2),(52,52),interpolation=cv2.INTER_CUBIC).astype(np.float32)/255
-        L=NTXT[k]; th=sum(x.shape[0]+7 for x in L)-7; stamp(c,np.clip(m*1.3,0,1),nx,ny-58,np.float32([150,70,10])); y=ny+14-th//2+(6 if len(L)==2 else 0)
+        tmp=np.zeros((150,150,3),np.uint8); K.icon(tmp,K.ICON[k],75,75,t-ta[k],1.0); m=cv2.resize(tmp.max(axis=2),(42,42),interpolation=cv2.INTER_CUBIC).astype(np.float32)/255
+        L=NTXT[k]; th=sum(x.shape[0]+7 for x in L)-7; stamp(c,np.clip(m*1.3,0,1),nx,ny-52,np.float32([150,70,10])); y=ny+10-th//2+(4 if len(L)==2 else 0)
         for tx in L:
             stamp(c,tx,nx,y+tx.shape[0]//2,NAVY); y+=tx.shape[0]+6
     return c
-ZM=1.3; H2=int(OH*ZM); Y2=1720-H2; XC=(int(W*ZM)-W)//2; HZ=1.2; HW,HH=int(CW*HZ),int(CH*HZ); HX=(W-HW)//2; HY=440
-vm2=cv2.resize(vm,(W,H2)); ewz=cv2.resize(ew,(HW,HH))
+ZM=2.0; RY0,RH=100,1100; RXC=498; REGY=470
+xs_=np.arange(W,dtype=np.float32); fx=np.clip(np.minimum((xs_-10)/110,(1030-xs_)/40),0.05,1.0); fy=np.ones(RH,np.float32); fy[:70]=np.linspace(0,1,70); fy[-110:]=np.linspace(1,0,110); vmR=fy[:,None]*fx[None]; vmR[:150,860:]*=np.linspace(1,0.08,W-860)[None,:]*np.linspace(0.08,1,150)[::-1][:,None]**0+0.0
+_cache={}
+def offz(i):
+    if i not in _cache:
+        _cache[i]=cv2.resize(OFF[i],(int(W*ZM),int(OH*ZM)),interpolation=cv2.INTER_CUBIC)[RY0:RY0+RH,RXC:RXC+W].astype(np.float32)
+        if len(_cache)>8: _cache.pop(next(iter(_cache)))
+    return _cache[i]
 def shotA(t):
-    img=K.bg.copy(); a=ease_out(t/0.5); f=OFF[min(int(t*30),len(OFF)-1)].astype(np.float32); sa=ease_out((t-0.2)/0.6)
-    z=cv2.resize(f,(int(W*ZM),H2),interpolation=cv2.INTER_CUBIC)[:,XC:XC+W]*0.8
-    m=(vm2*a)[...,None]; img[Y2:Y2+H2]=img[Y2:Y2+H2]*(1-m)+z*m
-    c=cv2.resize(netcanvas(t),(HW,HH),interpolation=cv2.INTER_CUBIC); wm=(ewz*0.97*sa)[...,None]
-    img[HY:HY+HH,HX:HX+HW]=img[HY:HY+HH,HX:HX+HW]*(1-wm)+c*wm
+    img=K.bg.copy(); a=ease_out(t/0.5); i=min(OFF_N-1,36+int(t/5.0*(OFF_N-37))); z=offz(i); sa=ease_out((t-0.2)/0.6)
+    wc=cv2.warpPerspective(netcanvas(t),PM,(W,RH)); wm=cv2.warpPerspective(ew*sa,PM,(W,RH))[...,None]
+    r=z*(1-wm)+wc*wm; m=(vmR*a)[...,None]; img[REGY:REGY+RH]=img[REGY:REGY+RH]*(1-m)+r*m
     return img
+OFF_N=len(OFF)
 # düz xəritə
 MW_,MH_,MY0=1080,540,633
 MAP=cv2.resize(K.TEX,(MW_,MH_),interpolation=cv2.INTER_AREA)*np.float32([1.0,0.92,0.80])*0.80
