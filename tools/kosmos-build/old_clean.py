@@ -158,9 +158,12 @@ if __name__=='__main__':
         for i in [int(x) for x in sys.argv[4].split(',')]: cv2.imwrite(f'{OUT}/c_{i:04d}.png',proc(cv2.imread(f'{tmp}/f_{i:04d}.png'),i))
     else:
         HOLD_AT,HOLD_N=276,60      # xəritə tam açılandan sonra ~2 san nəfəs (kadr 276-da, çox yavaş sürüşmə)
-        aud=(f"[1:a]asplit=3[a0][a1][a2];[a0]atrim=0:{HOLD_AT/30},asetpts=PTS-STARTPTS[x0];"
-             f"[a1]atrim={HOLD_AT/30-2.0}:{HOLD_AT/30},asetpts=PTS-STARTPTS,volume=0.6,afade=t=in:d=0.4,afade=t=out:d=0.5[x1];"
-             f"[a2]atrim={HOLD_AT/30},asetpts=PTS-STARTPTS[x2];[x0][x1][x2]concat=n=3:v=0:a=1[aout]")
+        # Səs: söz təkrarlanmasın — boşluq yalnız musiqidən (9.45 san-dan sonra səsin sözü bitir) doldurulur
+        T=HOLD_AT/30+0.25
+        aud=(f"[1:a]asplit=4[a0][a1][a2][a3];[a0]atrim=0:{T},asetpts=PTS-STARTPTS[x0];"
+             f"[a1]atrim={T}:{T+1.15},asetpts=PTS-STARTPTS[f1];[a2]atrim={T}:{T+1.15},asetpts=PTS-STARTPTS[f2];"
+             f"[a3]atrim={T},asetpts=PTS-STARTPTS[x2];"
+             "[x0][f1]acrossfade=d=0.1[m1];[m1][f2]acrossfade=d=0.1[m2];[m2][x2]acrossfade=d=0.1[aout]")
         cmd=['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','bgr24','-s','1080x1920','-r','30','-i','-','-i',SRC,
              '-filter_complex',aud,'-map','0:v','-map','[aout]','-c:v','libx264','-preset','slow','-crf','17','-pix_fmt','yuv420p','-r','30','-c:a','aac','-b:a','192k','-shortest','-movflags','+faststart',OUT]
         p=subprocess.Popen(cmd,stdin=subprocess.PIPE)
