@@ -122,17 +122,18 @@ for i,c in enumerate(COUNTRIES):
     chips.append(sc)
 def chip_pos(i): r,c=divmod(i,2); return PX0+14+c*(CW+GX),PY0+20+r*(CH+GY)
 pm=Image.new('RGBA',(W,H),(0,0,0,0)); ImageDraw.Draw(pm).rounded_rectangle([PX0,PY0,W-PX0,PY0+450],radius=36,fill=(3,14,38,170),outline=(88,216,245,255),width=3); panel=np.asarray(pm).astype(np.float32)
-MODS=PACK.get('modules',[['WEB','PLATFORMALAR'],['KOMPYUTER','PROQRAMLARI'],['AĞILLI CİHAZ','SİSTEMLƏRİ'],['MOBİL','TƏTBİQLƏR']]); SIDES=[('L',0),('R',0),('L',1),('R',1)]
+MODS=PACK.get('modules',[['WEB','PLATFORMALAR'],['MOBİL','TƏTBİQLƏR'],['KOMPYUTER','PROQRAMLARI'],['AĞILLI CİHAZ','SİSTEMLƏRİ']]); ICON=[0,3,1,2]; SIDES=[('L',0),('R',0),('L',1),('R',1)]
 BR=78; MC=[(125,575),(955,575),(125,1105),(955,1105)]; mod_lab=[]
 bd=Image.new('RGBA',(2*BR+6,2*BR+6),(0,0,0,0)); ImageDraw.Draw(bd).ellipse([2,2,2*BR+3,2*BR+3],fill=(6,19,39,245),outline=(120,230,255,255),width=4); badge=np.asarray(bd).astype(np.float32)
 HS=2*BR+160; hl=np.zeros((HS,HS),np.float32); cv2.circle(hl,(HS//2,HS//2),BR+2,1.0,5,cv2.LINE_AA); halo=np.clip(cv2.GaussianBlur(hl,(0,0),14)*3.2+cv2.GaussianBlur(hl,(0,0),5)*1.2,0,1.3)
 LWB=210
-for a_,b_ in MODS:
-    sc=np.zeros((90,LWB,4),np.float32)
+for n_,(a_,b_) in enumerate(MODS):
+    pl=Image.new('RGBA',(LWB,100),(0,0,0,0)); ImageDraw.Draw(pl).rounded_rectangle([14,0,LWB-15,95],radius=18,fill=(4,16,36,215),outline=(88,216,245,150),width=2); sc=np.asarray(pl).astype(np.float32).copy()
+    nt_,_=text_sprite('%02d'%(n_+1),22,0.12,FB); nh,nw=nt_.shape; nx=(LWB-nw)//2; aa=nt_[...,None]; sc[0:nh,nx:nx+nw,:3]=sc[0:nh,nx:nx+nw,:3]*(1-aa)+np.float32([88,216,245])*aa; sc[0:nh,nx:nx+nw,3]=np.maximum(sc[0:nh,nx:nx+nw,3],nt_*255)
     for j,tt in enumerate((a_,b_)):
         tx,_=text_sprite(tt,24,0.06,FB); th,tw=tx.shape
         if tw>LWB-6: tx=cv2.resize(tx,(LWB-6,th),interpolation=cv2.INTER_AREA); tw=LWB-6
-        y0=j*31; x0=(LWB-tw)//2; sc[y0:y0+th,x0:x0+tw,:3]=255; sc[y0:y0+th,x0:x0+tw,3]=np.maximum(sc[y0:y0+th,x0:x0+tw,3],tx*255)
+        y0=30+j*31; x0=(LWB-tw)//2; aa=tx[...,None]; sc[y0:y0+th,x0:x0+tw,:3]=sc[y0:y0+th,x0:x0+tw,:3]*(1-aa)+255*aa; sc[y0:y0+th,x0:x0+tw,3]=np.maximum(sc[y0:y0+th,x0:x0+tw,3],tx*255)
     mod_lab.append(sc)
 def blit(img,sc,x,y,o):
     h,w=sc.shape[:2]; xs,xe=max(0,x),min(W,x+w); ys,ye=max(0,y),min(H,y+h)
@@ -167,7 +168,7 @@ def draw_mods(img,t):
         hx0,hy0=cx-HS//2,cy-HS//2; xs,xe=max(0,hx0),min(W,hx0+HS); ys,ye=max(0,hy0),min(H,hy0+HS)
         hh=halo[ys-hy0:ye-hy0,xs-hx0:xe-hx0,None]*o*pul; img[ys:ye,xs:xe]=np.clip(img[ys:ye,xs:xe]+np.float32(PRIM)*hh*0.95,0,255)
         blit(img,badge,cx-BR-3,cy-BR-3,o)
-        tmp=np.zeros((150,150,3),np.uint8); icon(tmp,k,75,75,tt,1.0); tmp=cv2.resize(tmp,(210,210),interpolation=cv2.INTER_CUBIC); ic=tmp.astype(np.float32)*o
+        tmp=np.zeros((150,150,3),np.uint8); icon(tmp,ICON[k],75,75,tt,1.0); tmp=cv2.resize(tmp,(210,210),interpolation=cv2.INTER_CUBIC); ic=tmp.astype(np.float32)*o
         ys2,xs2=cy-105,cx-105; xa,xb=max(0,xs2),min(W,xs2+210)
         if xb>xa: img[ys2:ys2+210,xa:xb]=np.maximum(img[ys2:ys2+210,xa:xb],ic[:,xa-xs2:xb-xs2])
         lab=mod_lab[k]; blit(img,lab,cx-LWB//2,cy+BR+14,o)
