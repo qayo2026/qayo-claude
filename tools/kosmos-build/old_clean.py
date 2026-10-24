@@ -158,10 +158,12 @@ if __name__=='__main__':
         for i in [int(x) for x in sys.argv[4].split(',')]: cv2.imwrite(f'{OUT}/c_{i:04d}.png',proc(cv2.imread(f'{tmp}/f_{i:04d}.png'),i))
     else:
         HOLD_AT,HOLD_N=276,27      # xəritə tam açılandan sonra ~2 san nəfəs (kadr 276-da, çox yavaş sürüşmə)
-        # Səs: söz təkrarlanmasın; boşluq yalnız musiqidən, uzun (0.4 san) yumşaq keçidlə doldurulur
-        T=9.45; E=HOLD_N/30.0; XF=0.4; D=E+XF
-        aud=(f"[1:a]asplit=2[a0][a1];[a0]atrim=0:{T+D},asetpts=PTS-STARTPTS[x0];[a1]atrim={T},asetpts=PTS-STARTPTS[x2];"
-             f"[x0][x2]acrossfade=d={XF}:c1=qsin:c2=qsin[aout]")
+        # Səs: heç bir iki musiqi anı üst-üstə qarışdırılmır. Söz bitəndən (9.45) logo zərbəsinə (10.75) qədər
+        # musiqi parçası tembri/ucalığı pozmadan YAVAŞ uzadılır (atempo) — calaq, qarışma, təkrar yoxdur.
+        T0,T1=9.45,10.75; E=HOLD_N/30.0; XF=0.02; tempo=(T1-T0)/(T1-T0+E+2*XF)
+        aud=(f"[1:a]asplit=3[a0][a1][a2];[a0]atrim=0:{T0},asetpts=PTS-STARTPTS[x0];"
+             f"[a1]atrim={T0}:{T1},asetpts=PTS-STARTPTS,rubberband=tempo={tempo:.5f}:pitch=1:transients=smooth:detector=soft:window=long[m];[a2]atrim={T1},asetpts=PTS-STARTPTS[x2];"
+             f"[x0][m]acrossfade=d={XF}[p];[p][x2]acrossfade=d={XF}[aout]")
         cmd=['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','bgr24','-s','1080x1920','-r','30','-i','-','-i',os.environ.get('KOSMOS_AUDIO',SRC),
              '-filter_complex',aud,'-map','0:v','-map','[aout]','-c:v','libx264','-preset','slow','-crf','17','-pix_fmt','yuv420p','-r','30','-c:a','aac','-b:a','192k','-shortest','-movflags','+faststart',OUT]
         p=subprocess.Popen(cmd,stdin=subprocess.PIPE)
