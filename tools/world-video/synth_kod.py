@@ -23,18 +23,22 @@ NAMES={c[0]:T(c[0],c[1]) for c in COUNTRIES}
 HUB=(COUNTRIES[0][3],COUNTRIES[0][4])
 # ---------- qlobus
 TEX=cv2.imread(os.path.join(HERE,'..','..','assets','earth','earth-blue-marble.jpg')).astype(np.float32)
+NIGHT=cv2.imread(os.path.join(HERE,'..','..','assets','earth','earth-night.jpg')).astype(np.float32)
 TH,TW=TEX.shape[:2]; R=370; CX,CY=540,830; PAD=150; S=2*(R+PAD)
 gx,gy=np.meshgrid(np.arange(S)-S/2,np.arange(S)-S/2); NX=gx/R; NY=-gy/R; D2=NX**2+NY**2; INS=D2<1.0; NZ=np.sqrt(np.clip(1-D2,0,1)); DD=np.sqrt(D2)
 PHI0=math.radians(22)
 # atmosfer
 atm=np.zeros((S,S),np.float32); out=(DD>=1)&(DD<1.25); atm[out]=np.exp(-((DD[out]-1)/0.045)); atm_in=(1-NZ)**3*INS
+SUN=np.array([0.95,0.15,0.30]); SUN/=np.linalg.norm(SUN); DAY=np.clip((NX*SUN[0]+NY*SUN[1]+NZ*SUN[2])*1.4+0.18,0,1)*INS
 LIGHT=np.clip(0.30+0.85*NZ**0.55,0,1.15)*INS
 def lam0(t): return 78-40*ease_io(t/DUR)
 def globe(t):
     l0=math.radians(lam0(t)); lat=np.arcsin(np.clip(NY*math.cos(PHI0)+NZ*math.sin(PHI0),-1,1)); lon=l0+np.arctan2(NX,NZ*math.cos(PHI0)-NY*math.sin(PHI0))
     u=((np.degrees(lon)+180)%360)/360*(TW-1); v=(90-np.degrees(lat))/180*(TH-1)
     img=cv2.remap(TEX,u.astype(np.float32),v.astype(np.float32),cv2.INTER_LINEAR)
-    img=img*np.float32([1.05,0.98,0.88])*LIGHT[...,None]     # soyuq (mavi) ton
+    nt=cv2.remap(NIGHT,u.astype(np.float32),v.astype(np.float32),cv2.INTER_LINEAR)
+    nt=np.clip(nt*np.float32([0.55,1.25,1.9]),0,255)
+    img=img*np.float32([1.05,0.98,0.88])*LIGHT[...,None]*(0.22+0.78*DAY[...,None])+nt*((1-DAY)**1.5)[...,None]*0.9
     img*=INS[...,None]
     pr=np.float32(PRIM); a=atm[...,None]*1.1; img=img+pr*a*0.9+pr*(atm_in[...,None]*0.55)
     return np.clip(img,0,255)
@@ -64,6 +68,9 @@ def draw_arcs(img,t):
         for i in range(1,len(sp)):
             if sp[i][2] and sp[i-1][2]:
                 cv2.line(lay,(int(sp[i-1][0]-ox),int(sp[i-1][1]-oy)),(int(sp[i][0]-ox),int(sp[i][1]-oy)),1.0,3,cv2.LINE_AA)
+        if 0<p<1.6:
+            j=int((len(pts)-1)*min(1.0,((t-t0)*0.9)%1.0*1.0)) if False else int((len(pts)-1)*min(1.0,ease_out(min(p,1.0))))
+            if sp and sp[min(j,len(sp)-1)][2]: cv2.circle(head,(int(sp[min(j,len(sp)-1)][0]-ox),int(sp[min(j,len(sp)-1)][1]-oy)),5,1.0,-1,cv2.LINE_AA)
         if m>=len(pts)-1 and sp[-1][2]:
             e=(int(sp[-1][0]-ox),int(sp[-1][1]-oy)); pu=(t-t0-T_GROW)
             cv2.circle(head,e,7,1.0,-1,cv2.LINE_AA)
