@@ -19,7 +19,7 @@ Mənbə videolar (Gemini): A77E9340 (peyk bucağı, şüa), BF13C375 (zəncir mo
 Səs/söz: bizim, öz mühərrikimiz; mətn Anarın Notes-undan gələcək.
 
 ## Açıq məsələlər (24.10 14:38)
-- Xəritədə yalnız 6 şəhər adı (Anar: "5-6 olsa bəs edir", bütün rayonlar yox): Bakı, Gəncə, Şəki, Mingəçevir, Lənkəran, Naxçıvan — Anar təsdiqi gözləyir
+- Xəritə adları: Anar istinad şəkli (siyahı olduğu kimi, heç biri çıxarılmır), Azərbaycan yazılışı ilə: Bakı, Sumqayıt, Xaçmaz, Şəki, Şəmkir, Gəncə, Mingəçevir, Yevlax, Ağdam, Xankəndi, Cəlilabad, Lənkəran, Astara, Naxçıvan + "Laki" (düzgün Azərbaycan yazılışı Anardan soruşulur). Sıxlıq çox olarsa sınaq videosunda baxılır
 - Səs mətni: Anarın Notes-undan ("SESLENDİRME SOZ") — gəlməyib. Səs mühərriki: öz serverimizdə, sınaq nümunələri lazımdır
 - Qanad yazısı: qanad künclərinin izlənməsi (kadr-kadr) lazımdır
 - Quruluş mərhələsi başlamayıb; Anar "Başla" deməlidir
