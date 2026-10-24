@@ -117,7 +117,7 @@ def draw_mods(img,t):
         o=ease_out((t-(0.9+k*0.25))/0.4)
         if o<=0: continue
         x=30 if side=='L' else W-30-MW; x+=int((1-o)*(-80 if side=='L' else 80)); blit(img,mod_sp[k],x,MY[row],o)
-HEAD=[(PACK.get('world',{}).get('brand','QAYO'),150,0.06,FBL,WHITE,168,0.0),(T('title','QAYO QLOBAL BİZNES ŞƏBƏKƏSİ'),40,0.04,FB,WHITE,300,0.5),
+HEAD=[(PACK.get('world',{}).get('brand','QAYO'),150,0.06,FBL,WHITE,168,0.0),(T('title','QAYO TEXNOLOGİYA'),40,0.04,FB,WHITE,300,0.5),
       (T('sub1','RƏQƏMSAL BİZNES PLATFORMASI'),30,0.12,FB,CYAN,362,0.9),(T('sub2','SİSTEMLƏR · DATA · BİZNES PAKETLƏRİ'),26,0.14,FB,CYAN,410,1.2)]
 spr=[]
 for t_,s,tr,f,col,y,st in HEAD:
