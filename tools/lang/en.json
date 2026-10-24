@@ -20,5 +20,23 @@
   "script": null,
   "file": null,
   "note": "Səs mətni əvvəl Azərbaycan dilində təsdiqlənir (Gemini səsindən transkript), sonra tərcümə + öz səs mühərriki ilə səsləndirmə; tərcümə mətni insan tərəfindən yoxlanır."
- }
+ },
+ "modules": [
+  [
+   "WEB",
+   "PLATFORMS"
+  ],
+  [
+   "MOBILE",
+   "APPS"
+  ],
+  [
+   "DESKTOP",
+   "SOFTWARE"
+  ],
+  [
+   "IoT & EMBEDDED",
+   "SYSTEMS"
+  ]
+ ]
 }

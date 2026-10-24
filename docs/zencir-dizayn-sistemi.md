@@ -41,3 +41,9 @@ Halqalar arasında **bir ortaq element** keçir: ağ-mavi işıq xətti (şüa /
 | 04–07 | başlanmayıb (hər biri bu sistemlə) | — | — |
 
 Qayda: DoD-dən keçməyən halqa tamam sayılmır və növbəti halqaya keçilmir.
+
+## Proqram sahəsinin 4 qrupu — ad qaydası (2026-10-24)
+Beynəlxalq praktika (Leobit: "By Platform" = Desktop · Web · Mobile · Embedded; ICS: "IoT & Embedded Software"; Azərbaycan mənbələri: "Əşyaların interneti"). Ad PLATFORMA ilə verilir, "kompyuter proqramları" kimi ümumi söz işlənmir.
+01 VEB PLATFORMALAR · 02 MOBİL TƏTBİQLƏR · 03 MASAÜSTÜ PROQRAMLAR · 04 IoT VƏ GÖMÜLÜ SİSTEMLƏR
+(en: WEB PLATFORMS · MOBILE APPS · DESKTOP SOFTWARE · IoT & EMBEDDED SYSTEMS). Ad paketi: tools/lang/*.json "modules". Ana başlıq QAYO TEXNOLOGİYA · SOFTWARE & INTELLIGENCE dəyişmir.
+Açıq: "gömülü sistemlər" Azərbaycan terminini peşəkar redaktor təsdiq etməlidir.
