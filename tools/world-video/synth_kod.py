@@ -56,7 +56,8 @@ def arc_pts_(a,b,n=70):
         s=i/n; v=(math.sin((1-s)*ang)*va+math.sin(s*ang)*vb)/max(math.sin(ang),1e-6); v/=np.linalg.norm(v)
         lon=math.degrees(math.atan2(v[1],v[0])); lat=math.degrees(math.asin(np.clip(v[2],-1,1))); r=1+(0.10+0.22*ang/math.pi)*math.sin(math.pi*s); pts.append((lon,lat,r))
     return pts
-T_ARC0,T_STEP,T_GROW=4.6,0.62,1.0
+T_ARC0,T_STEP,T_GROW=4.6,0.9,0.7
+T_FIN=4.6+8*0.9+0.7+0.4
 _APC={}
 def arc_pts(a,b,n=70):
     key=(a,b)
@@ -71,10 +72,11 @@ def draw_arcs(img,t):
         t0=T_ARC0+(k-1)*T_STEP; p=(t-t0)/T_GROW
         if p<=0: continue
         pts=arc_pts(HUB,(COUNTRIES[k][3],COUNTRIES[k][4])); m=int(len(pts)*min(1.0,ease_out(p)))
+        age=t-t0-T_GROW; f=1.0 if p<1 else (max(0.28,1-0.72*min(1.0,age/0.8)) if t<T_FIN else 0.28+0.72*ease_out((t-T_FIN)/0.8))
         sp=[proj(l,a,t,r) for l,a,r in pts[:max(m,1)]]
         for i in range(1,len(sp)):
             if sp[i][2] and sp[i-1][2]:
-                cv2.line(lay,(int(sp[i-1][0]-ox),int(sp[i-1][1]-oy)),(int(sp[i][0]-ox),int(sp[i][1]-oy)),1.0,3,cv2.LINE_AA)
+                cv2.line(lay,(int(sp[i-1][0]-ox),int(sp[i-1][1]-oy)),(int(sp[i][0]-ox),int(sp[i][1]-oy)),f,3,cv2.LINE_AA)
         if 0<p<1.6:
             j=int((len(pts)-1)*min(1.0,((t-t0)*0.9)%1.0*1.0)) if False else int((len(pts)-1)*min(1.0,ease_out(min(p,1.0))))
             if sp and sp[min(j,len(sp)-1)][2]: cv2.circle(head,(int(sp[min(j,len(sp)-1)][0]-ox),int(sp[min(j,len(sp)-1)][1]-oy)),5,1.0,-1,cv2.LINE_AA)
@@ -83,8 +85,8 @@ def draw_arcs(img,t):
             cv2.circle(head,e,7,1.0,-1,cv2.LINE_AA)
             if 0<pu<1.4: cv2.circle(lay,e,int(8+30*ease_out(pu/1.4)),float(1-pu/1.4),2,cv2.LINE_AA)
         elif sp and sp[-1][2]: cv2.circle(head,(int(sp[-1][0]-ox),int(sp[-1][1]-oy)),6,1.0,-1,cv2.LINE_AA)
-        if p>=1.0:
-            ph=((t-t0-T_GROW)*0.55+k*0.173)%1.0; q=pts[int(ph*(len(pts)-1))]; qx,qy,qv=proj(q[0],q[1],t,q[2])
+        if t>=T_FIN:
+            ph=((t-T_FIN)*0.55+k*0.173)%1.0; q=pts[int(ph*(len(pts)-1))]; qx,qy,qv=proj(q[0],q[1],t,q[2])
             if qv: cv2.circle(head,(int(qx-ox),int(qy-oy)),5,1.0,-1,cv2.LINE_AA)
     hx,hy,hv=proj(HUB[0],HUB[1],t)
     for k in range(4):
@@ -195,19 +197,14 @@ def compose(i):
     draw_arcs(reg,t)
     po=ease_out((t-T_PANEL)/0.5)
     if po>0: a=panel[:,:,3:4]/255*po; img[:]=img*(1-a)+panel[:,:,[2,1,0]]*a
-    hx,hy,hv=proj(HUB[0],HUB[1],t)
     for k in range(len(COUNTRIES)):
         tk=T_PANEL+0.4 if k==0 else land_t(k)
-        u=(t-tk)/0.7
+        u=(t-tk)/0.35
         if u<=0: continue
-        if k==0: p0=(hx,hy)
-        else:
-            px,py,pv=proj(COUNTRIES[k][3],COUNTRIES[k][4],tk); p0=(px,py) if pv else (hx,hy)
-        ex,ey=chip_pos(k); e=ease_io(min(1.0,u)); sx0,sy0=p0[0]-CW/2,p0[1]-CH/2
-        x=int(sx0+(ex-sx0)*e); y=int(sy0+(ey-sy0)*e); o=ease_out(u/0.25)
-        fl=max(0.0,1-(t-tk-0.7)/0.5)*0.55 if u>=1 else 0.0
-        sc=chips[k].copy(); sc[:,:,:3]=np.clip(sc[:,:,:3]+np.float32([90,70,20])*fl,0,255) if fl>0 else sc[:,:,:3]
-        blit(img,sc,x,y,o)
+        x,y=chip_pos(k); o=ease_out(u); fl=max(0.0,1-(t-tk-0.35)/0.6)*0.6
+        sc=chips[k].copy()
+        if fl>0: sc[:,:,:3]=np.clip(sc[:,:,:3]+np.float32([20,70,95])*fl,0,255)
+        blit(img,sc,x+int((1-o)*-40),y,o)
     draw_mods(img,t); draw_head(img,t)
     img*=ease_out(t/0.4)
     return np.clip(img,0,255).astype(np.uint8)
