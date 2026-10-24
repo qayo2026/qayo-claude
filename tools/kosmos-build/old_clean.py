@@ -162,7 +162,7 @@ if __name__=='__main__':
         T=9.45; E=HOLD_N/30.0; XF=0.4; D=E+XF
         aud=(f"[1:a]asplit=2[a0][a1];[a0]atrim=0:{T+D},asetpts=PTS-STARTPTS[x0];[a1]atrim={T},asetpts=PTS-STARTPTS[x2];"
              f"[x0][x2]acrossfade=d={XF}:c1=qsin:c2=qsin[aout]")
-        cmd=['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','bgr24','-s','1080x1920','-r','30','-i','-','-i',SRC,
+        cmd=['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','bgr24','-s','1080x1920','-r','30','-i','-','-i',os.environ.get('KOSMOS_AUDIO',SRC),
              '-filter_complex',aud,'-map','0:v','-map','[aout]','-c:v','libx264','-preset','slow','-crf','17','-pix_fmt','yuv420p','-r','30','-c:a','aac','-b:a','192k','-shortest','-movflags','+faststart',OUT]
         p=subprocess.Popen(cmd,stdin=subprocess.PIPE)
         cache={}
