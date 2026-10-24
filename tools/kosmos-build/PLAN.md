@@ -23,3 +23,9 @@ Səs/söz: bizim, öz mühərrikimiz; mətn Anarın Notes-undan gələcək.
 - Səs mətni: Anarın Notes-undan ("SESLENDİRME SOZ") — gəlməyib. Səs mühərriki: öz serverimizdə, sınaq nümunələri lazımdır
 - Qanad yazısı: qanad künclərinin izlənməsi (kadr-kadr) lazımdır
 - Quruluş mərhələsi başlamayıb; Anar "Başla" deməlidir
+
+## Rəng standartı (Anar, 24.10 14:43)
+- Xəritə TƏK rəngdədir: istinad şəklinin 3-4 rəngi götürülmür.
+- Əsas rəng = KOSMOS halqasının mavisi (V21 son kadrdan ölçülüb) ≈ #58D8F5; fon ≈ #000818; yazılar ağ.
+- Xəritədə yaşıl və qırmızı yoxdur; parlaqlıq fərqi (daha açıq/daha tünd mavi) ilə vurğu verilir.
+- Qırmızı yalnız marka elementi kimi (qanaddakı xətt).
