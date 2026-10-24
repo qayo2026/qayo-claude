@@ -11,7 +11,7 @@ def rd(path): return cv2.imread(path)
 def peyk(i): return rd(f'{WORK}/peyk/p_{i:04d}.png')
 def v5(i): return rd(f'{WORK}/V5/v_{i:04d}.png')
 # vaxt xətti
-S1=127; S2_START=127; S2=12; S3_START=133; S3=36; S4_START=161; S4=180; S5_START=341; S5=84
+S1=127; S2_START=127; S2=12; S3_START=133; S3=42; S4_START=167; S4=168; S5_START=335; S5=84
 TOTAL=S5_START+S5
 def sc1(g):
     i=g+1; ox=60+80*ease_io(i/110.0)
@@ -24,8 +24,14 @@ def sc2(g):
     if j<5: k=1-(j+1)/6.0; img=img*(1-k)+WHITE_F*k
     return img
 def sc3(g):
-    j=g-S3_START; return window_composite(v5(1+j),100,g)
-def sc4(g): return mapscene.render(g-S4_START).astype(np.float32)
+    # tam ekran: şüa göydən düşür (qorunan kadr), zərbə nöqtəsi xəritənin hub-ı ilə üst-üstə
+    j=g-S3_START; v=v5(1+j); sc=1920*1.0625/720.0
+    r=cv2.resize(v,(int(1280*sc),int(720*sc)),interpolation=cv2.INTER_CUBIC)
+    x0=int(r.shape[1]/2-540+33); y0=120
+    c=r[y0:y0+1920,x0:x0+1080].astype(np.float32)
+    k=min(1.0,(j+1)/4.0)   # S2 ilə yumşaq keçid artıq assemble-da var
+    return c
+def sc4(g): return mapscene.render(g-S4_START+12).astype(np.float32)   # şüa artıq yerə çatıb: S3 ilə davamlıdır
 def sc5(g): return logo_scene(g-S5_START).astype(np.float32)
 def frame(g):
     parts=[]
@@ -41,7 +47,7 @@ def frame(g):
     if g>=S4_START and g<S5_START:
         m=sc4(g)
         if g<S3_START+S3:   # S3/S4 qarışması (8 kadr)
-            w=(g-S4_START+1)/9.0; m=sc3(g)*(1-w)+m*w
+            w=(g-S4_START+1)/6.0; m=sc3(g)*(1-w)+m*w
         img=m
     if g>=S5_START: img=sc5(g)
     return np.clip(img,0,255).astype(np.uint8)
