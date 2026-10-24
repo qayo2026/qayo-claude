@@ -8,6 +8,17 @@ from PIL import Image, ImageDraw
 from synth_kod import *
 os.makedirs(OUTD,exist_ok=True)
 DURM=15.0; BY=600
+# --- başlıq: rəsmi loqonun öz piksellərindən üfüqi xətt (QAYO + TEXNOLOGİYA) ---
+_L=cv2.imread(os.path.join(K.HERE,'..','..','assets','logo','qayo-texnologiya-logo-beyaz.png'),cv2.IMREAD_UNCHANGED)[:,:,3].astype(np.float32)/255
+def _crop(a):
+    r=np.where((a>0.05).any(1))[0]; c=np.where((a>0.05).any(0))[0]; return a[r[0]:r[-1]+1,c[0]:c[-1]+1]
+_q=_crop(_L[0:700]); _t=_crop(_L[900:1221])
+_qh=112; _qw=int(_q.shape[1]*_qh/_q.shape[0]); _q=cv2.resize(_q,(_qw,_qh),interpolation=cv2.INTER_AREA)
+_tw=470; _th=int(_t.shape[0]*_tw/_t.shape[1]); _t=cv2.resize(_t,(_tw,_th),interpolation=cv2.INTER_AREA)
+_gap=30; _cv=np.zeros((_qh,_qw+_gap+_tw),np.float32); _cv[:,:_qw]=_q; _cv[_qh-_th:,_qw+_gap:]=_t
+K.LA=_cv; K.LW=_cv.shape[1]; K.LH=_cv.shape[0]; K.LCY=225
+K.spr[:]=[(a_,b_,c_,d_,e_,352,g_) for (a_,b_,c_,d_,e_,f_,g_) in K.spr]
+
 # ofis kadrları
 OFF=[cv2.imread(os.path.join(OFD,f)) for f in sorted(os.listdir(OFD)) if f.endswith('.png')]
 OH=OFF[0].shape[0]
@@ -39,12 +50,13 @@ def stamp(c,al,cx,cy,col,o=1.0):
 def glass(c,cx,cy,r,t,k,o=1.0):
     R=r+3; sz=2*R+1; y,x=np.mgrid[-R:R+1,-R:R+1].astype(np.float32); d=np.sqrt(x*x+y*y)/r
     mask=np.clip((1.0-d)*r/1.5,0,1)
-    top=np.float32([252,248,242]); bot=np.float32([232,196,120]); u=np.clip((y/r+1)/2,0,1)[...,None]
+    top=np.float32([250,243,232]); bot=np.float32([200,138,52]); u=np.clip((y/r+1)/2,0,1)[...,None]
     col=top*(1-u)+bot*u
-    rim=np.clip((d-0.72)/0.28,0,1)[...,None]**2; col=col*(1-rim*0.55)+np.float32(K.PRIM)*rim*0.55
+    rim=np.clip((d-0.8)/0.2,0,1)[...,None]**1.6; col=col*(1-rim*0.32)+np.float32(K.PRIM)*rim*0.5
+    ol=np.clip(1-np.abs(d-0.975)/0.03,0,1)[...,None]; col=col+(255-col)*ol*0.7
     # üst parıltı (specular)
     sx,sy=(x+0.36*r)/(0.58*r),(y+0.52*r)/(0.26*r); sp=np.exp(-(sx*sx+sy*sy)*1.6)[...,None]
-    col=col+(255-col)*np.clip(sp*0.95,0,1)
+    col=col+(255-col)*np.clip(sp*0.8,0,1)
     # alt əks
     rf=np.clip(1-np.abs(d-0.8)/0.12,0,1)*np.clip((y/r-0.35)/0.5,0,1); col=col+np.float32(K.PRIM)[None,None]*rf[...,None]*0.5
     # süzülən işıq zolağı
@@ -70,11 +82,11 @@ def netcanvas(t):
     for j in range(3):
         q=((t*0.5+j/3.0)%1.0); cv2.circle(lay,HUBC,int(70+90*q),float((1-q)*0.7),2,cv2.LINE_AA)
     bl=cv2.GaussianBlur(lay,(0,0),8); bs=cv2.GaussianBlur(lay,(0,0),2.5)
-    c=np.clip(c+P*np.clip(bl*1.4+bs*0.9+lay*0.9,0,1.5)[...,None]*0.95+255*np.clip(lay-0.9,0,1)[...,None]*0.5,0,255)
+    c=np.clip(c+P*np.clip(bl*0.6+bs*0.45+lay*0.55,0,1.1)[...,None]*0.8+255*np.clip(lay-0.9,0,1)[...,None]*0.18,0,255)
     ph_=ease_out((t-0.25)/0.5)
     if ph_>0:
         hh=np.zeros((CH,CW),np.float32); cv2.circle(hh,HUBC,92,1.0,-1,cv2.LINE_AA); hh=cv2.GaussianBlur(hh,(0,0),22)*ph_*(0.8+0.2*math.sin(t*3))
-        c=np.clip(c+P*hh[...,None]*0.9,0,255); r=int(84*ph_)
+        c=np.clip(c+P*hh[...,None]*0.35,0,255); r=int(84*ph_)
         glass(c,HUBC[0],HUBC[1],r,t,9)
         for j in range(6):
             an=t*0.8+j*math.pi/3; cv2.circle(c,(int(HUBC[0]+112*math.cos(an)),int(HUBC[1]+112*math.sin(an))),4,tuple(float(v) for v in WHT),-1,cv2.LINE_AA)
@@ -83,7 +95,8 @@ def netcanvas(t):
         o=ease_out((t-ta[k])/0.4)
         if o<=0: continue
         hh=np.zeros((CH,CW),np.float32); cv2.circle(hh,(nx,ny),NR+6,1.0,-1,cv2.LINE_AA); hh=cv2.GaussianBlur(hh,(0,0),14)*o*(0.75+0.25*math.sin((t-ta[k])*3))
-        c=np.clip(c+P*hh[...,None]*0.9,0,255)
+        c=np.clip(c+P*hh[...,None]*0.3,0,255)
+        shd=np.zeros((CH,CW),np.float32); cv2.circle(shd,(nx+5,ny+int(5*math.sin(t*1.7+k*1.3))+20),NR-4,1.0,-1,cv2.LINE_AA); shd=cv2.GaussianBlur(shd,(0,0),13)*o; c=c*(1-0.6*shd)[...,None]
         r=int(NR*(0.6+0.4*o))+int(2*math.sin(t*2.1+k)); ny=ny+int(5*math.sin(t*1.7+k*1.3)); glass(c,nx,ny,r,t,k,o)
         if o<0.6: continue
         tmp=np.zeros((150,150,3),np.uint8); K.icon(tmp,K.ICON[k],75,75,t-ta[k],1.0); m=cv2.resize(tmp.max(axis=2),(42,42),interpolation=cv2.INTER_CUBIC).astype(np.float32)/255
