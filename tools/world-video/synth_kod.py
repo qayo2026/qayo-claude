@@ -18,7 +18,10 @@ for _ in range(140): cv2.circle(bg,(rng.randint(0,W),rng.randint(0,H)),1,(170,15
 # ---------- ölkələr: (id, ad, bayraq, lon, lat)
 COUNTRIES=[('az','AZƏRBAYCAN','🇦🇿',49.87,40.41),('tr','TÜRKİYƏ','🇹🇷',32.85,39.93),('de','ALMANİYA','🇩🇪',13.4,52.52),('fr','FRANSA','🇫🇷',2.35,48.86),
  ('ae','BƏƏ','🇦🇪',54.37,24.45),('us','ABŞ','🇺🇸',-77.04,38.9),('gb','BÖYÜK BRİTANİYA','🇬🇧',-0.13,51.5),('in','HİNDİSTAN','🇮🇳',77.2,28.6),
- ('cn','ÇİN','🇨🇳',116.4,39.9),('jp','YAPONİYA','🇯🇵',139.7,35.7)]
+ ('cn','ÇİN','🇨🇳',116.4,39.9),('jp','YAPONİYA','🇯🇵',139.7,35.7),
+ ('za','CƏNUBİ AFRİKA','🇿🇦',28.2,-25.7),('au','AVSTRALİYA','🇦🇺',140.0,-30.0),('br','BRAZİLİYA','🇧🇷',-47.9,-15.8),('ca','KANADA','🇨🇦',-75.7,45.4),
+ ('sa','SƏUDİYYƏ ƏRƏBİSTANI','🇸🇦',46.7,24.7),('eg','MİSİR','🇪🇬',31.2,30.0),('ru','RUSİYA','🇷🇺',37.6,55.75),('id','İNDONEZİYA','🇮🇩',106.8,-6.2),
+ ('ng','NİGERİYA','🇳🇬',7.5,9.1),('mx','MEKSİKA','🇲🇽',-99.1,19.4)]
 NAMES={c[0]:T(c[0],c[1]) for c in COUNTRIES}
 HUB=(COUNTRIES[0][3],COUNTRIES[0][4])
 # ---------- qlobus
@@ -31,7 +34,7 @@ PHI0=math.radians(22)
 atm=np.zeros((S,S),np.float32); out=(DD>=1)&(DD<1.25); atm[out]=np.exp(-((DD[out]-1)/0.045)); atm_in=(1-NZ)**3*INS
 SUN=np.array([0.95,0.15,0.30]); SUN/=np.linalg.norm(SUN); DAY=np.clip((NX*SUN[0]+NY*SUN[1]+NZ*SUN[2])*1.4+0.18,0,1)*INS
 LIGHT=np.clip(0.30+0.85*NZ**0.55,0,1.15)*INS
-def lam0(t): return -30+85*ease_io(min(max((t-4.0)/9.0,0.0),1.0))
+def lam0(t): return -30+85*ease_io(min(max((t-6.5)/6.0,0.0),1.0))
 def globe(t):
     l0=math.radians(lam0(t)); lat=np.arcsin(np.clip(NY*math.cos(PHI0)+NZ*math.sin(PHI0),-1,1)); lon=l0+np.arctan2(NX,NZ*math.cos(PHI0)-NY*math.sin(PHI0))
     u=((np.degrees(lon)+180)%360)/360*(TW-1); v=(90-np.degrees(lat))/180*(TH-1)
@@ -54,7 +57,7 @@ def arc_pts_(a,b,n=70):
     va,vb=vec(*a),vec(*b); ang=math.acos(np.clip(np.dot(va,vb),-1,1)); pts=[]
     for i in range(n+1):
         s=i/n; v=(math.sin((1-s)*ang)*va+math.sin(s*ang)*vb)/max(math.sin(ang),1e-6); v/=np.linalg.norm(v)
-        lon=math.degrees(math.atan2(v[1],v[0])); lat=math.degrees(math.asin(np.clip(v[2],-1,1))); r=1+(0.10+0.22*ang/math.pi)*math.sin(math.pi*s); pts.append((lon,lat,r))
+        lon=math.degrees(math.atan2(v[1],v[0])); lat=math.degrees(math.asin(np.clip(v[2],-1,1))); r=1+(0.035+0.07*ang/math.pi)*math.sin(math.pi*s); pts.append((lon,lat,r))
     return pts
 T_ARC0,T_STEP,T_GROW=4.6,0.9,0.7
 T_FIN=4.6+8*0.9+0.7+0.4

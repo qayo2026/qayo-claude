@@ -42,36 +42,33 @@ SRC=np.float32([[0,0],[CW,0],[CW,CH],[0,CH]]); DST=np.float32([[98,180],[1002,17
 PM=cv2.getPerspectiveTransform(SRC,DST)
 NIGHT=cv2.imread(os.path.join(K.HERE,'..','..','assets','earth','earth-night.jpg')).astype(np.float32)
 MAPC=cv2.resize(NIGHT,(CW,CH),interpolation=cv2.INTER_AREA)*np.float32([1.9,1.6,1.25])+np.float32([34,18,6])
-HUBC=(CW//2,268); NODE=[(125,100),(785,100),(125,470),(785,470),(455,482)]; NR=76
+HUBC=(CW//2,268); NODE=[(128,104),(782,104),(128,446),(782,446),(455,470)]; NR=90
 NAVY=np.float32([60,30,8]); WHT=np.float32([252,246,236])
 NLINES=[['WEB','PLATFORMS'],['MOBILE','APPS'],['DESKTOP','SOFTWARE'],['IoT &','EMBEDDED','SYSTEMS'],['AUTOMATION &','CONTROL','SYSTEMS']]
 def _ts(txt,mw):
-    tx,_=K.text_sprite(txt,17,0.04,K.FB); h,w=tx.shape
+    tx,_=K.text_sprite(txt,22,0.05,K.FB); h,w=tx.shape
     if w>mw: tx=cv2.resize(tx,(mw,int(h*mw/w)),interpolation=cv2.INTER_AREA)
     return tx
-NTXT=[[_ts(t,118) for t in L if t] for L in NLINES]
-LQ=cv2.imread(os.path.join(K.HERE,'..','..','assets','logo','qayo-texnologiya-logo-qara.png'),cv2.IMREAD_UNCHANGED)
-LOGOC=cv2.resize(LQ[:,:,3],(124,int(LQ.shape[0]*124/LQ.shape[1])),interpolation=cv2.INTER_AREA).astype(np.float32)/255
+NTXT=[[_ts(t,136) for t in L if t] for L in NLINES]
+LQ=cv2.imread(os.path.join(K.HERE,'..','..','assets','logo','qayo-texnologiya-logo-beyaz.png'),cv2.IMREAD_UNCHANGED)
+LOGOC=cv2.resize(LQ[:,:,3],(150,int(LQ.shape[0]*150/LQ.shape[1])),interpolation=cv2.INTER_AREA).astype(np.float32)/255
 ew=np.ones((CH,CW),np.float32); ew[:,:10]*=np.linspace(0,1,10)[None]; ew[:,-10:]*=np.linspace(1,0,10)[None]; ew[:10]*=np.linspace(0,1,10)[:,None]; ew[-10:]*=np.linspace(1,0,10)[:,None]
 def stamp(c,al,cx,cy,col,o=1.0):
     h,w=al.shape; x0=cx-w//2; y0=cy-h//2; a=al[...,None]*o; c[y0:y0+h,x0:x0+w]=c[y0:y0+h,x0:x0+w]*(1-a)+col*a
 
 def glass(c,cx,cy,r,t,k,o=1.0):
-    R=r+3; sz=2*R+1; y,x=np.mgrid[-R:R+1,-R:R+1].astype(np.float32); d=np.sqrt(x*x+y*y)/r
+    R=r+4; sz=2*R+1; y,x=np.mgrid[-R:R+1,-R:R+1].astype(np.float32); d=np.sqrt(x*x+y*y)/r
     mask=np.clip((1.0-d)*r/1.5,0,1)
-    top=np.float32([250,243,232]); bot=np.float32([200,138,52]); u=np.clip((y/r+1)/2,0,1)[...,None]
-    col=top*(1-u)+bot*u
-    rim=np.clip((d-0.8)/0.2,0,1)[...,None]**1.6; col=col*(1-rim*0.32)+np.float32(K.PRIM)*rim*0.5
-    ol=np.clip(1-np.abs(d-0.975)/0.03,0,1)[...,None]; col=col+(255-col)*ol*0.7
-    # üst parıltı (specular)
-    sx,sy=(x+0.36*r)/(0.58*r),(y+0.52*r)/(0.26*r); sp=np.exp(-(sx*sx+sy*sy)*1.6)[...,None]
-    col=col+(255-col)*np.clip(sp*0.8,0,1)
-    # alt əks
-    rf=np.clip(1-np.abs(d-0.8)/0.12,0,1)*np.clip((y/r-0.35)/0.5,0,1); col=col+np.float32(K.PRIM)[None,None]*rf[...,None]*0.5
-    # süzülən işıq zolağı
+    u=np.clip((y/r+1)/2,0,1)[...,None]
+    col=np.float32([120,64,20])*(1-u)+np.float32([46,20,4])*u
+    P=np.float32(K.PRIM)
+    inner=np.clip((d-0.72)/0.28,0,1)[...,None]**2; col=col+P*inner*0.35
+    ol=np.clip(1-np.abs(d-0.955)/0.045,0,1)[...,None]; col=col*(1-ol)+P*ol*1.0+255*ol*0.25
+    sx,sy=(x+0.0*r)/(0.62*r),(y+0.66*r)/(0.20*r); sp=np.exp(-(sx*sx+sy*sy)*1.8)[...,None]*np.clip(1.2-d,0,1)[...,None]
+    col=col+(255-col)*np.clip(sp*0.22,0,1)
     sw=((t*0.45+k*0.23)%1.7)-0.35; uu=(x+y)/(2.0*r)*0.5+0.5
-    gl=np.exp(-((uu-sw)/0.06)**2)*np.clip(1.1-d,0,1); col=col+(255-col)*gl[...,None]*0.7
-    x0,y0=cx-R,cy-R; a=(mask*o)[...,None]
+    gl=np.exp(-((uu-sw)/0.05)**2)*np.clip(1.1-d,0,1); col=col+(255-col)*gl[...,None]*0.18
+    x0,y0=cx-R,cy-R; a=(mask*o*0.93)[...,None]
     h,w=c.shape[:2]; xa,ya=max(0,x0),max(0,y0); xb,yb=min(w,x0+sz),min(h,y0+sz)
     c[ya:yb,xa:xb]=c[ya:yb,xa:xb]*(1-a[ya-y0:yb-y0,xa-x0:xb-x0])+np.clip(col,0,255)[ya-y0:yb-y0,xa-x0:xb-x0]*a[ya-y0:yb-y0,xa-x0:xb-x0]
 def netcanvas(t):
@@ -95,11 +92,11 @@ def netcanvas(t):
     ph_=ease_out((t-0.25)/0.5)
     if ph_>0:
         hh=np.zeros((CH,CW),np.float32); cv2.circle(hh,HUBC,92,1.0,-1,cv2.LINE_AA); hh=cv2.GaussianBlur(hh,(0,0),22)*ph_*(0.8+0.2*math.sin(t*3))
-        c=np.clip(c+P*hh[...,None]*0.35,0,255); r=int(84*ph_)
+        c=np.clip(c+P*hh[...,None]*0.35,0,255); r=int(98*ph_)
         glass(c,HUBC[0],HUBC[1],r,t,9)
         for j in range(6):
-            an=t*0.8+j*math.pi/3; cv2.circle(c,(int(HUBC[0]+112*math.cos(an)),int(HUBC[1]+112*math.sin(an))),4,tuple(float(v) for v in WHT),-1,cv2.LINE_AA)
-        if ph_>0.6: stamp(c,LOGOC,HUBC[0],HUBC[1],NAVY)
+            an=t*0.8+j*math.pi/3; cv2.circle(c,(int(HUBC[0]+126*math.cos(an)),int(HUBC[1]+126*math.sin(an))),4,tuple(float(v) for v in WHT),-1,cv2.LINE_AA)
+        if ph_>0.6: stamp(c,LOGOC,HUBC[0],HUBC[1],WHT)
     for k,(nx,ny) in enumerate(NODE):
         o=ease_out((t-ta[k])/0.4)
         if o<=0: continue
@@ -108,17 +105,18 @@ def netcanvas(t):
         shd=np.zeros((CH,CW),np.float32); cv2.circle(shd,(nx+5,ny+int(5*math.sin(t*1.7+k*1.3))+20),NR-4,1.0,-1,cv2.LINE_AA); shd=cv2.GaussianBlur(shd,(0,0),13)*o; c=c*(1-0.6*shd)[...,None]
         r=int(NR*(0.6+0.4*o))+int(2*math.sin(t*2.1+k)); ny=ny+int(5*math.sin(t*1.7+k*1.3)); glass(c,nx,ny,r,t,k,o)
         if o<0.6: continue
-        tmp=np.zeros((150,150,3),np.uint8); K.icon(tmp,K.ICON[k],75,75,t-ta[k],1.0); m=cv2.resize(tmp.max(axis=2),(42,42),interpolation=cv2.INTER_CUBIC).astype(np.float32)/255
-        L=NTXT[k]; th=sum(x.shape[0]+7 for x in L)-7; stamp(c,np.clip(m*1.3,0,1),nx,ny-52,np.float32([150,70,10])); y=ny+10-th//2+(4 if len(L)==2 else 0)
+        tmp=np.zeros((150,150,3),np.uint8); K.icon(tmp,K.ICON[k],75,75,t-ta[k],1.0); m=cv2.resize(tmp.max(axis=2),(54,54),interpolation=cv2.INTER_CUBIC).astype(np.float32)/255
+        L=NTXT[k]; th=sum(x.shape[0]+7 for x in L)-7; stamp(c,np.clip(m*1.3,0,1),nx,ny-58,np.float32(K.PRIM)); y=ny+10-th//2+(4 if len(L)==2 else 0)
         for tx in L:
-            stamp(c,tx,nx,y+tx.shape[0]//2,NAVY); y+=tx.shape[0]+6
+            stamp(c,tx,nx,y+tx.shape[0]//2,WHT); y+=tx.shape[0]+5
     return c
 ZM=2.0; RY0,RH=100,1100; RXC=498; REGY=470
 xs_=np.arange(W,dtype=np.float32); fx=np.clip(np.minimum((xs_-10)/110,(1030-xs_)/40),0.05,1.0); fy=np.ones(RH,np.float32); fy[:70]=np.linspace(0,1,70); fy[-110:]=np.linspace(1,0,110); vmR=fy[:,None]*fx[None]; vmR[:150,860:]*=np.linspace(1,0.08,W-860)[None,:]*np.linspace(0.08,1,150)[::-1][:,None]**0+0.0
 _cache={}
+HM=np.ones((RH,W),np.float32); HM[20:230,925:]=0.12; HM[360:480,985:]=0.1; HM=cv2.GaussianBlur(HM,(0,0),14)[...,None]
 def offz(i):
     if i not in _cache:
-        _cache[i]=cv2.resize(OFF[i],(int(W*ZM),int(OH*ZM)),interpolation=cv2.INTER_CUBIC)[RY0:RY0+RH,RXC:RXC+W].astype(np.float32)
+        _cache[i]=cv2.resize(OFF[i],(int(W*ZM),int(OH*ZM)),interpolation=cv2.INTER_CUBIC)[RY0:RY0+RH,RXC:RXC+W].astype(np.float32)*HM
         if len(_cache)>8: _cache.pop(next(iter(_cache)))
     return _cache[i]
 def shotA(t):
@@ -128,15 +126,15 @@ def shotA(t):
     return img
 OFF_N=len(OFF)
 # düz xəritə (daha böyük, ölkələr birbaşa üstündə)
-PXD=1080/280.0; MW_=1080; MH_=int(180*PXD); MY0=790
-_m=cv2.resize(K.TEX,(int(360*PXD),MH_),interpolation=cv2.INTER_AREA); _x0=int(55*PXD)
-MAP=_m[:,_x0:_x0+MW_].copy()*np.float32([1.0,0.92,0.80])*0.85
+LON0,LATT=-25.0,76.0; PXD=1080/175.0; MW_=1080; MH_=int(118*PXD); MY0=740
+_m=cv2.resize(K.TEX,(int(360*PXD),int(180*PXD)),interpolation=cv2.INTER_AREA); _x0=int((LON0+180)*PXD); _y0=int((90-LATT)*PXD)
+MAP=_m[_y0:_y0+MH_,_x0:_x0+MW_].copy()*np.float32([1.05,0.86,0.68])*0.8+np.float32([22,8,0])
 mm=np.ones((MH_,MW_),np.float32); mm[:40]*=np.linspace(0,1,40)[:,None]; mm[-40:]*=np.linspace(1,0,40)[:,None]; mm[:,:25]*=np.linspace(0,1,25)[None]; mm[:,-25:]*=np.linspace(1,0,25)[None]
 for gx_ in range(0,MW_,int(PXD*20)): MAP[:,gx_]=np.clip(MAP[:,gx_]+np.float32([40,30,8]),0,255)
 for gy_ in range(0,MH_,int(PXD*20)): MAP[gy_,:]=np.clip(MAP[gy_,:]+np.float32([40,30,8]),0,255)
-def mp(lon,lat): return (lon+125)*PXD, MY0+(90-lat)*PXD
-MSET=[6,7,8,9]; GSET=[0,1,2,3,4,5]; K.ARCSET=[5,3,2,1,4]; K.ARCSTEP=1.4
-B_ARC0,B_STEP,B_GROW=0.8,0.8,0.4; B_FIN=B_ARC0+4*B_STEP+B_GROW+0.15
+def mp(lon,lat): return (lon-LON0)*PXD, MY0+(LATT-lat)*PXD
+MSET=[6,16,18,10,7,8,17,11,9]; GSET=[0,5,12,13,3,2,1,15,4]; K.ARCSET=[5,12,13,3,2,1,15,4]; K.ARCSTEP=0.9
+B_ARC0,B_STEP,B_GROW=0.7,0.4,0.35; B_FIN=B_ARC0+9*B_STEP+B_GROW+0.15
 def bez(a,b,n=40):
     d=math.hypot(b[0]-a[0],b[1]-a[1]); c=((a[0]+b[0])/2,(a[1]+b[1])/2-0.35*d); return [((1-u)**2*a[0]+2*u*(1-u)*c[0]+u*u*b[0],(1-u)**2*a[1]+2*u*(1-u)*c[1]+u*u*b[1]) for u in [i/n for i in range(n+1)]]
 Y0L,HL=MY0-200,MH_+300
@@ -149,13 +147,13 @@ def mini_chip(k):
     ty=(h-th)//2; tx0=12+fw+10; aa=tx[...,None]; sc[ty:ty+th,tx0:tx0+tw,:3]=sc[ty:ty+th,tx0:tx0+tw,:3]*(1-aa)+255*aa; sc[ty:ty+th,tx0:tx0+tw,3:4]=np.maximum(sc[ty:ty+th,tx0:tx0+tw,3:4],aa*255)
     return sc
 MCH=[mini_chip(k) for k in range(len(K.COUNTRIES))]
-OFFS=[(125,-95),(-20,100),(-5,-125),(-195,55),(45,95),(0,80),(-200,-90),(60,-85),(0,85),(-40,-85)]
-OFFG=[(115,-60),(-10,85),(-5,-105),(-140,55),(30,65),(0,70),(-150,-60),(75,80),(55,-75),(-40,-70)]
+OFFS={6:(50,-72),7:(-5,95),8:(55,90),9:(-45,-90),10:(120,40),11:(-60,-90),16:(85,-72),17:(-100,55),18:(-75,70)}
+OFFG={0:(115,-60),5:(-10,85),12:(70,55),13:(-30,-75),3:(-170,-20),2:(30,-115),1:(-150,50),15:(-70,115),4:(55,75)}
 def put_label(img,k,px,py,o,fl=0.0,offs=None):
     if o<=0: return
     sc=MCH[k].copy()
     if fl>0: sc[:,:,:3]=np.clip(sc[:,:,:3]+np.float32([20,70,95])*fl,0,255)
-    h,w=sc.shape[:2]; ox,oy=(offs or OFFS)[k]; cx,cy=int(px+ox),int(py+oy); cx=min(max(cx,w//2+8),W-w//2-8)
+    h,w=sc.shape[:2]; ox,oy=(offs or OFFS).get(k,(0,70)); cx,cy=int(px+ox),int(py+oy); cx=min(max(cx,w//2+8),W-w//2-8)
     ex=cx-w//2 if px<cx-w//2 else (cx+w//2 if px>cx+w//2 else px); ey=cy+h//2 if py>cy+h//2 else (cy-h//2 if py<cy-h//2 else py)
     ex=int(min(max(px,cx-w//2+20),cx+w//2-20)) if abs(px-cx)<w//2+20 else ex
     cv2.line(img,(int(px),int(py)),(int(ex),int(ey)),(245,216,88),2,cv2.LINE_AA)
@@ -191,7 +189,8 @@ def shotC(t):
     reg=img[oy:oy+S,ox:ox+S]; reg[:]=reg+g; K.draw_arcs(reg,tl)
     for k in GSET:
         x,y,v=K.proj(COUNTRIES[k][3],COUNTRIES[k][4],tl)
-        if v: put_label(img,k,x,y,ease_out((tl-(0.6 if k==0 else T_ARC0+K.ARCSET.index(k)*K.ARCSTEP+T_GROW))/0.35),offs=OFFG)
+        cs=math.sin(K.PHI0)*math.sin(math.radians(COUNTRIES[k][4]))+math.cos(K.PHI0)*math.cos(math.radians(COUNTRIES[k][4]))*math.cos(math.radians(COUNTRIES[k][3]-K.lam0(tl))); fd=min(1.0,max(0.0,(cs-0.12)/0.25))
+        if v and fd>0: put_label(img,k,x,y,fd*ease_out((tl-(0.6 if k==0 else T_ARC0+K.ARCSET.index(k)*K.ARCSTEP+T_GROW))/0.35),offs=OFFG)
     return img
 def lerp(a,b,w): return a*(1-w)+b*w
 def compose_m(i):

@@ -54,7 +54,17 @@
   "in": "INDIA",
   "cn": "CHINA",
   "jp": "JAPAN",
-  "sub1": "SOFTWARE & INTELLIGENCE"
+  "sub1": "SOFTWARE & INTELLIGENCE",
+  "za": "SOUTH AFRICA",
+  "au": "AUSTRALIA",
+  "br": "BRAZIL",
+  "ca": "CANADA",
+  "sa": "SAUDI ARABIA",
+  "eg": "EGYPT",
+  "ru": "RUSSIA",
+  "id": "INDONESIA",
+  "ng": "NIGERIA",
+  "mx": "MEXICO"
  },
  "intelligence": [
   [
