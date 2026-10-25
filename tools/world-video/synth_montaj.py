@@ -71,6 +71,21 @@ def glass(c,cx,cy,r,t,k,o=1.0):
     x0,y0=cx-R,cy-R; a=(mask*o*0.93)[...,None]
     h,w=c.shape[:2]; xa,ya=max(0,x0),max(0,y0); xb,yb=min(w,x0+sz),min(h,y0+sz)
     c[ya:yb,xa:xb]=c[ya:yb,xa:xb]*(1-a[ya-y0:yb-y0,xa-x0:xb-x0])+np.clip(col,0,255)[ya-y0:yb-y0,xa-x0:xb-x0]*a[ya-y0:yb-y0,xa-x0:xb-x0]
+
+# --- mərkəz loqosu üçün elektron axını ---
+_lm=(LOGOC>0.5).astype(np.uint8); _lc,_=cv2.findContours(_lm,cv2.RETR_LIST,cv2.CHAIN_APPROX_NONE); LCON=[c[:,0,:] for c in _lc if len(c)>25]
+_rl=np.random.RandomState(5); LEL=[]
+for ci,c in enumerate(LCON):
+    for j in range(2 if len(c)>90 else 1): LEL.append((ci,_rl.rand(),(0.08+0.12*_rl.rand())*(1 if _rl.rand()<0.5 else -1)))
+def logo_fx(c,t,o):
+    lh,lw=LOGOC.shape; x0=HUBC[0]-lw//2; y0=HUBC[1]-lh//2; lay=np.zeros((CH,CW),np.float32)
+    for ci,ph,sp in LEL:
+        cc=LCON[ci]; n=len(cc)
+        for tr in range(8):
+            idx=int(((ph+sp*t)*n-tr*(1 if sp>0 else -1)*1.5)%n); x,y=cc[idx]
+            cv2.circle(lay,(int(x0+x),int(y0+y)),2 if tr==0 else 1,float(1.0-tr/8.0),-1,cv2.LINE_AA)
+    bl=cv2.GaussianBlur(lay,(0,0),3.5); bs=cv2.GaussianBlur(lay,(0,0),1.2); al=np.clip(bl*1.5+bs*0.8+lay,0,1.3)[...,None]
+    c[:]=np.clip(c+np.float32(K.PRIM)*al*0.9*o+255*np.clip(lay,0,1)[...,None]*0.6*o,0,255)
 def netcanvas(t):
     c=MAPC.copy(); lay=np.zeros((CH,CW),np.float32); P=np.float32(K.PRIM)
     ta=[0.9+0.4*k for k in range(5)]
@@ -96,7 +111,7 @@ def netcanvas(t):
         glass(c,HUBC[0],HUBC[1],r,t,9)
         for j in range(6):
             an=t*0.8+j*math.pi/3; cv2.circle(c,(int(HUBC[0]+126*math.cos(an)),int(HUBC[1]+126*math.sin(an))),4,tuple(float(v) for v in WHT),-1,cv2.LINE_AA)
-        if ph_>0.6: stamp(c,LOGOC,HUBC[0],HUBC[1],WHT)
+        if ph_>0.6: stamp(c,LOGOC,HUBC[0],HUBC[1],WHT); logo_fx(c,t,1.0)
     for k,(nx,ny) in enumerate(NODE):
         o=ease_out((t-ta[k])/0.4)
         if o<=0: continue
@@ -225,7 +240,32 @@ def head_fx(img,t):
     bx=((t*0.42)%2.2)*W*1.5-W*0.4; xs=np.arange(W,dtype=np.float32); band=np.exp(-((xs-bx)/110.0)**2)[None,:]
     bl=cv2.GaussianBlur(lay,(0,0),5); bs=cv2.GaussianBlur(lay,(0,0),1.6)
     al=np.clip(bl*1.4+bs*0.8+lay,0,1.3)[...,None]; P=np.float32(K.PRIM); reg=img[HY0:HY1]
-    reg[:]=np.clip(reg+P*al*0.9+255*np.clip(lay,0,1)[...,None]*0.6+(P*0.55+120)*(HMASK*band*0.55)[...,None],0,255)
+    reg[:]=np.clip(reg+P*al*0.9+255*np.clip(lay,0,1)[...,None]*0.6+0,0,255)
+
+# --- başlıq: elektron saplarından toxunma (weave) ---
+HEAD_IMG=np.zeros_like(K.bg); K.draw_head(HEAD_IMG,20.0); HEAD_IMG=HEAD_IMG[HY0:HY1].copy()
+_hh=HY1-HY0; _yy,_xx=np.mgrid[0:_hh,0:W].astype(np.float32); _HT=((_yy%6)<2.0); _VT=((_xx%6)<2.0)
+_ed=cv2.GaussianBlur(cv2.morphologyEx(_hm,cv2.MORPH_GRADIENT,np.ones((3,3),np.uint8)).astype(np.float32),(0,0),1.1)
+_hmb=_hm>0
+def head_weave(img,t):
+    p=min(max((t-0.15)/2.0,0.0),1.0); dly=np.where(_yy>170,0.30,0.0).astype(np.float32)
+    hx=((p*1.45-dly)*1.35-0.35*(_yy/_hh))*W; Hv=_HT&(_xx<hx)
+    qv=np.clip(p*1.45-dly-0.30*(_xx/W),0,1); vy=_hh*(1-qv); Vv=_VT&(_yy>vy)
+    s=min(max((p-0.72)/0.28,0.0),1.0); s=s*s*(3-2*s)
+    alpha=np.maximum((Hv|Vv).astype(np.float32),s)
+    reg=img[HY0:HY1]; ol=np.clip(0.30+0.7*p,0,1)
+    reg[:]=np.clip(reg+HEAD_IMG*alpha[...,None]+np.float32(K.PRIM)*(_ed*ol*0.9)[...,None]*(1-0.6*s),0,255)
+    if p<1.0:
+        lay=np.zeros((_hh,W),np.float32)
+        for y in range(1,_hh,6):
+            x=int(np.clip(hx[y,0],0,W-1))
+            for dx in (0,-6,-12):
+                xx_=x+dx
+                if 0<=xx_<W and _hmb[y,xx_]: cv2.circle(lay,(xx_,y),3 if dx==0 else 2,1.0-abs(dx)/16.0,-1,cv2.LINE_AA)
+        for x in range(1,W,6):
+            yy_=int(vy[0,x])
+            if 0<=yy_<_hh and _hmb[yy_,x]: cv2.circle(lay,(x,yy_),3,1.0,-1,cv2.LINE_AA)
+        bl=cv2.GaussianBlur(lay,(0,0),4); reg[:]=np.clip(reg+np.float32(K.PRIM)*np.clip(bl*1.6+lay,0,1.3)[...,None]*0.9+255*np.clip(lay,0,1)[...,None]*0.6,0,255)
 def compose_m(i):
     t=i/FPS
     if t<5.0: out=shotA(t)
@@ -235,7 +275,7 @@ def compose_m(i):
     elif t<14.7: out=zoomC(t)
     elif t<15.1: out=lerp(zoomC(min(t,15.0)),shotD(t),ease_io((t-14.7)/0.4))
     else: out=shotD(t)
-    hd=out.copy(); K.draw_head(hd,t+3.0); head_fx(hd,t); h=1-ease_io(min(max((t-14.6)/0.5,0.0),1.0)); out=lerp(out,hd,h)
+    hd=out.copy(); head_weave(hd,t); head_fx(hd,t) if t>2.0 else None; h=1-ease_io(min(max((t-14.6)/0.5,0.0),1.0)); out=lerp(out,hd,h)
     
     return np.clip(out,0,255).astype(np.uint8)
 if __name__=='__main__':
