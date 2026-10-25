@@ -205,7 +205,8 @@ def shotC(t):
     for k in GSET:
         x,y,v=K.proj(COUNTRIES[k][3],COUNTRIES[k][4],tl)
         cs=math.sin(K.PHI0)*math.sin(math.radians(COUNTRIES[k][4]))+math.cos(K.PHI0)*math.cos(math.radians(COUNTRIES[k][4]))*math.cos(math.radians(COUNTRIES[k][3]-K.lam0(tl))); fd=min(1.0,max(0.0,(cs-0.12)/0.25))
-        if v and fd>0: put_label(img,k,x,y,fd*ease_out((tl-(0.6 if k==0 else T_ARC0+K.ARCSET.index(k)*K.ARCSTEP+T_GROW))/0.35),offs=OFFG)
+        lf=1-ease_io(min(max((t-14.0)/0.5,0.0),1.0))
+        if v and fd>0 and lf>0: put_label(img,k,x,y,lf*fd*ease_out((tl-(0.6 if k==0 else T_ARC0+K.ARCSET.index(k)*K.ARCSTEP+T_GROW))/0.35),offs=OFFG)
     return img
 def lerp(a,b,w): return a*(1-w)+b*w
 # --- final: qlobusa yaxınlaşma + Gemini fragmenti (QAYO Texnologiya) ---
