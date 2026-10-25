@@ -7,7 +7,7 @@ import synth_kod as K
 from PIL import Image, ImageDraw
 from synth_kod import *
 os.makedirs(OUTD,exist_ok=True)
-DURM=15.0; BY=600
+DURM=16.6; BY=600
 # --- başlıq: rəsmi loqonun öz piksellərindən üfüqi xətt (QAYO + TEXNOLOGİYA) ---
 _L=cv2.imread(os.path.join(K.HERE,'..','..','assets','logo','qayo-texnologiya-logo-beyaz.png'),cv2.IMREAD_UNCHANGED)[:,:,3].astype(np.float32)/255
 def _crop(a):
@@ -120,8 +120,8 @@ def offz(i):
         if len(_cache)>8: _cache.pop(next(iter(_cache)))
     return _cache[i]
 def shotA(t):
-    img=K.bg.copy(); a=ease_out(t/0.5); i=min(OFF_N-1,36+int(t/5.0*(OFF_N-37))); z=offz(i); sa=ease_out((t-0.2)/0.6)
-    wc=cv2.warpPerspective(netcanvas(t),PM,(W,RH)); wm=cv2.warpPerspective(ew*sa,PM,(W,RH))[...,None]
+    img=K.bg.copy(); a=1.0; i=min(OFF_N-1,36+int(t/5.0*(OFF_N-37))); z=offz(i); sa=1.0
+    wc=cv2.warpPerspective(netcanvas(t+0.8),PM,(W,RH)); wm=cv2.warpPerspective(ew*sa,PM,(W,RH))[...,None]
     r=z*(1-wm)+wc*wm; m=(vmR*a)[...,None]; img[REGY:REGY+RH]=img[REGY:REGY+RH]*(1-m)+r*m
     return img
 OFF_N=len(OFF)
@@ -193,15 +193,30 @@ def shotC(t):
         if v and fd>0: put_label(img,k,x,y,fd*ease_out((tl-(0.6 if k==0 else T_ARC0+K.ARCSET.index(k)*K.ARCSTEP+T_GROW))/0.35),offs=OFFG)
     return img
 def lerp(a,b,w): return a*(1-w)+b*w
+# --- final: qlobusa yaxınlaşma + Gemini fragmenti (QAYO Texnologiya) ---
+ENDF=[cv2.imread(os.path.join(os.environ.get('ENDF_DIR','.'),'c_%03d.png'%n)).astype(np.float32) for n in range(1,23)]
+_fm=np.ones((608,1080),np.float32); _fm[:70]*=np.linspace(0,1,70)[:,None]; _fm[-90:]*=np.linspace(1,0,90)[:,None]
+def zoomC(t):
+    img=shotC(t); u=ease_io(min(max((t-14.2)/0.8,0.0),1.0)); z=1+1.0*u
+    if z<=1.0001: return img
+    M=np.float32([[z,0,540*(1-z)],[0,z,1090*(1-z)]]); return cv2.warpAffine(img,M,(W,H),flags=cv2.INTER_CUBIC,borderMode=cv2.BORDER_REPLICATE)
+def shotD(t):
+    img=K.bg.copy(); n=min(21,max(0,int((t-14.7)*30))); f=ENDF[n]; hold=max(0.0,t-15.4)/1.2; z=1+0.05*min(hold,1.0)
+    if z>1.0001:
+        M=np.float32([[z,0,540*(1-z)],[0,z,304*(1-z)]]); f=cv2.warpAffine(f,M,(1080,608),flags=cv2.INTER_CUBIC,borderMode=cv2.BORDER_REPLICATE)
+    y0=1090-304; m=_fm[...,None]; img[y0:y0+608]=img[y0:y0+608]*(1-m)+f*m
+    return img
 def compose_m(i):
     t=i/FPS
     if t<5.0: out=shotA(t)
     elif t<5.5: out=lerp(shotA(t),shotB(t),ease_io((t-5.0)/0.5))
     elif t<9.7: out=shotB(t)
     elif t<10.2: out=lerp(shotB(t),shotC(t),ease_io((t-9.7)/0.5))
-    else: out=shotC(t)
-    K.draw_head(out,t)
-    out*=min(1.0,max(0.0,(DURM-t)/0.5))*ease_out(t/0.4)
+    elif t<14.7: out=zoomC(t)
+    elif t<15.1: out=lerp(zoomC(min(t,15.0)),shotD(t),ease_io((t-14.7)/0.4))
+    else: out=shotD(t)
+    hd=out.copy(); K.draw_head(hd,t+3.0); h=1-ease_io(min(max((t-14.6)/0.5,0.0),1.0)); out=lerp(out,hd,h)
+    
     return np.clip(out,0,255).astype(np.uint8)
 if __name__=='__main__':
     only=[int(x) for x in sys.argv[2].split(',')] if len(sys.argv)>2 else range(int(DURM*FPS))
