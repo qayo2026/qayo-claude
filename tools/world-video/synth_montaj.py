@@ -206,6 +206,26 @@ def shotD(t):
         M=np.float32([[z,0,540*(1-z)],[0,z,304*(1-z)]]); f=cv2.warpAffine(f,M,(1080,608),flags=cv2.INTER_CUBIC,borderMode=cv2.BORDER_REPLICATE)
     y0=1090-304; m=_fm[...,None]; img[y0:y0+608]=img[y0:y0+608]*(1-m)+f*m
     return img
+
+# --- başlıq üçün elektron effekti: hərflərin kənarı boyunca axan elektronlar + işıq zolağı ---
+HY0,HY1=140,420
+_h0=np.zeros_like(K.bg); K.draw_head(_h0,20.0); _hm=(_h0[HY0:HY1].max(axis=2)>170).astype(np.uint8)
+_cs,_=cv2.findContours(_hm,cv2.RETR_LIST,cv2.CHAIN_APPROX_NONE); HCON=[c[:,0,:] for c in _cs if len(c)>40]
+_rg=np.random.RandomState(11); HEL=[]
+for ci,c in enumerate(HCON):
+    for j in range(2 if len(c)>150 else 1): HEL.append((ci,_rg.rand(),(0.06+0.10*_rg.rand())*(1 if _rg.rand()<0.5 else -1)))
+HMASK=cv2.GaussianBlur(_hm.astype(np.float32),(0,0),1.2)
+def head_fx(img,t):
+    lay=np.zeros((HY1-HY0,W),np.float32)
+    for ci,ph,sp in HEL:
+        c=HCON[ci]; n=len(c)
+        for tr in range(9):
+            idx=int(((ph+sp*t)*n-tr*(1 if sp>0 else -1)*2.0)%n); x,y=c[idx]
+            cv2.circle(lay,(int(x),int(y)),3 if tr==0 else 2,float(1.0-tr/9.0),-1,cv2.LINE_AA)
+    bx=((t*0.42)%2.2)*W*1.5-W*0.4; xs=np.arange(W,dtype=np.float32); band=np.exp(-((xs-bx)/110.0)**2)[None,:]
+    bl=cv2.GaussianBlur(lay,(0,0),5); bs=cv2.GaussianBlur(lay,(0,0),1.6)
+    al=np.clip(bl*1.4+bs*0.8+lay,0,1.3)[...,None]; P=np.float32(K.PRIM); reg=img[HY0:HY1]
+    reg[:]=np.clip(reg+P*al*0.9+255*np.clip(lay,0,1)[...,None]*0.6+(P*0.55+120)*(HMASK*band*0.55)[...,None],0,255)
 def compose_m(i):
     t=i/FPS
     if t<5.0: out=shotA(t)
@@ -215,7 +235,7 @@ def compose_m(i):
     elif t<14.7: out=zoomC(t)
     elif t<15.1: out=lerp(zoomC(min(t,15.0)),shotD(t),ease_io((t-14.7)/0.4))
     else: out=shotD(t)
-    hd=out.copy(); K.draw_head(hd,t+3.0); h=1-ease_io(min(max((t-14.6)/0.5,0.0),1.0)); out=lerp(out,hd,h)
+    hd=out.copy(); K.draw_head(hd,t+3.0); head_fx(hd,t); h=1-ease_io(min(max((t-14.6)/0.5,0.0),1.0)); out=lerp(out,hd,h)
     
     return np.clip(out,0,255).astype(np.uint8)
 if __name__=='__main__':
