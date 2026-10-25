@@ -8,7 +8,6 @@ Qayda: xam kadr kimi saxlanır; xəritə/yazı kodla qoyulur (Gemini-nin xərit�
 | 03-hekaye-...-20s.mp4 | 20 s | Peyk → bulud/şüalar → Azərbaycan xəritəsi → Bakı gecə → analitika → ofis | (link verilməyib) |
 | 04-hekaye-...-30s.mp4 | 30 s | 03-ün uzun variantı | https://share.gemini.google/tv6kpn4RcY3uP |
 
-| 05-peyk-qlobus-sehnesi-10s.mp4 | 10 s | P2/Peyk: peyk işıq atır → buludlar → qlobus yaxınlaşır (2.4–3.7 s-də Gemini-nin öz 'QAYO Texnologiya' yazısı var) → dövrə xətləri → Qafqaz xəritəsi. Rəsmi loqo ilə əvəz: tools/p2/p2_logo_swap.py | (link verilməyib) |
 
 İstifadə: Dünya+Brend (B) üçün 02; Azərbaycan·Bakı·İnşaat (C) üçün 03/04.
 
