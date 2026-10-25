@@ -211,7 +211,8 @@ def shotC(t):
 def lerp(a,b,w): return a*(1-w)+b*w
 # --- final: qlobusa yaxınlaşma + Gemini fragmenti (QAYO Texnologiya) ---
 ENDF=[cv2.imread(os.path.join(os.environ.get('ENDF_DIR','.'),'c_%03d.png'%n)).astype(np.float32) for n in range(1,23)]
-_fm=np.ones((608,1080),np.float32); _fm[:70]*=np.linspace(0,1,70)[:,None]; _fm[-90:]*=np.linspace(1,0,90)[:,None]
+_fm=np.ones((608,1080),np.float32); _t=np.linspace(0,1,150); _b=np.linspace(1,0,170); _fm[:150]*=(0.5-0.5*np.cos(np.pi*_t))[:,None]; _fm[-170:]*=(0.5-0.5*np.cos(np.pi*_b))[:,None]
+_xm=np.ones(1080,np.float32); _xm[:40]=np.linspace(0.55,1,40); _xm[-40:]=np.linspace(1,0.55,40); _fm*=_xm[None]
 def zoomC(t):
     img=shotC(t); u=ease_io(min(max((t-14.2)/0.8,0.0),1.0)); z=1+1.0*u
     if z<=1.0001: return img
