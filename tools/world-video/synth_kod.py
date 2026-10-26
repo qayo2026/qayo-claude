@@ -165,6 +165,16 @@ def icon(img,k,cx,cy,tt,a):
         cv2.circle(img,(cx,cy),16,Wc,2,L); cv2.circle(img,(cx,cy),6,C,-1,L)
         for j in range(8):
             an=tt*0.9+j*math.pi/4; cv2.line(img,(cx+int(16*math.cos(an)),cy+int(16*math.sin(an))),(cx+int(25*math.cos(an)),cy+int(25*math.sin(an))),C,5,L)
+    elif k==5:
+        cv2.line(img,(cx-30,cy+24),(cx+30,cy+24),Wc,2,L)
+        for j in range(3):
+            hgt=int(14+j*12+7*math.sin(tt*2.2+j*1.3)); x0=cx-26+j*20; cv2.rectangle(img,(x0,cy+22-hgt),(x0+13,cy+22),C if j%2==0 else Wc,-1)
+        cv2.line(img,(cx-28,cy-4),(cx-8,cy-14),Wc,2,L); cv2.line(img,(cx-8,cy-14),(cx+8,cy-8),Wc,2,L); cv2.line(img,(cx+8,cy-8),(cx+30,cy-26),Wc,2,L)
+    elif k==6:
+        pts=np.array([(cx-26,cy-9),(cx-8,cy-9),(cx+16,cy-24),(cx+16,cy+24),(cx-8,cy+9),(cx-26,cy+9)],np.int32); cv2.polylines(img,[pts],True,Wc,2,L)
+        cv2.rectangle(img,(cx-20,cy+9),(cx-12,cy+25),Wc,2,L)
+        for j in range(3):
+            q=((tt*1.1)+j/3.0)%1.0; rr=int(8+22*q); col=tuple(int(c*a*(1-q)) for c in PRIM); cv2.ellipse(img,(cx+18,cy),(rr,rr),0,-45,45,col,3,L)
     else:
         cv2.rectangle(img,(cx-15,cy-27),(cx+15,cy+27),Wc,2,L); cv2.circle(img,(cx,cy+22),2,C,-1,L)
         for j in range(4):

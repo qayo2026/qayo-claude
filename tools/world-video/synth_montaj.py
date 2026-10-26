@@ -27,6 +27,10 @@ _Hc=max(_q2.shape[0]+(top-qb),_t2.shape[0]+(top-tb_)); _cv=np.zeros((_Hc,_q2.sha
 _cv[top-qb:top-qb+_q2.shape[0],:_q2.shape[1]]=_q2; _cv[top-tb_:top-tb_+_t2.shape[0],_q2.shape[1]+_gap:]=_t2
 K.LA=_cv; K.LW=_cv.shape[1]; K.LH=_cv.shape[0]; K.LCY=215
 K.spr[:]=[(a_,b_,c_,d_,e_,352,g_) for (a_,b_,c_,d_,e_,f_,g_) in K.spr]
+_SUB='SOFTWARE & INTELLIGENCE AUTOMATION'; _a,_s,_tr,_f,_col,_y,_st=K.spr[0]
+_full,_=K.text_sprite(_SUB,_s,_tr,_f)
+while _full.shape[1]>W-80: _s-=1; _full,_=K.text_sprite(_SUB,_s,_tr,_f)
+K.spr[0]=(_SUB,_s,_tr,_f,_col,_y,_st)
 
 # ofis kadrları
 OFF=[cv2.imread(os.path.join(OFD,f)) for f in sorted(os.listdir(OFD)) if f.endswith('.png')]
@@ -42,14 +46,15 @@ SRC=np.float32([[0,0],[CW,0],[CW,CH],[0,CH]]); DST=np.float32([[98,180],[1002,17
 PM=cv2.getPerspectiveTransform(SRC,DST)
 NIGHT=cv2.imread(os.path.join(K.HERE,'..','..','assets','earth','earth-night.jpg')).astype(np.float32)
 MAPC=cv2.resize(NIGHT,(CW,CH),interpolation=cv2.INTER_AREA)*np.float32([1.9,1.6,1.25])+np.float32([34,18,6])
-HUBC=(CW//2,268); NODE=[(128,104),(782,104),(128,446),(782,446),(455,470)]; NR=90
+HUBC=(CW//2,283); NODE=[(128,98),(782,98),(128,283),(782,283),(128,468),(782,468)]; NR=88; ICON6=[0,3,1,4,5,6]
 NAVY=np.float32([60,30,8]); WHT=np.float32([252,246,236])
-NLINES=[['WEB','PLATFORMS'],['MOBILE','APPS'],['DESKTOP','SOFTWARE'],['IoT &','EMBEDDED','SYSTEMS'],['AUTOMATION &','CONTROL','SYSTEMS']]
-def _ts(txt,mw):
-    tx,_=K.text_sprite(txt,22,0.05,K.FB); h,w=tx.shape
-    if w>mw: tx=cv2.resize(tx,(mw,int(h*mw/w)),interpolation=cv2.INTER_AREA)
-    return tx
-NTXT=[[_ts(t,136) for t in L if t] for L in NLINES]
+NLINES=[['VEB','PLATFORMALAR'],['MOBİL','TƏTBİQLƏR'],['MASAÜSTÜ','PROQRAM','TƏMİNATI'],['AVTOMATLAŞDIRMA','VƏ İDARƏETMƏ','SİSTEMLƏRİ'],['BİZNES VƏ','MÜŞTƏRİ','İDARƏETMƏSİ'],['SOSİAL MEDİA','VƏ REKLAM','ŞƏBƏKƏSİ']]
+def _ts(txt,sc):
+    tx,_=K.text_sprite(txt,22,0.02,K.FB); h,w=tx.shape
+    return cv2.resize(tx,(max(1,int(w*sc)),max(1,int(h*sc))),interpolation=cv2.INTER_AREA) if sc<1 else tx
+_wmax=max(K.text_sprite(t,22,0.02,K.FB)[0].shape[1] for L in NLINES for t in L)
+_SC=min(1.0,160.0/_wmax)
+NTXT=[[_ts(t,_SC) for t in L if t] for L in NLINES]
 LQ=cv2.imread(os.path.join(K.HERE,'..','..','assets','logo','qayo-texnologiya-logo-beyaz.png'),cv2.IMREAD_UNCHANGED)
 LOGOC=cv2.resize(LQ[:,:,3],(150,int(LQ.shape[0]*150/LQ.shape[1])),interpolation=cv2.INTER_AREA).astype(np.float32)/255
 ew=np.ones((CH,CW),np.float32); ew[:,:10]*=np.linspace(0,1,10)[None]; ew[:,-10:]*=np.linspace(1,0,10)[None]; ew[:10]*=np.linspace(0,1,10)[:,None]; ew[-10:]*=np.linspace(1,0,10)[:,None]
@@ -88,7 +93,7 @@ def logo_fx(c,t,o):
     c[:]=np.clip(c+np.float32(K.PRIM)*al*0.9*o+255*np.clip(lay,0,1)[...,None]*0.6*o,0,255)
 def netcanvas(t):
     c=MAPC.copy(); lay=np.zeros((CH,CW),np.float32); P=np.float32(K.PRIM)
-    ta=[0.9+0.4*k for k in range(5)]
+    ta=[0.9+0.4*k for k in range(6)]
     for k,(nx,ny) in enumerate(NODE):
         p=ease_out((t-ta[k]+0.3)/0.5)
         if p>0:
@@ -96,7 +101,7 @@ def netcanvas(t):
             if p>=1:
                 for jj in range(3):
                     ph=(t*0.5+k*0.27+jj/3.0)%1.0; cv2.circle(lay,(int(HUBC[0]+(nx-HUBC[0])*ph),int(HUBC[1]+(ny-HUBC[1])*ph)),8,1.6,-1,cv2.LINE_AA)
-    for a_,b_ in [(0,1),(1,3),(3,4),(4,2),(2,0)]:
+    for a_,b_ in [(0,1),(1,3),(3,5),(5,4),(4,2),(2,0)]:
         q=min(ease_out((t-ta[max(a_,b_)]-0.3)/0.6),1.0)
         if q>0:
             A=NODE[a_];B=NODE[b_]; cv2.line(lay,A,(int(A[0]+(B[0]-A[0])*q),int(A[1]+(B[1]-A[1])*q)),0.6,3,cv2.LINE_AA)
@@ -120,7 +125,7 @@ def netcanvas(t):
         shd=np.zeros((CH,CW),np.float32); cv2.circle(shd,(nx+5,ny+int(5*math.sin(t*1.7+k*1.3))+20),NR-4,1.0,-1,cv2.LINE_AA); shd=cv2.GaussianBlur(shd,(0,0),13)*o; c=c*(1-0.6*shd)[...,None]
         r=int(NR*(0.6+0.4*o))+int(2*math.sin(t*2.1+k)); ny=ny+int(5*math.sin(t*1.7+k*1.3)); glass(c,nx,ny,r,t,k,o)
         if o<0.6: continue
-        tmp=np.zeros((150,150,3),np.uint8); K.icon(tmp,K.ICON[k],75,75,t-ta[k],1.0); m=cv2.resize(tmp.max(axis=2),(54,54),interpolation=cv2.INTER_CUBIC).astype(np.float32)/255
+        tmp=np.zeros((150,150,3),np.uint8); K.icon(tmp,ICON6[k],75,75,t-ta[k],1.0); m=cv2.resize(tmp.max(axis=2),(54,54),interpolation=cv2.INTER_CUBIC).astype(np.float32)/255
         L=NTXT[k]; th=sum(x.shape[0]+7 for x in L)-7; stamp(c,np.clip(m*1.3,0,1),nx,ny-58,np.float32(K.PRIM)); y=ny+10-th//2+(4 if len(L)==2 else 0)
         for tx in L:
             stamp(c,tx,nx,y+tx.shape[0]//2,WHT); y+=tx.shape[0]+5
@@ -140,6 +145,23 @@ def shotA(t):
     r=z*(1-wm)+wc*wm; m=(vmR*a)[...,None]; img[REGY:REGY+RH]=img[REGY:REGY+RH]*(1-m)+r*m
     return img
 OFF_N=len(OFF)
+# --- V33: A səhnəsi = yeni Gemini ofis videosu (2x sürət, 150 kadr), tünd göy tona salınıb ---
+GV_DIR=os.environ.get('GV_DIR')
+_GVC={}
+def _gv(i):
+    if i not in _GVC:
+        f=cv2.imread(os.path.join(GV_DIR,'g_%04d.png'%(i+1)))[150:700,370:910]
+        f=cv2.resize(f,(1080,1100),interpolation=cv2.INTER_CUBIC).astype(np.float32)
+        f=255*(f/255.0)**1.25; f=f*np.float32([0.78,0.60,0.42])+np.float32([16,8,2])
+        _GVC[i]=np.clip(f,0,255)*HMG
+        if len(_GVC)>6: _GVC.pop(next(iter(_GVC)))
+    return _GVC[i]
+HMG=np.ones((RH,W),np.float32); HMG[:340,790:]=0.12; HMG[:330,:120]=0.12; HMG[360:620,935:]=0.12; HMG=cv2.GaussianBlur(HMG,(0,0),22)[...,None]
+def shotA_gv(t):
+    img=K.bg.copy(); i=min(149,int(t*30)); z=_gv(i); m=(vmR)[...,None]
+    img[REGY:REGY+RH]=img[REGY:REGY+RH]*(1-m)+z*m
+    return img
+if GV_DIR: shotA=shotA_gv
 # düz xəritə (daha böyük, ölkələr birbaşa üstündə)
 LON0,LATT=-25.0,76.0; PXD=1080/175.0; MW_=1080; MH_=int(118*PXD); MY0=740
 _m=cv2.resize(K.TEX,(int(360*PXD),int(180*PXD)),interpolation=cv2.INTER_AREA); _x0=int((LON0+180)*PXD); _y0=int((90-LATT)*PXD)
