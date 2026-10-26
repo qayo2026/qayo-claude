@@ -1,0 +1,11 @@
+services:
+  qayo-ses:
+    build: .
+    restart: always
+    ports: ["8000:8000"]
+    environment:
+      QAYO_KEY: ${QAYO_KEY}
+      QAYO_STT_MODEL: medium
+    volumes: ["qayo-models:/models"]
+volumes:
+  qayo-models:
