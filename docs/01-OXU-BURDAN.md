@@ -6,10 +6,10 @@
 - Hər layihə özü bir bazadır: kod, media, qeyd və son vəziyyət layihənin öz içindədir. Başqa AI bura girib birbaşa son versiyaya baxır; ayrıca mərkəz və ya başqa AI-dən asılılıq yoxdur.
 
 ## Canlı
-- Sayt: https://qayoconstruction.com — Hatchable v675, hamısı sahibin təsdiqi ilə.
+- Sayt: https://qayoconstruction.com — Hatchable v677, hamısı sahibin təsdiqi ilə.
 
 ## Giriş videosu (üz qabığı)
-- Zəncir: `pages/onlayn-satis.js` → `/qayo-intro-video/intro.js?v=13` → `player.html?v=13` → `qayo-insaat-azerbaycan-web.mp4?v=18`.
+- Zəncir: `pages/onlayn-satis.js` → `/qayo-intro-video/intro.js?v=14` → `player.html?v=14` → `qayo-insaat-azerbaycan-web.mp4?v=18`.
 - Üz qabığı: yuxarıda QAYO İNŞAAT lockup, altında hərəkətli qlobus, nömrə/cədvəl yoxdur. Video özü toxunulmazdır.
 - Videonu dəyişəndə `?v=` nömrələrini artır (telefon keşi).
 - Eyni video ayrıca layihədə: QAYO İNŞAAT AZƏRBAYCAN VİDEO (qayo-insaat.hatchable.site), yükləmə düyməsi ilə.
@@ -30,3 +30,7 @@
 ## Açıq
 - 45 köhnə faylın təmizliyi sahibin təsdiqini gözləyir (siyahı: QAYO_01_ikinci_temizlik_siyahisi.txt).
 - Arxiv layihəsi (g0gpjf) Private edilməlidir (sahib edir).
+
+## Səs
+- Giriş videosu səssiz başlayır, ilk toxunuşda (barmaq qalxanda) səs açılır — brauzer qaydasıdır, aşmaq olmur.
+- Vərəq çevirmə səsləri: `public/qayo-catalog-navigation.js` (WebAudio, 4 seçim); iPhone səssiz düyməsinə baxmasın deyə `navigator.audioSession.type="playback"`. Fayl dəyişəndə `?v=` artır (hazırda 8).
