@@ -7,21 +7,32 @@ video{position:fixed;inset:0;width:100%;height:100%;object-fit:contain;backgroun
 button{position:fixed;border:1px solid rgba(255,255,255,.55);border-radius:22px;padding:10px 16px;min-height:44px;font:800 14px/1 Arial,sans-serif;color:#fff;background:rgba(0,21,46,.72);cursor:pointer}
 .skip{top:max(12px,env(safe-area-inset-top));right:12px}
 .sound{left:12px;bottom:max(18px,env(safe-area-inset-bottom))}
+.gate{position:fixed;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;background:rgba(0,21,46,.35);border:0;border-radius:0;color:#fff;cursor:pointer}
+.gate.on{display:flex}
+.gate .play{width:96px;height:96px;border-radius:50%;background:#e30613;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 8px rgba(255,255,255,.25)}
+.gate .play:before{content:"";border-style:solid;border-width:18px 0 18px 30px;border-color:transparent transparent transparent #fff;margin-left:8px}
+.gate b{font:900 20px/1.2 Arial,sans-serif;letter-spacing:.5px;text-shadow:0 2px 8px #000}
 button:focus-visible{outline:3px solid #f7c532;outline-offset:2px}
 </style></head><body>
 <video id="v" playsinline webkit-playsinline muted preload="auto" poster="/qayo-intro-video/poster.jpg" aria-label="QAYO İNŞAAT Azərbaycan"><source src="/qayo-intro-video/qayo-insaat-azerbaycan-web.mp4" type="video/mp4"></video>
+<button type="button" class="gate" id="gate" aria-label="Videonu səslə başlat"><span class="play"></span><b>QAYO İNŞAAT · İZLƏ</b></button>
 <button type="button" class="skip" id="skip">KEÇ ↗</button>
-<button type="button" class="sound" id="snd">🔊 SƏSLİ İZLƏ</button>
+<button type="button" class="sound" id="snd" hidden>🔇 SƏSSİZ</button>
 <script>
 (function(){
-var v=document.getElementById("v"),snd=document.getElementById("snd");
+var v=document.getElementById("v"),snd=document.getElementById("snd"),gate=document.getElementById("gate");
 function say(m){try{parent.postMessage({qayoIntro:m},location.origin)}catch(_){}}
+function label(){snd.textContent=v.muted?"🔊 SƏSLİ İZLƏ":"🔇 SƏSSİZ"}
 document.getElementById("skip").addEventListener("click",function(){say("done")});
-snd.addEventListener("click",function(){v.muted=!v.muted;snd.textContent=v.muted?"🔊 SƏSLİ İZLƏ":"🔇 SƏSSİZ";if(v.paused)try{v.play()}catch(_){}});
-v.addEventListener("playing",function(){say("started")});
+snd.addEventListener("click",function(){v.muted=!v.muted;label();if(v.paused)try{v.play()}catch(_){}});
+/* Telefon brauzerləri səsli avtomatik oynatmanı qadağan edir — ilk toxunuş səslə başladır. */
+gate.addEventListener("click",function(){gate.classList.remove("on");v.muted=false;label();var p=v.play();if(p&&p.catch)p.catch(function(){v.muted=true;label();try{v.play()}catch(_){}})});
+v.addEventListener("playing",function(){gate.classList.remove("on");snd.hidden=false;label();say("started")});
 v.addEventListener("ended",function(){say("done")});
 v.addEventListener("error",function(){say("done")});
 document.addEventListener("keydown",function(e){if(e.key==="Escape")say("done")});
-try{var p=v.play();if(p&&p.catch)p.catch(function(){})}catch(_){}
+say("ready");
+v.muted=false;
+try{var p=v.play();if(p&&p.catch)p.catch(function(){v.muted=true;gate.classList.add("on")})}catch(_){gate.classList.add("on")}
 })();
 </script></body></html>

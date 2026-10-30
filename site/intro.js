@@ -18,7 +18,7 @@ var fr=document.createElement("iframe");
 fr.id="qayo-intro-frame";fr.title="QAYO İNŞAAT giriş videosu";fr.setAttribute("allow","autoplay");
 fr.src="/qayo-intro-video/player.html?v=1";
 fr.style.cssText="position:fixed;inset:0;width:100%;height:100%;border:0;z-index:2147483000;background:#00152e;opacity:1;transition:opacity .5s ease";
-var done=false,started=false;
+var done=false,started=false,ready=false,long=0;
 function finish(){
  if(done)return;done=true;
  window.removeEventListener("message",onMsg);
@@ -30,13 +30,15 @@ function finish(){
 }
 function onMsg(e){
  if(e.origin!==location.origin||e.source!==fr.contentWindow||!e.data)return;
- if(e.data.qayoIntro==="started")started=true;
+ if(e.data.qayoIntro==="ready")ready=true;
+ if(e.data.qayoIntro==="started"){started=true;clearTimeout(long);long=setTimeout(finish,40000)}
  if(e.data.qayoIntro==="done")finish();
 }
 window.addEventListener("message",onMsg);
 document.body.appendChild(fr);
 document.body.style.overflow="hidden";
 if(catalog)catalog.inert=true;
-setTimeout(function(){if(!started)finish()},9000);
-setTimeout(finish,32000);
+/* iframe yüklənməsə keç; yüklənibsə müştərinin ilk toxunuşunu gözlə (səs üçün) */
+setTimeout(function(){if(!ready)finish()},9000);
+long=setTimeout(finish,180000);
 })();
