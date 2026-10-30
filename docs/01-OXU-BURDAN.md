@@ -2,6 +2,9 @@
 
 **Əvvəl bunu oxu.** Canlı sayt (qayoconstruction.com) yeganə həqiqətdir; bu fayl onun xəritəsidir. Köhnə `00_SAHIB_BURADAN_BASLA.md` 20 oktyabr vəziyyətidir, köhnəlmiş ola bilər.
 
+## Prinsip
+- Hər layihə özü bir bazadır: kod, media, qeyd və son vəziyyət layihənin öz içindədir. Başqa AI bura girib birbaşa son versiyaya baxır; ayrıca mərkəz və ya başqa AI-dən asılılıq yoxdur.
+
 ## Canlı
 - Sayt: https://qayoconstruction.com — Hatchable v675, hamısı sahibin təsdiqi ilə.
 
