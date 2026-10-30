@@ -16,7 +16,7 @@ var catalog=document.querySelector("main.catalog");
 var prevInert=catalog?catalog.inert:false,prevOverflow=document.body.style.overflow;
 var fr=document.createElement("iframe");
 fr.id="qayo-intro-frame";fr.title="QAYO İNŞAAT giriş videosu";fr.setAttribute("allow","autoplay");
-fr.src="/qayo-intro-video/player.html?v=3";
+fr.src="/qayo-intro-video/player.html?v=4";
 fr.style.cssText="position:fixed;inset:0;width:100%;height:100%;border:0;z-index:2147483000;background:#00152e;opacity:1;transition:opacity .5s ease";
 var done=false,started=false,ready=false,long=0;
 function finish(){
