@@ -1,11 +1,11 @@
 /* QAYO İNŞAAT — sayt giriş videosu (təcrid olunmuş konteyner).
    Video ayrıca səhifədə (/qayo-intro-video/player.html) iframe-də işləyir:
    kataloqun yazı/CSS/JS dəyişiklikləri videoya təsir etmir, video da kataloqa.
-   DEFAULT_ON=false: yalnız ?qayo_video=1 ilə görünür (yoxlama rejimi).
+   DEFAULT_ON=true: hamı üçün canlıdır (30.10.2026).
    Canlıya qoyulanda DEFAULT_ON=true; ?qayo_intro=0 videonu keçir. */
 (function(){
 "use strict";
-var DEFAULT_ON=false;
+var DEFAULT_ON=true;
 var path=location.pathname.replace(/\/+$/,"")||"/";
 if(path!=="/onlayn-satis"&&path!=="/")return;
 var q=new URLSearchParams(location.search);
