@@ -13,7 +13,7 @@
     }
   ],
   "pdf": {
-    "musteri_adi": "QAYO İNŞAAT Qiymət Siyahısı.pdf",
+    "musteri_adi": "QAYO İNŞAAT Qiymət Cədvəli.pdf",
     "esas_fayl": "esas/kataloq-esas.pdf",
     "elaqe_sehifesi_nomresi": 2,
     "elaqe_sehifesi_regionlari_px827": [
@@ -66,7 +66,7 @@
   },
   "statuslar": {
     "sayt_statusu": "{marka}\nMəhsullar və sifariş: {sayt_gorunen}/onlayn-satis\nWhatsApp: {nomre0} · {nomre1}",
-    "pdf_statusu": "{marka} qiymət siyahısı söhbətdədir.\nSifariş: {sayt_gorunen}/onlayn-satis\nWhatsApp: {nomre0} · {nomre1}",
-    "pdf_basliq": "{marka} qiymət siyahısı.\nSaytda baxın və sifariş verin: {sayt_gorunen}/onlayn-satis\nSayt açılmasa, qiymət siyahısına baxın.\nWhatsApp: {nomre0} · {nomre1}"
+    "pdf_statusu": "{marka} qiymət cədvəli söhbətdədir.\nSifariş: {sayt_gorunen}/onlayn-satis\nWhatsApp: {nomre0} · {nomre1}",
+    "pdf_basliq": "{marka} qiymət cədvəli.\nSaytda baxın və sifariş verin: {sayt_gorunen}/onlayn-satis\nSayt açılmasa, qiymət cədvəlinə baxın.\nWhatsApp: {nomre0} · {nomre1}"
   }
 }
