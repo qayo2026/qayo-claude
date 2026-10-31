@@ -101,7 +101,8 @@
           "hedef": "sayt"
         }
       ]
-    }
+    },
+    "link_baza": "https://qayo-insaat-pdf-b6d5.hatchable.site"
   },
   "statuslar": {
     "sayt_statusu": "{marka}\nMəhsullar və sifariş: {sayt_gorunen}/onlayn-satis\nWhatsApp: {nomre0} · {nomre1}",
