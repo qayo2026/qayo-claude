@@ -6,10 +6,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 M=json.load(open('menba.json',encoding='utf-8')); N=M['nomreler']; ad=M['pdf']['musteri_adi']
 os.makedirs('cixis_sehife',exist_ok=True)
 for f in os.listdir('cixis_sehife'): os.remove('cixis_sehife/'+f)
-# önbaxış şəkli: PDF-in birinci səhifəsi (loqo) 1200x630 ağ fonda
-subprocess.run(['pdftoppm','-r','200','-f','1','-l','1','-png','-singlefile','esas/kataloq-esas.pdf','/tmp/_p1'],check=True)
-im=Image.open('/tmp/_p1.png').convert('RGB'); w=1000; im=im.resize((w,int(im.height*w/im.width)))
-bg=Image.new('RGB',(1200,630),'white'); bg.paste(im,(100,(630-im.height)//2)); bg.save('cixis_sehife/og.jpg',quality=85)
+import shutil; shutil.copy(M['pdf']['kapak']['sekil'],'cixis_sehife/og.jpg')
 E_=html.escape
 page=f'''<!doctype html>
 <html lang="az"><head><meta charset="utf-8">

@@ -15,54 +15,93 @@
   "pdf": {
     "musteri_adi": "QAYO İNŞAAT Qiymət Cədvəli.pdf",
     "esas_fayl": "esas/kataloq-esas.pdf",
-    "elaqe_sehifesi_nomresi": 2,
-    "elaqe_sehifesi_regionlari_px827": [
-      {
-        "sahe": [
-          20,
-          35,
-          420,
-          92
-        ],
-        "hedef": "nomre:0"
-      },
-      {
-        "sahe": [
-          430,
-          35,
-          808,
-          92
-        ],
-        "hedef": "nomre:1"
-      },
-      {
-        "sahe": [
-          20,
-          100,
-          278,
-          165
-        ],
-        "hedef": "sayt"
-      },
-      {
-        "sahe": [
-          289,
-          100,
-          552,
-          165
-        ],
-        "hedef": "sayt"
-      },
-      {
-        "sahe": [
-          562,
-          100,
-          808,
-          165
-        ],
-        "hedef": "sayt"
-      }
-    ]
+    "kapak": {
+      "sekil": "esas/sayt-onizleme.jpg",
+      "kohne_sehifeler_cixarilir": 2,
+      "regionlar_px1200x630": [
+        {
+          "sahe": [
+            12,
+            125,
+            292,
+            415
+          ],
+          "hedef": "sayt"
+        },
+        {
+          "sahe": [
+            310,
+            125,
+            592,
+            415
+          ],
+          "hedef": "sayt"
+        },
+        {
+          "sahe": [
+            610,
+            125,
+            892,
+            415
+          ],
+          "hedef": "sayt"
+        },
+        {
+          "sahe": [
+            910,
+            125,
+            1190,
+            415
+          ],
+          "hedef": "sayt"
+        },
+        {
+          "sahe": [
+            12,
+            430,
+            592,
+            515
+          ],
+          "hedef": "nomre:0"
+        },
+        {
+          "sahe": [
+            604,
+            430,
+            1190,
+            515
+          ],
+          "hedef": "nomre:1"
+        },
+        {
+          "sahe": [
+            12,
+            527,
+            398,
+            615
+          ],
+          "hedef": "sayt"
+        },
+        {
+          "sahe": [
+            410,
+            527,
+            790,
+            615
+          ],
+          "hedef": "sayt"
+        },
+        {
+          "sahe": [
+            802,
+            527,
+            1190,
+            615
+          ],
+          "hedef": "sayt"
+        }
+      ]
+    }
   },
   "statuslar": {
     "sayt_statusu": "{marka}\nMəhsullar və sifariş: {sayt_gorunen}/onlayn-satis\nWhatsApp: {nomre0} · {nomre1}",
