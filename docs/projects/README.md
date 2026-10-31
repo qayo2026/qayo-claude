@@ -13,3 +13,7 @@
 Qaydalar: texnologiya videosunda sayt/əlaqə yoxdur (toxum təqdimatıdır). İnşaat paylaşım sırası: texnologiya → sayt linki → inşaat videoları → qiymət şəkli.
 Köhnə/dublikat layihələr silinmir, adına "ARXİV" yazılır: sx6au5, qayo-insaat-pdf, g0gpjf, 02-qayo-insaat-web, qayo-studio, qayo-studiya-merkezi, qayo-chatgpt-7ega, qayo-claund (adlarına ARXİV yazılıb). Toxunulmayıb: qayo-studio-2, qayo-chatgpt, qayo-merkez.
 Mənbə kodu: tools/texnologiya-video/ (texnologiya), qalanları Hatchable-da canlıdır.
+
+## 2026-11-01 canlı
+- Sayt linkinin önizləməsi: `public/og/qayo-link-onizleme-1200x630-20261101.jpg` (qayo-web-catalog v680), yalnız og/twitter etiketləri dəyişdi.
+- QAYO TEXNOLOGİYA — 3 ÖLÇÜ (qayo-texnologiya-3): 9:16, 4:5, 16:9 videolar; nüsxələr `media/texnologiya/`.
