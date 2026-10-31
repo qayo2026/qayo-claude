@@ -35,14 +35,15 @@ def groups(rows):
 def build(fr,Y0i,Y1i):
     a=max(0,int(round(Y0i))-4); b=min(H-1,int(round(Y1i))+4)
     bh=b-a+1
-    s=min(OW/W,OH/bh)
+    BAND=150
+    s=min(OW/W,(OH-2*BAND)/bh)
     pw=int(round(W*s)); ph=int(round(bh*s))
     pic=cv2.resize(fr[a:b+1],(pw,ph),interpolation=cv2.INTER_CUBIC).astype(np.float32)
     F=np.median(fr,axis=1,keepdims=True).astype(np.float32)
     navy=F[a:b+1].mean((0,1)) if False else np.array([4,10,28],np.float32)
     canvas=np.empty((OH,OW,3),np.float32); canvas[:]=navy
     # yanlar: kənar sütunların yumşaq davamı
-    x0=(OW-pw)//2; y_off=(OH-ph)//2
+    x0=(OW-pw)//2; y_off=BAND+((OH-2*BAND)-ph)//2
     if x0>0:
         L=np.repeat(pic[:,:1],x0,1); R=np.repeat(pic[:,-1:],OW-pw-x0,1)
         ext=np.concatenate([L,pic,R],1)
@@ -62,18 +63,14 @@ def build(fr,Y0i,Y1i):
     for (g0,g1) in groups(rows):
         blk=D[g0:g1+1]
         cols=np.nonzero(blk.max(axis=(0,2))>45)[0]
+        if g1-g0<12 or cols[-1]-cols[0]<120: continue   # nazik şüa/xətlər yazı deyil
         c0=max(0,cols[0]-14); c1=min(W-1,cols[-1]+14)
         blk=blk[:,c0:c1+1]
-        cs=1.15; bw=int(blk.shape[1]*cs); bhh=int(blk.shape[0]*cs)
+        cs=min(1.15,(BAND-12)/blk.shape[0]); bw=int(blk.shape[1]*cs); bhh=int(blk.shape[0]*cs)
         blk=cv2.resize(blk,(bw,bhh),interpolation=cv2.INTER_CUBIC)
         top_group = g1 < a
-        yy=36 if top_group else OH-36-bhh
+        yy=(BAND-bhh)//2 if top_group else OH-BAND+(BAND-bhh)//2
         xx=(OW-bw)//2
-        # oxunaqlıq üçün yumşaq tünd zolaq
-        gr=np.zeros((OH,1,1),np.float32)
-        c=yy+bhh/2; yv=np.arange(OH,dtype=np.float32)
-        gr[:,0,0]=np.exp(-((yv-c)/(bhh*1.1+30))**2)*0.55
-        canvas*= (1-gr)
         canvas[yy:yy+bhh,xx:xx+bw]+=blk
     return np.clip(canvas,0,255).astype(np.uint8)
 ra=rd(src)
