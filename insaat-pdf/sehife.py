@@ -1,5 +1,6 @@
 # Paylaşım səhifəsini (index.html) və önbaxış şəklini (og.jpg) mənbədən (menba.json) qurur.
 import json, os, subprocess, html
+from urllib.parse import quote
 from PIL import Image
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 M=json.load(open('menba.json',encoding='utf-8')); N=M['nomreler']; ad=M['pdf']['musteri_adi']
@@ -31,8 +32,7 @@ a.b{{display:flex;align-items:center;justify-content:center;min-height:54px;bord
 @media(max-width:380px){{.row{{grid-template-columns:1fr}}}}
 </style></head><body><main>
 <img src="og.jpg" alt="{E_(M['marka'])}" width="1200" height="630">
-<a class="b r" href="onlayn-satis.pdf">PDF kataloqu aç</a>
-<a class="b u" href="onlayn-satis.pdf" download="{E_(ad)}">PDF yüklə</a>
+<a class="b r" href="{quote(ad)}" download="{E_(ad)}">PDF kataloqu</a>
 <a class="b r" href="{E_(M['sayt'])}">Məhsullar və sifariş → {E_(M['sayt_gorunen'])}</a>
 <div class="row">
 <a class="b g" href="{E_(N[0]['wa'])}">WhatsApp {E_(N[0]['gorunen'])}</a>
