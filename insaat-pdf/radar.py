@@ -27,4 +27,11 @@ for f in os.listdir('cixis_status'):
     for n in M['nomreler']:
         if t.count(n['gorunen'])!=1: bad.append(f'{f}: nömrə {n["gorunen"]} {t.count(n["gorunen"])} dəfə (1 olmalıdır)')
     if M['sayt_gorunen'] not in t: bad.append(f'{f}: sayt yoxdur')
+import re as _re
+if os.path.exists('cixis_sehife/index.html'):
+    h=open('cixis_sehife/index.html',encoding='utf-8').read()
+    for u in _re.findall(r'href="(https?://[^"]+)"',h):
+        if u not in ok: bad.append(f'səhifədə mənbədə olmayan link: {u}')
+    for n in M['nomreler']:
+        if h.count('>WhatsApp '+n['gorunen']+'<')!=1: bad.append(f'səhifədə nömrə {n["gorunen"]} 1 dəfə olmalıdır')
 print('RADAR: PİS' if bad else 'RADAR: TƏMİZ'); [print(' -',x) for x in bad]; sys.exit(1 if bad else 0)
