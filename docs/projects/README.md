@@ -18,3 +18,4 @@ Mənbə kodu: tools/texnologiya-video/ (texnologiya), qalanları Hatchable-da ca
 - Sayt linkinin önizləməsi: `public/og/qayo-link-onizleme-1200x630-20261101.jpg` (qayo-web-catalog v680), yalnız og/twitter etiketləri dəyişdi.
 - QAYO TEXNOLOGİYA — 3 ÖLÇÜ (qayo-texnologiya-3): 9:16, 4:5, 16:9 videolar; nüsxələr `media/texnologiya/`.
 - İNŞAAT videosu 30 san. (20+10), 3 ölçü: `media/insaat/`; canlı: qayo-insaat-video v8 (əsas 9:16, 4:5 və 16:9 yükləmə linki).
+- 2026-11-01: İNŞAAT videosu 30 san. sayta giriş videosu oldu (qayo-web-catalog v681, intro v15/player v15/video v19). Standart fayl adları: `QAYO İNŞAAT Video 9x16|4x5|16x9.mp4`, `QAYO TEXNOLOGİYA Video 9x16|4x5|16x9.mp4` (media/insaat, media/texnologiya). Köhnə 20 san. fayl və dublikat silindi (git tarixçəsində qalır).
