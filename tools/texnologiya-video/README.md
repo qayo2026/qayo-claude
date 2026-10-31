@@ -14,3 +14,6 @@ Eksportlar:
 
 `archive/` — köhnə keçid skriptləri (pass3–16), yalnız tarix üçün; istifadə etmə.
 Kadrı KƏSMƏ (crop/zoom yox) — geniş görüntü qaydası.
+
+## Qayda (31.10.2026)
+Mövcud texnologiya videosu tünd göy fonda qalır (dəyişmir). Gələcək videolar ağ fonla hazırlanır; yazılar tünd göy. Qeyd: ağ fonda köhnə şüa/kölgə izləri təmizlənməlidir (compose2-nin D qatı).
