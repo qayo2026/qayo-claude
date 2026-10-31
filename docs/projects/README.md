@@ -8,7 +8,7 @@
 | Video təqdimat | video-teqdimat (proj_cpoDfjqU45bx) | public/tikinti.mp4 | 6963925c… ilə eyniləşdirilir |
 | 01 sayt | qayo-web-catalog (proj_igQLbv9cqP3v) | qayoconstruction.com | v679; giriş videosu ?v=18 |
 | 02 sayt (aktiv) | qayo-insaat-onlayn (proj_aRN21P45yQjn) | qayo-insaat-onlayn.hatchable.site | ARXİV DEYİL, 02 paketinin əsasıdır |
-| Qiymət cədvəli | qayo-insaat-pdf-b6d5 (proj_jFY5KA43SAkb) | pdf.qayoconstruction.com (əlavə: catalog.qayoconstruction.com) | v10, 51 səhifə webp + PDF |
+| Qiymət cədvəli | qayo-insaat-pdf-b6d5 (proj_jFY5KA43SAkb) | catalog.qayoconstruction.com (əlavə: pdf.qayoconstruction.com) | v10, 51 səhifə webp + PDF |
 
 Qaydalar: texnologiya videosunda sayt/əlaqə yoxdur (toxum təqdimatıdır). İnşaat paylaşım sırası: texnologiya → sayt linki → inşaat videoları → qiymət şəkli.
 Köhnə/dublikat layihələr silinmir, adına "ARXİV" yazılır: sx6au5, qayo-insaat-pdf, g0gpjf, 02-qayo-insaat-web, qayo-studio, qayo-studiya-merkezi, qayo-chatgpt-7ega, qayo-claund (adlarına ARXİV yazılıb). Toxunulmayıb: qayo-studio-2, qayo-chatgpt, qayo-merkez.
