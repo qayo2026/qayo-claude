@@ -17,3 +17,4 @@ Mənbə kodu: tools/texnologiya-video/ (texnologiya), qalanları Hatchable-da ca
 ## 2026-11-01 canlı
 - Sayt linkinin önizləməsi: `public/og/qayo-link-onizleme-1200x630-20261101.jpg` (qayo-web-catalog v680), yalnız og/twitter etiketləri dəyişdi.
 - QAYO TEXNOLOGİYA — 3 ÖLÇÜ (qayo-texnologiya-3): 9:16, 4:5, 16:9 videolar; nüsxələr `media/texnologiya/`.
+- İNŞAAT videosu 30 san. (20+10), 3 ölçü: `media/insaat/`; canlı: qayo-insaat-video v8 (əsas 9:16, 4:5 və 16:9 yükləmə linki).
