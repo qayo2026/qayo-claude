@@ -2,16 +2,20 @@
 
 Son yenilənmə: 2026-11-01. **Əvvəl bunu oxu.** Köhnə sənədlər: `docs/projects/README.md` (tarixçə).
 
-## 1. Layihələr (hər iş = bir layihə, bir dəfə açılır, düzəlişlər onun üzərində edilir)
-| İş | Hatchable layihəsi (ad) | slug / ünvan | Nədir |
-|---|---|---|---|
-| Sayt | 01 — QAYO İNŞAAT: WEB SAYT + VİDEO | qayo-web-catalog · qayoconstruction.com | Əsas sayt. Giriş videosu = İNŞAAT videosu (9x16). Link önizləməsi (og) də burada |
-| İNŞAAT videosu | 3-QAYO İNŞAAT MP4 VIDEO | qayo-insaat-video | 30 san. video, 3 ölçü, yükləmə linkləri |
-| TEXNOLOGİYA videosu | QAYO TEXNOLOGİYA | qayo-texnologiya-3 (öz domeni alınacaq) | Ayrı video, 3 ölçü. İNŞAAT ilə qarışmır |
-| B2B KATALOQ | 02 — QAYO İNŞAAT: B2B KATALOQ | qayo-insaat-pdf-b6d5 · catalog.qayoconstruction.com | Müstəqil statik kataloq (sayta/bazaya bağlı deyil), WhatsApp ilə vacib müştərilərə. PDF: "QAYO İNŞAAT Məhsul Kataloqu.pdf" (GitHub: media/katalog/). Digər layihələrlə qarışmır |
+## 1. Layihələr — cəmi 6 (hər biri ayrıdır, bir-biri ilə qarışmır)
+Ölçülər hamısında eynidir: 9x16 (sayt, Story, Reels) · 4x5 (lent, Facebook, Instagram) · 16x9 (YouTube, LinkedIn)
 
+| № | Hatchable layihəsi (ad) | slug / ünvan | Nədir |
+|---|---|---|---|
+| 1 | 01 — QAYO İNŞAAT: WEB SAYT + VİDEO | qayo-web-catalog · qayoconstruction.com | Əsas sayt + giriş videosu |
+| 2 | 02 — QAYO İNŞAAT: MP4 VİDEO | qayo-insaat-video | İNŞAAT videosu, 3 ölçü, yükləmə |
+| 3 | 03 — QAYO İNŞAAT: KATALOQ + QİYMƏT | qayo-insaat-onlayn | Sayta bağlı onlayn kataloq + qiymət sistemi |
+| 4 | 04 — QAYO İNŞAAT: PDF B2B | qayo-insaat-pdf-b6d5 · catalog.qayoconstruction.com | Tam müstəqil B2B kataloq + "QAYO İNŞAAT Məhsul Kataloqu.pdf"; heç nəyə bağlı deyil |
+| 5 | 05 — QAYO İNŞAAT: ŞƏKİLLƏR | qayo-insaat-sekiller | Postlar (Post 4x5, Post 9x16), sonra vizit kart, broşür |
+| 6 | 06 — QAYO TEXNOLOGİYA | qayo-texnologiya-3 (domen sonra) | Ayrı brend, TEXNOLOGİYA videosu, 3 ölçü |
+
+Bunlardan kənardakı hər şey (KOSMOS, LAB, Studio 2, MONEY MAP, Energy Pay, BRAND, WORLD SEARCH, "ARXİV" və s.) bu 6-ya aid deyil.
 Hər video layihəsində `public/videos.json` var: hər faylın standart adı, ölçüsü, təyinatı, yolu. AI xidmətləri oradan oxuyur.
-Başqa işlər (Energy Pay, Studio 2, KOSMOS, MONEY MAP və s.) ayrıdır, bu fihristə aid deyil.
 
 ## 2. Video faylları (GitHub: `qayo2026/qayo-claude`)
 - `media/insaat/QAYO İNŞAAT Video 9x16|4x5|16x9.mp4` (30 san. = 20 san. Dünya→Azərbaycan→Bakı + 10 san. onlayn satış)
