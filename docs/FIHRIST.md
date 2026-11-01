@@ -8,7 +8,7 @@ Son yenilənmə: 2026-11-01. **Əvvəl bunu oxu.** Köhnə sənədlər: `docs/pr
 | Sayt | 01 — QAYO İNŞAAT: WEB SAYT + VİDEO | qayo-web-catalog · qayoconstruction.com | Əsas sayt. Giriş videosu = İNŞAAT videosu (9x16). Link önizləməsi (og) də burada |
 | İNŞAAT videosu | 3-QAYO İNŞAAT MP4 VIDEO | qayo-insaat-video | 30 san. video, 3 ölçü, yükləmə linkləri |
 | TEXNOLOGİYA videosu | QAYO TEXNOLOGİYA | qayo-texnologiya-3 (öz domeni alınacaq) | Ayrı video, 3 ölçü. İNŞAAT ilə qarışmır |
-| Qiymət cədvəli | 02 — QAYO İNŞAAT: KATALOQ + QİYMƏT CƏDVƏLİ | catalog.qayoconstruction.com | Müştəriyə gedən qiymət cədvəli |
+| B2B KATALOQ | 02 — QAYO İNŞAAT: B2B KATALOQ | qayo-insaat-pdf-b6d5 · catalog.qayoconstruction.com | Müstəqil statik kataloq (sayta/bazaya bağlı deyil), WhatsApp ilə vacib müştərilərə. PDF: "QAYO İNŞAAT Məhsul Kataloqu.pdf" (GitHub: media/katalog/). Digər layihələrlə qarışmır |
 
 Hər video layihəsində `public/videos.json` var: hər faylın standart adı, ölçüsü, təyinatı, yolu. AI xidmətləri oradan oxuyur.
 Başqa işlər (Energy Pay, Studio 2, KOSMOS, MONEY MAP və s.) ayrıdır, bu fihristə aid deyil.
