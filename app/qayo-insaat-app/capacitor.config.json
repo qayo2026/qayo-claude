@@ -3,7 +3,7 @@
   "appName": "QAYO İNŞAAT",
   "webDir": "www",
   "server": {
-    "url": "https://qayoconstruction.com/catalog",
+    "url": "https://qayoconstruction.com/catalog?qayo_intro=0",
     "allowNavigation": ["qayoconstruction.com", "*.qayoconstruction.com", "wa.me", "api.whatsapp.com"],
     "cleartext": false
   },
