@@ -80,6 +80,12 @@ h3{font-size:clamp(26px,7.5vw,32px);font-weight:900;letter-spacing:.01em;line-he
 .cs svg{width:34px;height:34px}
 footer{background:var(--c1);color:#b9c6ea;text-align:center;padding:26px 20px calc(26px + env(safe-area-inset-bottom));font-size:13px;letter-spacing:.08em}
 footer b{display:block;color:#fff;letter-spacing:.24em;margin-bottom:6px}
+.fx{position:fixed;left:0;right:0;bottom:0;z-index:15;display:flex;gap:8px;align-items:center;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:3px solid #234a9a;box-shadow:0 -8px 24px rgba(10,31,92,.12);transition:transform .35s ease}
+.fx.off{transform:translateY(110%)}
+.fx a{flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:14px;color:#fff;text-decoration:none;font-weight:900;font-size:19px}
+.fx svg{width:26px;height:26px}
+.fx .w{width:auto;padding:0 16px;grid-auto-flow:column;gap:8px;background:#25b866;font-size:12px;letter-spacing:.08em}
+body{padding-bottom:68px}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.win,.bd>*,.ic>*{opacity:1!important;transform:none!important}}
 </style></head><body>
 <div id='pg'></div>
@@ -189,11 +195,14 @@ if(s.kind==='rows')return wrap(s,`${top(s,s.cat)}<div class='bd'><h3>${s.t}</h3>
 if(s.kind==='nums')return wrap(s,`${top(s,s.cat)}<div class='bd'><h3>${s.t}</h3><div class='sg'>${s.items.map(r=>`<div style='background:${r[2]}'><b data-n='${r[0]}'>0</b><small>${r[1]}</small></div>`).join('')}</div><div class='src'>${s.src}</div></div>`);
 return '';}).join('');
 document.getElementById('app').innerHTML=html;
+const fx=document.createElement('nav');fx.className='fx off';fx.setAttribute('aria-label','Əlaqə');
+fx.innerHTML=`<a class='w' href='${wa('Salam, QAYO TEXNOLOGİYA kataloqunu gördüm, əməkdaşlıq barədə yazıram')}' target='_blank' rel='noopener'><svg viewBox='0 0 120 120'>${I.wa.replace(/class='c4'/,"fill='#fff'").replace(/class='c8'/,"fill='#25b866'")}</svg>YAZ</a>`+CS.slice(0,7).map(c=>`<a href='${c[1]}'${c[1].startsWith('http')?" target='_blank' rel='noopener'":''} style='background:${c[2]}' aria-label='${c[0]}'>${c[3]}</a>`).join('');
+document.body.appendChild(fx);
 const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
 function count(el){el.querySelectorAll('[data-n]').forEach(b=>{const to=+b.dataset.n;if(RM){b.textContent=to;return}const t0=performance.now()+500;(function f(t){const p=Math.min(Math.max((t-t0)/1300,0),1);b.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(performance.now())})}
 document.querySelectorAll('.ic').forEach(sv=>{[...sv.children].forEach((x,j)=>x.style.setProperty('--i',j))});
 const cn=document.getElementById('cn'),pg=document.getElementById('pg');
-const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){const t=en.target;const i=+t.dataset.i;cn.textContent=pad(i)+' / '+N;pg.style.width=(i/N*100)+'%';if(!t.classList.contains('on')){t.classList.add('on');count(t)}}}),{threshold:.3});
+const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){const t=en.target;const i=+t.dataset.i;cn.textContent=pad(i)+' / '+N;fx.classList.toggle('off',i===1||i===N);pg.style.width=(i/N*100)+'%';if(!t.classList.contains('on')){t.classList.add('on');count(t)}}}),{threshold:.3});
 document.querySelectorAll('.sh').forEach(x=>io.observe(x));
 pg.style.width=(1/N*100)+'%';
 })();
