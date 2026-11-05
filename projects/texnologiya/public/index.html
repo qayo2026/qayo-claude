@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang='az'><head>
+<meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1,viewport-fit=cover'>
+<title>QAYO TEXNOLOGİYA — Kataloq</title>
+<meta name='description' content='QAYO TEXNOLOGİYA: ERP həlləri, sektorlar və layihələr bir kataloqda. Hər məhsul ayrıca pəncərədə.'>
+<meta property='og:type' content='website'><meta property='og:site_name' content='QAYO TEXNOLOGİYA'>
+<meta property='og:title' content='QAYO TEXNOLOGİYA — Kataloq'>
+<meta property='og:description' content='ERP həlləri, sektorlar və işləyən layihələr: anbar, restoran, tekstil, istehsalat, turizm, CRM, e-ticarət.'>
+<meta name='theme-color' content='#0a1f5c'>
+<link rel='icon' href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%230a1f5c'/%3E%3Ctext x='16' y='23' font-size='20' font-weight='900' text-anchor='middle' fill='white' font-family='Arial'%3EQ%3C/text%3E%3C/svg%3E">
+<link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap' rel='stylesheet'>
+<style>
+:root{--c1:#0a1f5c;--c2:#0b3fb5;--c3:#5bb6f5;--c4:#34c7a5;--c5:#f5b942;--c6:#ef6a63;--c7:#e5222b;--mut:#5f6f95;--line:#e3e9f6;--bg:#eef2fa;--hand:'Caveat','Segoe Script','Bradley Hand',cursive}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-snap-type:y proximity}
+body{background:linear-gradient(180deg,#eef2fa,#f8faff 60%,#eef2fa);color:var(--c1);font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.5}
+header{position:sticky;top:0;z-index:10;background:rgba(10,31,92,.96);backdrop-filter:blur(8px);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:calc(12px + env(safe-area-inset-top)) 18px 12px}
+header b{letter-spacing:.2em;font-size:14px;font-weight:900}header b i{font-style:normal;color:#ff7b81}
+#cn{font-weight:800;font-size:13px;letter-spacing:.12em;background:rgba(255,255,255,.14);padding:7px 12px;border-radius:999px}
+#pg{position:fixed;left:0;top:0;height:3px;background:linear-gradient(90deg,var(--c3),var(--c4),var(--c5),var(--c6));width:0;z-index:20;transition:width .4s ease}
+.sh{min-height:calc(100svh - 58px);display:grid;place-items:center;padding:20px 14px;scroll-snap-align:start;scroll-margin-top:58px}
+.win{width:min(100%,460px);background:#fff;border-radius:30px;box-shadow:0 30px 70px rgba(10,31,92,.14),0 2px 6px rgba(10,31,92,.05);overflow:hidden;opacity:0;transform:translateY(50px) scale(.95);transition:opacity .7s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+.win.wide{width:min(100%,560px)}
+.on .win{opacity:1;transform:none}
+.top{display:flex;align-items:center;justify-content:space-between;padding:16px 22px 0}
+.cat{font-family:var(--hand);font-size:28px;font-weight:700;line-height:1;color:var(--c1)}
+.no{font-size:12px;font-weight:800;letter-spacing:.1em;color:var(--mut)}
+.art{position:relative;margin:12px 14px 0;height:240px;border-radius:24px;display:grid;place-items:center;background:linear-gradient(135deg,var(--ta,#e6efff),var(--tb,#fff));overflow:hidden}
+.art:before,.art:after{content:'';position:absolute;border-radius:50%;opacity:.55;animation:drift 9s ease-in-out infinite}
+.art:before{width:150px;height:150px;left:-40px;top:-40px;background:var(--tc,#cfe0ff)}
+.art:after{width:110px;height:110px;right:-30px;bottom:-30px;background:var(--td,#ffe3a3);animation-delay:-4s}
+@keyframes drift{50%{transform:translate(14px,10px) scale(1.08)}}
+.tile{position:relative;z-index:1;width:172px;height:172px;border-radius:44px;background:#fff;display:grid;place-items:center;box-shadow:0 22px 44px rgba(10,31,92,.16)}
+.on .tile{animation:fl 5s ease-in-out 1.6s infinite}
+@keyframes fl{50%{transform:translateY(-8px) rotate(-1.5deg)}}
+.ic{width:118px;height:118px;display:block;overflow:visible}
+.ic .c1{fill:var(--c1)}.ic .c2{fill:var(--c2)}.ic .c3{fill:var(--c3)}.ic .c4{fill:var(--c4)}.ic .c5{fill:var(--c5)}.ic .c6{fill:var(--c6)}.ic .c7{fill:var(--c7)}.ic .c8{fill:#fff}
+.ic>*{opacity:0;transform:scale(.4) translateY(14px);transform-box:fill-box;transform-origin:center}
+.on .ic>*{animation:pp .8s cubic-bezier(.2,1.25,.3,1) forwards;animation-delay:calc(var(--i)*.09s + .25s)}
+@keyframes pp{to{opacity:1;transform:none}}
+.bd{padding:20px 24px 26px}
+.bd>*{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.on .bd>*{opacity:1;transform:none}
+.on .bd>*:nth-child(1){transition-delay:.45s}.on .bd>*:nth-child(2){transition-delay:.57s}.on .bd>*:nth-child(3){transition-delay:.69s}.on .bd>*:nth-child(4){transition-delay:.81s}.on .bd>*:nth-child(5){transition-delay:.93s}.on .bd>*:nth-child(6){transition-delay:1.05s}
+h3{font-size:clamp(26px,7.5vw,32px);font-weight:900;letter-spacing:.01em;line-height:1.15}
+.sub{margin-top:8px;font-size:12px;letter-spacing:.22em;font-weight:800;color:var(--mut)}
+.hd{margin-top:10px;font-size:17px;font-weight:800;line-height:1.35}
+.bd p{margin-top:10px;font-size:15px;color:var(--mut)}
+.chip{display:inline-block;margin-top:14px;font-size:11px;font-weight:800;letter-spacing:.1em;padding:6px 12px;border-radius:999px;background:#eef2fa;color:var(--mut)}
+.chip.live{background:var(--c4);color:#fff}
+.btns{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+.btn{display:block;text-align:center;text-decoration:none;font-weight:800;letter-spacing:.08em;font-size:13px;padding:14px 18px;border-radius:16px}
+.b1{background:var(--c7);color:#fff;box-shadow:0 10px 22px rgba(229,34,43,.28)}
+.b2{background:#eef2fa;color:var(--c2)}
+.dk{background:var(--c1);color:#fff}.dk .cat,.dk h3{color:#fff}.dk .no,.dk .sub,.dk .bd p{color:#b9c6ea}.dk .b2{background:rgba(255,255,255,.14);color:#fff}
+.hint{margin-top:22px;font-size:12px;letter-spacing:.2em;font-weight:800;color:var(--c6);animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(6px)}}
+.gh{font-family:var(--hand);font-size:30px;font-weight:700;margin:22px 0 10px;line-height:1}
+.gg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 10px}
+.gt{text-decoration:none;color:var(--c1);text-align:center;font-weight:700;font-size:13px;line-height:1.25}
+.gt .tl{display:grid;place-items:center;aspect-ratio:1;border-radius:24px;background:#fff;box-shadow:0 10px 24px rgba(10,31,92,.1);margin-bottom:8px;transition:transform .25s}
+.gt:active .tl{transform:scale(.93)}
+.gt .ic{width:62%;height:62%}
+.gt .ic>*{opacity:1!important;transform:none!important;animation:none!important}
+.wrow{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:2px solid var(--bg)}
+.wrow:last-child{border:0}.wrow i{flex:none;width:34px;height:34px;border-radius:12px;display:grid;place-items:center;font-style:normal;font-weight:900;color:#fff;font-size:14px}
+.wrow b{display:block;font-size:16px}.wrow span{font-size:14px;color:var(--mut)}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.sg div{border-radius:20px;padding:18px 10px;text-align:center}
+.sg div:last-child:nth-child(odd){grid-column:1/-1}
+.sg b{display:block;font-size:clamp(40px,12vw,54px);font-weight:900;line-height:1}
+.sg small{display:block;margin-top:8px;font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--c1)}
+.src{margin-top:14px;font-size:12px;color:var(--mut)}
+.chan{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chan a,.chan span{font-size:12px;letter-spacing:.1em;font-weight:800;color:var(--c2);text-decoration:none;border-radius:999px;padding:9px 14px;background:#eef2fa}
+.cs{margin-top:20px;border:4px solid #234a9a;border-radius:26px;background:#f1f3f9;padding:10px;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.cs a{flex:none;width:92px;background:#fff;border-radius:20px;padding:10px 6px 9px;text-align:center;text-decoration:none;color:#0a1f5c;font-weight:800;font-size:10px;letter-spacing:.04em;box-shadow:0 4px 12px rgba(10,31,92,.1)}
+.cs i{display:grid;place-items:center;width:64px;height:64px;border-radius:16px;margin:0 auto 8px;color:#fff;font-style:normal;font-weight:900;font-size:30px}
+.cs svg{width:34px;height:34px}
+footer{background:var(--c1);color:#b9c6ea;text-align:center;padding:26px 20px calc(26px + env(safe-area-inset-bottom));font-size:13px;letter-spacing:.08em}
+footer b{display:block;color:#fff;letter-spacing:.24em;margin-bottom:6px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.win,.bd>*,.ic>*{opacity:1!important;transform:none!important}}
+</style></head><body>
+<div id='pg'></div>
+<header><b>QAYO <i>TEXNOLOGİYA</i></b><span id='cn'>01 / 29</span></header>
+<main id='app'></main>
+<noscript><div style='padding:30px 20px'><h2>QAYO TEXNOLOGİYA</h2><p>Rəqəmsal texnologiyalarla biznes əlaqələrinizi genişləndirin.</p><p><a href='https://wa.me/anarqayo'>WhatsApp-da yazın</a></p></div></noscript>
+<footer><b>QAYO TEXNOLOGİYA</b>Software &amp; Intelligence · © 2026</footer>
+<script>
+(function(){
+const I={
+globe:`<circle class='c2' cx='60' cy='60' r='46'/><ellipse class='c3' cx='60' cy='60' rx='20' ry='46'/><rect class='c8' x='14' y='56' width='92' height='8' rx='4'/><circle class='c5' cx='96' cy='26' r='9'/><circle class='c6' cx='22' cy='92' r='6'/>`,
+ecom:`<path class='c2' d='M24 42h72l-6 54a9 9 0 0 1-9 8H39a9 9 0 0 1-9-8z'/><path class='c1' d='M24 42h72l-1.6 14H25.6z'/><path class='c5' d='M42 42v-8a18 18 0 0 1 36 0v8h-10v-8a8 8 0 0 0-16 0v8z'/><circle class='c6' cx='60' cy='78' r='12'/><circle class='c8' cx='60' cy='78' r='5'/>`,
+pos:`<path class='c5' d='M16 28h88l8 28H8z'/><path class='c2' d='M44 28h14l-2 28H40zM74 28h14l4 28H76z'/><rect class='c3' x='18' y='56' width='84' height='46' rx='8'/><rect class='c1' x='46' y='70' width='28' height='32' rx='5'/><circle class='c5' cx='68' cy='86' r='3'/>`,
+crm:`<g><rect class='c4' x='8' y='38' width='62' height='38' rx='14' transform='rotate(-24 39 57)'/></g><g><rect class='c2' x='48' y='44' width='62' height='38' rx='14' transform='rotate(24 79 63)'/></g><circle class='c5' cx='60' cy='62' r='10'/><circle class='c1' cx='60' cy='62' r='4'/>`,
+rest:`<circle class='c5' cx='60' cy='60' r='48'/><circle class='c8' cx='60' cy='60' r='33'/><circle class='c6' cx='60' cy='60' r='14'/><rect class='c2' x='6' y='54' width='8' height='44' rx='4'/><rect class='c4' x='106' y='20' width='8' height='78' rx='4'/>`,
+anb:`<path class='c5' d='M60 8l44 24v50L60 108 16 82V32z'/><path class='c3' d='M60 8l44 24-44 24L16 32z'/><path class='c2' d='M60 56l44-24v50L60 108z'/><rect class='c8' x='54' y='70' width='12' height='6' rx='3'/>`,
+alis:`<path class='c3' d='M30 36h74l-9 42H41z'/><rect class='c2' x='6' y='18' width='26' height='9' rx='4.5'/><circle class='c1' cx='46' cy='94' r='9'/><circle class='c1' cx='88' cy='94' r='9'/><path d='M66 48v16M58 57l8 8 8-8' stroke='#ef6a63' stroke-width='8' fill='none' stroke-linecap='round' stroke-linejoin='round'/>`,
+ist:`<path class='c4' d='M8 102V52l32 20V52l32 20V28h40v74z'/><rect class='c5' x='90' y='8' width='16' height='26' rx='5'/><rect class='c8' x='82' y='44' width='9' height='11' rx='2'/><rect class='c8' x='98' y='44' width='9' height='11' rx='2'/><rect class='c1' x='8' y='90' width='104' height='14' rx='5'/>`,
+isc:`<circle class='c2' cx='60' cy='36' r='17'/><path class='c2' d='M28 100c0-19 14-31 32-31s32 12 32 31z'/><circle class='c5' cx='20' cy='56' r='11'/><circle class='c4' cx='100' cy='56' r='11'/><rect class='c5' x='6' y='78' width='32' height='15' rx='7.5'/><rect class='c4' x='82' y='78' width='32' height='15' rx='7.5'/>`,
+loy:`<path class='c5' d='M60 8l16 33 36 5-26 25 6 36-32-17-32 17 6-36L8 46l36-5z'/><circle class='c6' cx='60' cy='62' r='16'/><circle class='c8' cx='60' cy='62' r='6'/>`,
+vid:`<rect class='c2' x='6' y='22' width='108' height='76' rx='18'/><circle class='c3' cx='60' cy='60' r='26'/><path class='c8' d='M51 45l26 15-26 15z'/><circle class='c6' cx='22' cy='38' r='5'/><circle class='c5' cx='36' cy='38' r='5'/>`,
+ins:`<rect class='c2' x='20' y='34' width='48' height='72' rx='7'/><rect class='c3' x='68' y='62' width='32' height='44' rx='7'/><rect class='c8' x='30' y='46' width='10' height='10' rx='2'/><rect class='c8' x='48' y='46' width='10' height='10' rx='2'/><rect class='c8' x='30' y='66' width='10' height='10' rx='2'/><rect class='c8' x='48' y='66' width='10' height='10' rx='2'/><path d='M32 22h50l-6 12' stroke='#ef6a63' stroke-width='7' fill='none' stroke-linecap='round' stroke-linejoin='round'/><circle class='c5' cx='84' cy='24' r='5'/>`,
+en:`<path class='c3' d='M60 8C44 38 28 54 28 78a32 32 0 0 0 64 0C92 54 76 38 60 8z'/><path class='c2' d='M60 8c16 30 32 46 32 70a32 32 0 0 1-32 32z' opacity='.6'/><circle class='c8' cx='47' cy='78' r='8' opacity='.85'/><circle class='c5' cx='94' cy='26' r='9'/>`,
+grid:`<rect class='c2' x='10' y='10' width='46' height='46' rx='12'/><rect class='c4' x='64' y='10' width='46' height='46' rx='12'/><rect class='c5' x='10' y='64' width='46' height='46' rx='12'/><rect class='c6' x='64' y='64' width='46' height='46' rx='12'/>`,
+bars:`<rect class='c3' x='12' y='66' width='26' height='44' rx='8'/><rect class='c4' x='47' y='40' width='26' height='70' rx='8'/><rect class='c6' x='82' y='12' width='26' height='98' rx='8'/><circle class='c5' cx='25' cy='40' r='9'/>`,
+part:`<circle class='c2' cx='42' cy='60' r='34'/><circle class='c6' cx='78' cy='60' r='34' opacity='.92'/><path class='c5' d='M60 31a34 34 0 0 1 0 58 34 34 0 0 1 0-58z'/>`,
+net:`<g stroke='#0a1f5c' stroke-width='6' stroke-linecap='round'><path d='M60 46V26M70 54l22-12M70 66l22 12M60 74v20M50 66L28 78M50 54L28 42'/></g><circle class='c6' cx='60' cy='60' r='13'/><circle class='c2' cx='60' cy='16' r='10'/><circle class='c4' cx='100' cy='38' r='10'/><circle class='c5' cx='100' cy='82' r='10'/><circle class='c3' cx='60' cy='104' r='10'/><circle class='c2' cx='20' cy='82' r='10'/><circle class='c4' cx='20' cy='38' r='10'/>`,
+wa:`<path class='c4' d='M60 10a50 50 0 1 1-24 94L10 112l9-26A50 50 0 0 1 60 10z'/><path class='c8' d='M42 44q0 26 30 36l8-10-12-7-6 5q-10-5-14-15l5-6-7-12z'/>`,
+chk:`<circle class='c4' cx='60' cy='60' r='48'/><path d='M38 62l16 16 28-34' stroke='#fff' stroke-width='11' fill='none' stroke-linecap='round' stroke-linejoin='round'/>`,
+tex:`<path class='c2' d='M40 12L8 32l14 22 14-8v58h48V46l14 8 14-22-32-20c-4 10-12 14-20 14s-16-4-20-14z'/><path class='c3' d='M60 28c-8 0-16-4-20-16l-8 5 8 28 20 8 20-8 8-28-8-5c-4 12-12 16-20 16z' opacity='.5'/><rect class='c5' x='46' y='72' width='28' height='8' rx='4'/><rect class='c6' x='46' y='86' width='18' height='8' rx='4'/>`,
+tur:`<rect class='c6' x='12' y='34' width='96' height='68' rx='14'/><path d='M44 34v-8a8 8 0 0 1 8-8h16a8 8 0 0 1 8 8v8' stroke='#0a1f5c' stroke-width='8' fill='none' stroke-linecap='round'/><rect class='c5' x='12' y='60' width='96' height='11'/><circle class='c8' cx='60' cy='66' r='7'/><circle class='c3' cx='96' cy='20' r='8'/>`,
+kof:`<path class='c6' d='M16 44h66v32a28 28 0 0 1-28 28H44A28 28 0 0 1 16 76z'/><rect class='c5' x='16' y='44' width='66' height='13' rx='4'/><path d='M82 54h10a13 13 0 0 1 0 26H82' stroke='#0a1f5c' stroke-width='8' fill='none' stroke-linecap='round'/><path d='M36 30c-6-8 6-12 0-20M56 30c-6-8 6-12 0-20' stroke='#34c7a5' stroke-width='7' fill='none' stroke-linecap='round'/>`,
+dist:`<rect class='c2' x='6' y='30' width='64' height='54' rx='9'/><path class='c3' d='M70 48h24l18 20v16H70z'/><circle class='c1' cx='30' cy='90' r='12'/><circle class='c1' cx='92' cy='90' r='12'/><circle class='c8' cx='30' cy='90' r='5'/><circle class='c8' cx='92' cy='90' r='5'/><rect class='c5' x='18' y='42' width='28' height='10' rx='5'/>`,
+qida:`<path class='c6' d='M60 38c-10-10-42-6-42 26 0 26 17 44 29 44 6 0 8-3 13-3s7 3 13 3c12 0 29-18 29-44 0-32-32-36-42-26z'/><path class='c4' d='M60 38c0-14 6-24 20-28-2 14-8 24-20 28z'/><circle class='c8' cx='42' cy='66' r='6' opacity='.7'/>`,
+eks:`<path class='c5' d='M22 38h76l-7 66H29z'/><path d='M44 38v-8a16 16 0 0 1 32 0v8' stroke='#0a1f5c' stroke-width='8' fill='none' stroke-linecap='round'/><circle class='c6' cx='60' cy='72' r='14'/><path d='M54 72l5 5 9-10' stroke='#fff' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/>`};
+const ic=k=>`<svg class='ic' viewBox='0 0 120 120'>${I[k]}</svg>`;
+const WA='https://wa.me/anarqayo';
+const wa=t=>WA+'?text='+encodeURIComponent(t);
+const pad=n=>String(n).padStart(2,'0');
+const CH=[['INSTAGRAM','https://www.instagram.com/anar_qehramanov_qayo'],['FACEBOOK','https://www.facebook.com/share/17rDXMFQUY/'],['YOUTUBE','https://www.youtube.com/@AnarQahramanov-g2f'],['LINKEDIN','https://www.linkedin.com/in/anar-qehramanov'],['X','https://x.com/qehramanov86']];
+const CS=[
+['WEBSITE','https://qayoconstruction.com/','#4a9be8',`<svg viewBox='0 0 24 24' fill='none' stroke='#fff' stroke-width='1.7' stroke-linecap='round'><circle cx='12' cy='12' r='9'/><path d='M3 12h18M12 3c3.5 3.2 3.5 14.8 0 18M12 3c-3.5 3.2-3.5 14.8 0 18'/></svg>`],
+['EMAIL','mailto:anar@qayoenergy.com','#d33c3c',`<svg viewBox='0 0 24 24' fill='none' stroke='#fff' stroke-width='1.7' stroke-linejoin='round'><rect x='3' y='5' width='18' height='14' rx='2'/><path d='M3 7l9 7 9-7'/></svg>`],
+['FACEBOOK','https://www.facebook.com/share/17rDXMFQUY/','#3b78e7','f'],
+['INSTAGRAM','https://www.instagram.com/anar_qehramanov_qayo','linear-gradient(45deg,#fcb045,#fd1d1d 50%,#833ab4)',`<svg viewBox='0 0 24 24' fill='none' stroke='#fff' stroke-width='1.8'><rect x='4' y='4' width='16' height='16' rx='5'/><circle cx='12' cy='12' r='3.6'/></svg>`],
+['YOUTUBE','https://www.youtube.com/@AnarQahramanov-g2f','#d92d27',`<svg viewBox='0 0 24 24' fill='#fff'><path d='M8 5v14l11-7z'/></svg>`],
+['LINKEDIN','https://www.linkedin.com/in/anar-qehramanov','#2f66b8','in'],
+['X','https://x.com/qehramanov86','#000','X'],
+['MENYU','#s2','#eef2fa',`<svg viewBox='0 0 24 24' fill='none' stroke='#234a9a' stroke-width='2.6' stroke-linecap='round'><path d='M5 7h14M5 12h14M5 17h14'/></svg>`]];
+const STRIP=`<div class='cs'>${CS.map(c=>`<a href='${c[1]}'${c[1].startsWith('http')?" target='_blank' rel='noopener'":''}><i style='background:${c[2]}'>${c[3]}</i>${c[0]}</a>`).join('')}</div>`;
+const IT=['PLASTİK BORULAR','SANTEXNİKA','İSTİLİK SİSTEMLƏRİ','ELEKTRİK KABELLƏRİ'];
+const TT=['AVTOMOBİL YANACAQLARI','AVİASİYA','GƏMİ','QAZ VƏ ENERJİ','SƏNAYE'];
+const SITES=[['qayoconstruction.com ↗','https://qayoconstruction.com','b1'],['qayoenergy.com ↗','https://qayoenergy.com','b2']];
+const P=[
+['ent','grid','Enterprise','QAYO Enterprise','Müəssisə daxilində tam avtomatlaşdırmanı təmin və təqib edin','Təchizat zəncirinin idarəsi, müştəri münasibətləri, mühasibat uçotu və maliyyə daxil olmaqla əsas biznes əməliyyatlarını avtomatlaşdırmaq üçün hazırlanıb. Sürətli satış zamanı və sonra çatdırılma prosesində işinizi asanlaşdırır.'],
+['anb','anb','Anbar','QAYO Anbar','Mallara və proseslərə effektiv nəzarət edin','Anbarların idarə etdiyi geniş inventar həcmi səbəbindən anbar idarəsini optimallaşdırmaq üçün müasir rəqəmsal alətə ehtiyac var.'],
+['rst','rest','Restoran','QAYO Restoran','Qüsursuz sifarişlər yaradın','Kafe və restoranlar üçün proqram təminatı bir çox müəssisənin işini asanlaşdırmaq üçün yaradılıb.'],
+['tek','tex','Tekstil','QAYO Tekstil','Barkod və RFID texnologiyası ilə satış prosesini sürətləndirin','Tekstil modulu, tekstil sənayesindəki mağazaların mərkəzləşdirilmiş idarəsini təmin edən qabaqcıl həll yoludur.'],
+['ist','ist','İstehsalat','QAYO İstehsalat','ERP İstehsal Həlli ilə səmərəliliyi maksimallaşdırın','İstehsalat sektorunun spesifik problemlərini və mürəkkəbliklərini başa düşür; istehsalat müəssisələrinin ehtiyaclarını qarşılayan ixtisaslaşdırılmış həlldir.'],
+['tur','tur','Turizm','QAYO Turizm','Turizm biznesinizi asanlıqla idarə edin','Turistlərin rezervasiyaları, yol xərcləri, otel və xidmət təminatçıları ilə əlaqələr, müştəri məmnuniyyəti analizi kimi prosesləri asanlıqla həyata keçirməyə imkan verir.'],
+['sup','alis','Supermarket','QAYO Supermarket','Səhvləri minimuma endirin və gözləmə müddətlərini azaldın','Malların qəbulundan satışına qədərki bütün prosesləri izləyir, mənfəət və zərəri hesablamağa kömək edir və satılmayan malları aşkar edir.'],
+['std','bars','Standard','QAYO Standard','Şirkət proseslərini sadələşdirin, inkişafı sürətləndirin','Orta ölçülü şirkətlər üçün ERP sistemi. Şirkət böyüdükcə yeni modullar və funksiyalar əlavə edərək uyğunlaşa bilər.'],
+['hr','isc','HR Modulu','QAYO HR Modulu','HR idarə etmə sisteminizi təkmilləşdirin','İnsan resurslarını idarəetmə proseslərini optimallaşdırmağa və avtomatlaşdırmağa imkan verir.'],
+['crm','crm','CRM','QAYO CRM','Müştəri bazanızı idarə edin','Mükəmməl bir CRM həlli yalnız biznes qərarı deyil, həm də müştərilərinizi hər şeyin mərkəzinə qoymağınıza dair öhdəlikdir.'],
+['ect','ecom','E-Ticarət','QAYO E-Ticarət','Satınalma prosesini sürətləndirin və xərcləri azaldın','E-ticarət saytı yaradaraq məhsullarınızın satışını artırın və biznesinizi genişləndirin.',[['NÜMUNƏ SAYT ↗','https://qayoconstruction.com','b1']]],
+['loy','loy','Loyallıq','QAYO Loyallıq Sistemi','Müştərilərinizi mükafatlandırın və əldə saxlayın','Müştərilərinizi şirkətinizə sadiq etmək üçün loyallıq sistemi yaradın.']];
+const SEC=[
+['kof','kof','Kofeşop','Kofeşop','','Müasir dövrdə müştərilərin vaxt itirmədən sifariş verməsinə imkan yaradan, kofeşoplar üçün ideal həllər.'],
+['dis','dist','Distribusiya','Distribusiya','','Tələbatın, xərclərin dəyişməsi və digər amillər səbəbindən distribusiya şirkətləri inventar və təchizat zəncirini idarə etməkdə çətinliklərlə üzləşirlər.'],
+['qid','qida','Qida Sənayesi','Qida Sənayesi','','Qida sənayesində proqram təminatından istifadə etməmək artıq mümkün deyil. Çünki çoxsaylı proseslər proqram təminatı olmadan çoxlu problemlərə səbəb ola bilər.'],
+['rs2','rest','Restoran','Restoran','','Restoran sektorunda fəaliyyət göstərən şirkətlər digər sahələrə nisbətən daha çox çətinliklərlə üzləşir. Bütün müəssisələr proqram təminatından faydalana bilər.'],
+['eks','eks','Ekspres Restoran','Ekspres Restoran','','Takeaway xidməti göstərən ekspres restoranlar üçün ideal həllər: EPOS sistemləri, interaktiv özünəxidmət terminalları, onlayn sifariş və daha çoxu.'],
+['par','pos','Pərakəndə','Pərakəndə','','Geyim sektoru üçün prosesləri sadələşdirən və avtomatlaşdıran proqram təminatı: bütün iş funksiyaları inteqrasiya olunur.']];
+const TINTS=[['#e3edff','#fff','#c9dcff','#ffe3a3'],['#dcf6ee','#fff','#bdebdc','#c9dcff'],['#fff1d6','#fff','#ffe3a3','#ffd0cc'],['#fde6e4','#fff','#ffd0cc','#bdebdc'],['#ebe7fb','#fff','#d9d2f6','#ffe3a3'],['#dff1ff','#fff','#c3e4fb','#bdebdc']];
+const S=[];
+S.push({kind:'cover'});S.push({kind:'grid'});
+P.forEach((m,i)=>S.push({kind:'mod',id:m[0],cat:'ERP həlləri',tn:TINTS[i%6],k:m[1],sh:m[2],t:m[3],hd:m[4],d:m[5],btns:m[6]||[],ask:1,chip:1}));
+SEC.forEach((m,i)=>S.push({kind:'mod',id:m[0],cat:'Sektorlar',tn:TINTS[(i+2)%6],k:m[1],sh:m[2],t:m[3],hd:m[4],d:m[5],btns:[],ask:1}));
+S.push({kind:'rows',cat:'Xüsusiyyətlər',t:'Nə üçün proqram təminatı?',rows:[['Bütün proseslər vahid sistemdə','Bütün biznes prosesləri vahid proqram təminatı ilə idarə olunur, bu da tam nəzarət imkanı verir.','#0b3fb5'],['Məhsuldarlıq artır','Sistem müxtəlif sahələrdə məhsuldarlığı və səmərəliliyi artırır, prosesləri sadələşdirir.','#34c7a5'],['Real vaxtda məlumat','Məlumatlar real vaxtda yenilənir, səhvləri aradan qaldırır və izləməni asanlaşdırır.','#f5b942'],['Xərclər azalır','Proqram xərcləri azaldır, gəliri proqnozlaşdırır və şirkətə öz durumunu anlamağa kömək edir.','#ef6a63'],['İstənilən an hesabat','Sistem istənilən an hesabat təqdim edir və əməliyyatları müqayisə etməyə imkan tanıyır.','#5bb6f5'],['Müştəri məmnuniyyəti','Proqram müştəri məmnuniyyətini artırır, alış-veriş vərdişlərini öyrənir və seçimlər təqdim edir.','#0a1f5c']]});
+S.push({kind:'rows',cat:'Niyə QAYO?',t:'Niyə QAYO?',rows:[['Geniş funksiyalar','QAYO, istədiyiniz sahədə geniş funksiyalar toplusuna malik həllər təklif edir.','#0b3fb5'],['Azərbaycan dilində','İnterfeys və dəstək Azərbaycan dilindədir, komandanız tez öyrənir.','#34c7a5'],['Telefona uyğun','Sistem kompüterdə də, telefonda da rahat işləyir.','#f5b942'],['Yeni texnologiyalar','QAYO yeni texnologiyaları izləyir və müştərilərə uyğun seçimləri tapmaqda kömək edir.','#ef6a63'],['Daim inkişaf','QAYO daima inkişaf edir və müştərilərə yeni funksiyalar təklif edir.','#5bb6f5'],['Xidmət və dəstək','QAYO müştərinin ehtiyaclarına uyğun xidmət və dəstək təqdim edir.','#0a1f5c']]});
+S.push({kind:'rows',cat:'İstiqamətlərimiz',t:'QAYO TEXNOLOGİYA istiqamətləri',rows:[['01 Software Platforms','Veb-saytlar, mobil tətbiqlər və kompüter proqramları','#0b3fb5'],['02 Business Solutions','POS, ERP, CRM, restoran, anbar və e-commerce sistemləri','#34c7a5'],['03 SaaS Products','Hazır proqramlar, abunəlik və lisenziyalar','#f5b942'],['04 AI & Automation','Süni intellekt, AI agentlər və biznes avtomatlaşdırması','#ef6a63'],['05 Integration Services','API, ödəniş sistemləri və məlumat bazalarının birləşdirilməsi','#5bb6f5']]});
+S.push({kind:'one',cat:'Layihələrimiz',tn:TINTS[0],k:'ins',t:'QAYO İNŞAAT',d:'Tikinti materialları üzrə onlayn satış sistemi: kataloq, onlayn sifariş, onlayn ödəniş və çatdırılma.',tags:IT,btns:[SITES[0]],chip2:'İŞLƏYİR'});
+S.push({kind:'one',cat:'Layihələrimiz',tn:TINTS[5],k:'en',t:'QAYO ENERGY',d:'Enerji və neft məhsulları üzrə şəkilli kataloq.',tags:TT,btns:[SITES[1]],chip2:'İŞLƏYİR'});
+S.push({kind:'nums',cat:'Rəqəmlər',t:'QAYO sistemlərində',src:'Mənbə: qayoconstruction.com, qayoenergy.com',items:[[46,'KATALOQ VƏRƏQƏSİ','#e3edff'],[4,'ÖDƏNİŞ KANALI','#dcf6ee'],[11,'ENERJİ BÖLMƏSİ','#fff1d6'],[6,'RƏQƏMSAL KANAL','#fde6e4']]});
+S.push({kind:'one',cat:'Video',tn:TINTS[4],k:'vid',t:'Video təqdimat',d:'Üç ölçüdə hazır video: şaquli 9:16, lent 4:5 və enli 16:9.',btns:[['VİDEOLARA BAX','/videolar/','b1']]});
+S.push({kind:'one',cat:'Tərəfdaş olun',tn:TINTS[2],k:'part',t:'Partnyorumuz olun',d:'Zavodlar və təchizatçılar üçün: məhsulunuzu rəqəmsal vitrində göstərək — şəkilli kataloq, onlayn sifariş, onlayn ödəniş, çatdırılma və video təqdimat.',btns:[['WHATSAPP-DA YAZIN ↗',wa('Salam, QAYO TEXNOLOGİYA: tərəfdaşlıq barədə yazıram'),'b1']]});
+S.push({kind:'one',cat:'Əlaqə',tn:['#1a3a9a','#0a1f5c','#2a4fc0','#e5222b'],k:'wa',t:'Gəlin danışaq',d:'Zavod və ya təchizatçı olaraq əməkdaşlıq barədə birbaşa WhatsApp-da yazın.',dk:1,strip:1,btns:[['WHATSAPP-DA YAZIN ↗',wa('Salam, QAYO TEXNOLOGİYA kataloqunu gördüm, əməkdaşlıq barədə yazıram'),'b1']]});
+const N=S.length;
+S.forEach((s,i)=>s.n=i+1);
+const idx={};S.forEach(s=>{if(s.kind==='mod')idx[s.id]=s.n});
+const wrap=(s,inner,cls)=>`<section class='sh' id='s${s.n}' data-i='${s.n}'><div class='win ${cls||''}'>${inner}</div></section>`;
+const top=(s,c)=>`<div class='top'><span class='cat'>${c}</span><span class='no'>${pad(s.n)}/${N}</span></div>`;
+const art=(s)=>`<div class='art' style='--ta:${s.tn[0]};--tb:${s.tn[1]};--tc:${s.tn[2]};--td:${s.tn[3]}'><div class='tile'>${ic(s.k)}</div></div>`;
+const btnH=b=>`<a class='btn ${b[2]}'${b[1].startsWith('http')?" target='_blank' rel='noopener'":''} href='${b[1]}'>${b[0]}</a>`;
+const html=S.map(s=>{
+if(s.kind==='cover')return wrap(s,`${top(s,'Xoş gəldiniz')}<div class='art' style='--ta:#1a3a9a;--tb:#0a1f5c;--tc:#2a4fc0;--td:#e5222b'><div class='tile'>${ic('globe')}</div></div><div class='bd'><h3>QAYO TEXNOLOGİYA</h3><div class='sub'>SOFTWARE &amp; INTELLIGENCE</div><p>Rəqəmsal texnologiyalarla biznes əlaqələrinizi genişləndirin.</p><div class='hint'>AŞAĞI SÜRÜŞDÜR ↓</div></div>`,'dk');
+if(s.kind==='grid'){const G=[['ERP həlləri',P],['Sektorlar',SEC]];return wrap(s,`${top(s,'Bütün modullar')}<div class='bd'>${G.map(g=>`<div class='gh'>${g[0]}</div><div class='gg'>${g[1].map(m=>`<a class='gt' href='#s${idx[m[0]]}'><div class='tl'>${ic(m[1])}</div>${m[2]}</a>`).join('')}</div>`).join('')}</div>`,'wide');}
+if(s.kind==='mod'||s.kind==='one'){let b=(s.btns||[]).map(btnH);
+if(s.ask)b.push(btnH(['BU BARƏDƏ YAZ ↗',wa('Salam, QAYO TEXNOLOGİYA kataloqu — '+s.t+' barədə yazıram'),'b2']));
+let body=`<h3>${s.t}</h3>`+(s.chip?`<span class='chip'>İSTİQAMƏT</span>`:'')+(s.chip2?`<span class='chip live'>${s.chip2}</span>`:'')+(s.hd?`<div class='hd'>${s.hd}</div>`:'')+`<p>${s.d}</p>`;
+if(s.tags)body+=`<div class='chan'>${s.tags.map(t=>`<span>${t}</span>`).join('')}</div>`;
+if(s.chan)body+=`<div class='chan'>${CH.map(c=>`<a href='${c[1]}' target='_blank' rel='noopener'>${c[0]}</a>`).join('')}</div>`;
+if(b.length)body+=`<div class='btns'>${b.join('')}</div>`;
+if(s.strip)body+=STRIP;
+return wrap(s,`${top(s,s.cat)}${art(s)}<div class='bd'>${body}</div>`,s.dk?'dk':'');}
+if(s.kind==='rows')return wrap(s,`${top(s,s.cat)}<div class='bd'><h3>${s.t}</h3>${s.rows.map((w,i)=>`<div class='wrow'><i style='background:${w[2]}'>${i+1}</i><div><b>${w[0]}</b><span>${w[1]}</span></div></div>`).join('')}</div>`);
+if(s.kind==='nums')return wrap(s,`${top(s,s.cat)}<div class='bd'><h3>${s.t}</h3><div class='sg'>${s.items.map(r=>`<div style='background:${r[2]}'><b data-n='${r[0]}'>0</b><small>${r[1]}</small></div>`).join('')}</div><div class='src'>${s.src}</div></div>`);
+return '';}).join('');
+document.getElementById('app').innerHTML=html;
+const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+function count(el){el.querySelectorAll('[data-n]').forEach(b=>{const to=+b.dataset.n;if(RM){b.textContent=to;return}const t0=performance.now()+500;(function f(t){const p=Math.min(Math.max((t-t0)/1300,0),1);b.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(performance.now())})}
+document.querySelectorAll('.ic').forEach(sv=>{[...sv.children].forEach((x,j)=>x.style.setProperty('--i',j))});
+const cn=document.getElementById('cn'),pg=document.getElementById('pg');
+const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){const t=en.target;const i=+t.dataset.i;cn.textContent=pad(i)+' / '+N;pg.style.width=(i/N*100)+'%';if(!t.classList.contains('on')){t.classList.add('on');count(t)}}}),{threshold:.3});
+document.querySelectorAll('.sh').forEach(x=>io.observe(x));
+pg.style.width=(1/N*100)+'%';
+})();
+</script></body></html>

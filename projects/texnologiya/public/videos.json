@@ -1,0 +1,9 @@
+{
+  "project": "QAYO TEXNOLOGİYA",
+  "note": "Hər ölçü ayrı faylıdır. Standart ad: QAYO TEXNOLOGİYA Video <ölçü>. Yeni versiya eyni fayl yolunun üzərinə yazılır.",
+  "videos": [
+    {"name": "QAYO TEXNOLOGİYA Video 9x16", "ratio": "9:16", "size": "1080x1920", "use": "Story, Reels, sayt (telefon)", "file": "/media/qayo-texnologiya-9x16.mp4"},
+    {"name": "QAYO TEXNOLOGİYA Video 4x5", "ratio": "4:5", "size": "1080x1350", "use": "Facebook, Instagram lenti", "file": "/media/qayo-texnologiya-4x5.mp4"},
+    {"name": "QAYO TEXNOLOGİYA Video 16x9", "ratio": "16:9", "size": "1920x1080", "use": "YouTube, LinkedIn, X, sayt (kompüter)", "file": "/media/qayo-texnologiya-16x9.mp4"}
+  ]
+}

@@ -12,7 +12,7 @@ Son yenilənmə: 2026-11-01. **Əvvəl bunu oxu.** Köhnə sənədlər: `docs/pr
 | 3 | 03 — QAYO İNŞAAT: KATALOQ + QİYMƏT | qayo-insaat-onlayn | Sayta bağlı onlayn kataloq + qiymət sistemi |
 | 4 | 04 — QAYO İNŞAAT: PDF B2B | qayo-insaat-pdf-b6d5 · catalog.qayoconstruction.com | Tam müstəqil B2B kataloq + "QAYO İNŞAAT Məhsul Kataloqu.pdf"; heç nəyə bağlı deyil |
 | 5 | 05 — QAYO İNŞAAT: ŞƏKİLLƏR | qayo-insaat-sekiller | Postlar (Post 4x5, Post 9x16), sonra vizit kart, broşür |
-| 6 | 06 — QAYO TEXNOLOGİYA | qayo-texnologiya-3 (domen sonra) | Ayrı brend, TEXNOLOGİYA videosu, 3 ölçü |
+| 6 | 06 — QAYO TEXNOLOGİYA | qayo-texnologiya-3 (domen sonra) | Ayrı brend, 29 vərəqlik kataloq səhifəsi + TEXNOLOGİYA videosu, 3 ölçü. Kod: `projects/texnologiya/` |
 
 Bunlardan kənardakı hər şey (KOSMOS, LAB, Studio 2, MONEY MAP, Energy Pay, BRAND, WORLD SEARCH, "ARXİV" və s.) bu 6-ya aid deyil.
 Hər video layihəsində `public/videos.json` var: hər faylın standart adı, ölçüsü, təyinatı, yolu. AI xidmətləri oradan oxuyur.
