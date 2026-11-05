@@ -80,19 +80,21 @@ h3{font-size:clamp(26px,7.5vw,32px);font-weight:900;letter-spacing:.01em;line-he
 .cs svg{width:34px;height:34px}
 footer{background:var(--c1);color:#b9c6ea;text-align:center;padding:26px 20px calc(26px + env(safe-area-inset-bottom));font-size:13px;letter-spacing:.08em}
 footer b{display:block;color:#fff;letter-spacing:.24em;margin-bottom:6px}
-.fx{position:fixed;left:0;right:0;bottom:0;z-index:15;display:flex;gap:8px;align-items:center;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:3px solid #234a9a;box-shadow:0 -8px 24px rgba(10,31,92,.12);transition:transform .35s ease}
-.fx.off{transform:translateY(110%)}
-.fx a{flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:14px;color:#fff;text-decoration:none;font-weight:900;font-size:19px}
-.fx svg{width:26px;height:26px}
-.fx .w{width:auto;padding:0 16px;grid-auto-flow:column;gap:8px;background:#25b866;font-size:12px;letter-spacing:.08em}
-body{padding-bottom:68px}
+#intro{display:none;position:fixed;inset:0;z-index:50;background:#050b1c;transition:opacity .6s ease}
+#intro.on{display:grid;place-items:center}
+#intro.out{opacity:0;pointer-events:none}
+#intro video{width:100%;height:100%;object-fit:contain;background:#050b1c}
+#skip{position:absolute;top:calc(14px + env(safe-area-inset-top));right:14px;background:#e5222b;color:#fff;border:0;font:800 12px system-ui,sans-serif;letter-spacing:.1em;padding:9px 14px;border-radius:999px;box-shadow:0 6px 16px rgba(229,34,43,.35);cursor:pointer}
+footer .cs{max-width:520px;margin:18px auto 0;text-align:center}
+footer .cs a{text-align:center}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.win,.bd>*,.ic>*{opacity:1!important;transform:none!important}}
 </style></head><body>
+<div id='intro'><video id='iv' playsinline muted autoplay preload='auto'></video><button id='skip' type='button'>MƏHSULLAR →</button></div>
 <div id='pg'></div>
 <header><b>QAYO <i>TEXNOLOGİYA</i></b><span id='cn'>01 / 29</span></header>
 <main id='app'></main>
-<noscript><div style='padding:30px 20px'><h2>QAYO TEXNOLOGİYA</h2><p>Rəqəmsal texnologiyalarla biznes əlaqələrinizi genişləndirin.</p><p><a href='https://wa.me/anarqayo'>WhatsApp-da yazın</a></p></div></noscript>
-<footer><b>QAYO TEXNOLOGİYA</b>Software &amp; Intelligence · © 2026</footer>
+<noscript><div style='padding:30px 20px'><h2>QAYO TEXNOLOGİYA</h2><p>Rəqəmsal texnologiyalarla biznes əlaqələrinizi genişləndirin.</p><p><a href='https://wa.me/994502111418'>WhatsApp-da yazın</a></p></div></noscript>
+<footer><b>QAYO TEXNOLOGİYA</b>Software &amp; Intelligence · © 2026<div id='ftc'></div></footer>
 <script>
 (function(){
 const I={
@@ -122,13 +124,14 @@ dist:`<rect class='c2' x='6' y='30' width='64' height='54' rx='9'/><path class='
 qida:`<path class='c6' d='M60 38c-10-10-42-6-42 26 0 26 17 44 29 44 6 0 8-3 13-3s7 3 13 3c12 0 29-18 29-44 0-32-32-36-42-26z'/><path class='c4' d='M60 38c0-14 6-24 20-28-2 14-8 24-20 28z'/><circle class='c8' cx='42' cy='66' r='6' opacity='.7'/>`,
 eks:`<path class='c5' d='M22 38h76l-7 66H29z'/><path d='M44 38v-8a16 16 0 0 1 32 0v8' stroke='#0a1f5c' stroke-width='8' fill='none' stroke-linecap='round'/><circle class='c6' cx='60' cy='72' r='14'/><path d='M54 72l5 5 9-10' stroke='#fff' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/>`};
 const ic=k=>`<svg class='ic' viewBox='0 0 120 120'>${I[k]}</svg>`;
-const WA='https://wa.me/anarqayo';
+const WA='https://wa.me/994502111418';
 const wa=t=>WA+'?text='+encodeURIComponent(t);
 const pad=n=>String(n).padStart(2,'0');
 const CH=[['INSTAGRAM','https://www.instagram.com/anar_qehramanov_qayo'],['FACEBOOK','https://www.facebook.com/share/17rDXMFQUY/'],['YOUTUBE','https://www.youtube.com/@AnarQahramanov-g2f'],['LINKEDIN','https://www.linkedin.com/in/anar-qehramanov'],['X','https://x.com/qehramanov86']];
 const CS=[
 ['WEBSITE','https://qayoconstruction.com/','#4a9be8',`<svg viewBox='0 0 24 24' fill='none' stroke='#fff' stroke-width='1.7' stroke-linecap='round'><circle cx='12' cy='12' r='9'/><path d='M3 12h18M12 3c3.5 3.2 3.5 14.8 0 18M12 3c-3.5 3.2-3.5 14.8 0 18'/></svg>`],
 ['EMAIL','mailto:anar@qayoenergy.com','#d33c3c',`<svg viewBox='0 0 24 24' fill='none' stroke='#fff' stroke-width='1.7' stroke-linejoin='round'><rect x='3' y='5' width='18' height='14' rx='2'/><path d='M3 7l9 7 9-7'/></svg>`],
+['WHATSAPP',WA,'#25b866',`<svg viewBox='0 0 120 120'>${I.wa.replace(/class='c4'/,"fill='#fff'").replace(/class='c8'/,"fill='#25b866'")}</svg>`],
 ['FACEBOOK','https://www.facebook.com/share/17rDXMFQUY/','#3b78e7','f'],
 ['INSTAGRAM','https://www.instagram.com/anar_qehramanov_qayo','linear-gradient(45deg,#fcb045,#fd1d1d 50%,#833ab4)',`<svg viewBox='0 0 24 24' fill='none' stroke='#fff' stroke-width='1.8'><rect x='4' y='4' width='16' height='16' rx='5'/><circle cx='12' cy='12' r='3.6'/></svg>`],
 ['YOUTUBE','https://www.youtube.com/@AnarQahramanov-g2f','#d92d27',`<svg viewBox='0 0 24 24' fill='#fff'><path d='M8 5v14l11-7z'/></svg>`],
@@ -166,13 +169,15 @@ P.forEach((m,i)=>S.push({kind:'mod',id:m[0],cat:'ERP həlləri',tn:TINTS[i%6],k:
 SEC.forEach((m,i)=>S.push({kind:'mod',id:m[0],cat:'Sektorlar',tn:TINTS[(i+2)%6],k:m[1],sh:m[2],t:m[3],hd:m[4],d:m[5],btns:[],ask:1}));
 S.push({kind:'rows',cat:'Xüsusiyyətlər',t:'Nə üçün proqram təminatı?',rows:[['Bütün proseslər vahid sistemdə','Bütün biznes prosesləri vahid proqram təminatı ilə idarə olunur, bu da tam nəzarət imkanı verir.','#0b3fb5'],['Məhsuldarlıq artır','Sistem müxtəlif sahələrdə məhsuldarlığı və səmərəliliyi artırır, prosesləri sadələşdirir.','#34c7a5'],['Real vaxtda məlumat','Məlumatlar real vaxtda yenilənir, səhvləri aradan qaldırır və izləməni asanlaşdırır.','#f5b942'],['Xərclər azalır','Proqram xərcləri azaldır, gəliri proqnozlaşdırır və şirkətə öz durumunu anlamağa kömək edir.','#ef6a63'],['İstənilən an hesabat','Sistem istənilən an hesabat təqdim edir və əməliyyatları müqayisə etməyə imkan tanıyır.','#5bb6f5'],['Müştəri məmnuniyyəti','Proqram müştəri məmnuniyyətini artırır, alış-veriş vərdişlərini öyrənir və seçimlər təqdim edir.','#0a1f5c']]});
 S.push({kind:'rows',cat:'Niyə QAYO?',t:'Niyə QAYO?',rows:[['Geniş funksiyalar','QAYO, istədiyiniz sahədə geniş funksiyalar toplusuna malik həllər təklif edir.','#0b3fb5'],['Azərbaycan dilində','İnterfeys və dəstək Azərbaycan dilindədir, komandanız tez öyrənir.','#34c7a5'],['Telefona uyğun','Sistem kompüterdə də, telefonda da rahat işləyir.','#f5b942'],['Yeni texnologiyalar','QAYO yeni texnologiyaları izləyir və müştərilərə uyğun seçimləri tapmaqda kömək edir.','#ef6a63'],['Daim inkişaf','QAYO daima inkişaf edir və müştərilərə yeni funksiyalar təklif edir.','#5bb6f5'],['Xidmət və dəstək','QAYO müştərinin ehtiyaclarına uyğun xidmət və dəstək təqdim edir.','#0a1f5c']]});
+/* QAYO */
 S.push({kind:'rows',cat:'İstiqamətlərimiz',t:'QAYO TEXNOLOGİYA istiqamətləri',rows:[['01 Software Platforms','Veb-saytlar, mobil tətbiqlər və kompüter proqramları','#0b3fb5'],['02 Business Solutions','POS, ERP, CRM, restoran, anbar və e-commerce sistemləri','#34c7a5'],['03 SaaS Products','Hazır proqramlar, abunəlik və lisenziyalar','#f5b942'],['04 AI & Automation','Süni intellekt, AI agentlər və biznes avtomatlaşdırması','#ef6a63'],['05 Integration Services','API, ödəniş sistemləri və məlumat bazalarının birləşdirilməsi','#5bb6f5']]});
 S.push({kind:'one',cat:'Layihələrimiz',tn:TINTS[0],k:'ins',t:'QAYO İNŞAAT',d:'Tikinti materialları üzrə onlayn satış sistemi: kataloq, onlayn sifariş, onlayn ödəniş və çatdırılma.',tags:IT,btns:[SITES[0]],chip2:'İŞLƏYİR'});
 S.push({kind:'one',cat:'Layihələrimiz',tn:TINTS[5],k:'en',t:'QAYO ENERGY',d:'Enerji və neft məhsulları üzrə şəkilli kataloq.',tags:TT,btns:[SITES[1]],chip2:'İŞLƏYİR'});
 S.push({kind:'nums',cat:'Rəqəmlər',t:'QAYO sistemlərində',src:'Mənbə: qayoconstruction.com, qayoenergy.com',items:[[46,'KATALOQ VƏRƏQƏSİ','#e3edff'],[4,'ÖDƏNİŞ KANALI','#dcf6ee'],[11,'ENERJİ BÖLMƏSİ','#fff1d6'],[6,'RƏQƏMSAL KANAL','#fde6e4']]});
 S.push({kind:'one',cat:'Video',tn:TINTS[4],k:'vid',t:'Video təqdimat',d:'Üç ölçüdə hazır video: şaquli 9:16, lent 4:5 və enli 16:9.',btns:[['VİDEOLARA BAX','/videolar/','b1']]});
 S.push({kind:'one',cat:'Tərəfdaş olun',tn:TINTS[2],k:'part',t:'Partnyorumuz olun',d:'Zavodlar və təchizatçılar üçün: məhsulunuzu rəqəmsal vitrində göstərək — şəkilli kataloq, onlayn sifariş, onlayn ödəniş, çatdırılma və video təqdimat.',btns:[['WHATSAPP-DA YAZIN ↗',wa('Salam, QAYO TEXNOLOGİYA: tərəfdaşlıq barədə yazıram'),'b1']]});
-S.push({kind:'one',cat:'Əlaqə',tn:['#1a3a9a','#0a1f5c','#2a4fc0','#e5222b'],k:'wa',t:'Gəlin danışaq',d:'Zavod və ya təchizatçı olaraq əməkdaşlıq barədə birbaşa WhatsApp-da yazın.',dk:1,strip:1,btns:[['WHATSAPP-DA YAZIN ↗',wa('Salam, QAYO TEXNOLOGİYA kataloqunu gördüm, əməkdaşlıq barədə yazıram'),'b1']]});
+/* kanallar əlaqə vərəqindədir */
+S.push({kind:'one',cat:'Əlaqə',tn:['#1a3a9a','#0a1f5c','#2a4fc0','#e5222b'],k:'wa',t:'Gəlin danışaq',d:'Zavod və ya təchizatçı olaraq əməkdaşlıq barədə birbaşa WhatsApp-da yazın.',dk:1,btns:[['WHATSAPP-DA YAZIN ↗',wa('Salam, QAYO TEXNOLOGİYA kataloqunu gördüm, əməkdaşlıq barədə yazıram'),'b1']]});
 const N=S.length;
 S.forEach((s,i)=>s.n=i+1);
 const idx={};S.forEach(s=>{if(s.kind==='mod')idx[s.id]=s.n});
@@ -195,15 +200,24 @@ if(s.kind==='rows')return wrap(s,`${top(s,s.cat)}<div class='bd'><h3>${s.t}</h3>
 if(s.kind==='nums')return wrap(s,`${top(s,s.cat)}<div class='bd'><h3>${s.t}</h3><div class='sg'>${s.items.map(r=>`<div style='background:${r[2]}'><b data-n='${r[0]}'>0</b><small>${r[1]}</small></div>`).join('')}</div><div class='src'>${s.src}</div></div>`);
 return '';}).join('');
 document.getElementById('app').innerHTML=html;
-const fx=document.createElement('nav');fx.className='fx off';fx.setAttribute('aria-label','Əlaqə');
-fx.innerHTML=`<a class='w' href='${wa('Salam, QAYO TEXNOLOGİYA kataloqunu gördüm, əməkdaşlıq barədə yazıram')}' target='_blank' rel='noopener'><svg viewBox='0 0 120 120'>${I.wa.replace(/class='c4'/,"fill='#fff'").replace(/class='c8'/,"fill='#25b866'")}</svg>YAZ</a>`+CS.slice(0,7).map(c=>`<a href='${c[1]}'${c[1].startsWith('http')?" target='_blank' rel='noopener'":''} style='background:${c[2]}' aria-label='${c[0]}'>${c[3]}</a>`).join('');
-document.body.appendChild(fx);
+document.getElementById('ftc').innerHTML=STRIP;
 const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
 function count(el){el.querySelectorAll('[data-n]').forEach(b=>{const to=+b.dataset.n;if(RM){b.textContent=to;return}const t0=performance.now()+500;(function f(t){const p=Math.min(Math.max((t-t0)/1300,0),1);b.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(performance.now())})}
 document.querySelectorAll('.ic').forEach(sv=>{[...sv.children].forEach((x,j)=>x.style.setProperty('--i',j))});
 const cn=document.getElementById('cn'),pg=document.getElementById('pg');
-const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){const t=en.target;const i=+t.dataset.i;cn.textContent=pad(i)+' / '+N;fx.classList.toggle('off',i===1||i===N);pg.style.width=(i/N*100)+'%';if(!t.classList.contains('on')){t.classList.add('on');count(t)}}}),{threshold:.3});
+const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){const t=en.target;const i=+t.dataset.i;cn.textContent=pad(i)+' / '+N;pg.style.width=(i/N*100)+'%';if(!t.classList.contains('on')){t.classList.add('on');count(t)}}}),{threshold:.3});
 document.querySelectorAll('.sh').forEach(x=>io.observe(x));
 pg.style.width=(1/N*100)+'%';
+try{
+const it=document.getElementById('intro'),iv=document.getElementById('iv'),sk=document.getElementById('skip');
+iv.src=matchMedia('(orientation:portrait)').matches?'/media/qayo-texnologiya-9x16.mp4':'/media/qayo-texnologiya-16x9.mp4';
+const de=document.documentElement;
+const end=()=>{it.classList.add('out');de.style.overflow='';try{iv.pause()}catch(e){}setTimeout(()=>{it.style.display='none'},700)};
+iv.addEventListener('ended',end);iv.addEventListener('error',end);sk.addEventListener('click',end);
+const go=()=>{try{const p=iv.play();if(p&&p.catch)p.catch(()=>{})}catch(e){}};
+const unmute=e=>{if(e.target===sk)return;iv.muted=false;go();it.removeEventListener('pointerdown',unmute)};
+it.addEventListener('pointerdown',unmute);
+it.classList.add('on');de.style.overflow='hidden';go();
+}catch(e){const x=document.getElementById('intro');if(x)x.style.display='none'}
 })();
 </script></body></html>
