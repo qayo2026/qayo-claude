@@ -10,12 +10,11 @@
 <link rel='apple-touch-icon' href='/icon-180.png'><link rel='icon' type='image/png' sizes='512x512' href='/icon-512.png'>
 <meta property='og:image' content='https://qayo-texnologiya-3.hatchable.site/icon-512.png'><meta name='apple-mobile-web-app-title' content='QAYO TEXNOLOGİYA'>
 <link rel='icon' href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%230a1f5c'/%3E%3Ctext x='16' y='23' font-size='20' font-weight='900' text-anchor='middle' fill='white' font-family='Arial'%3EQ%3C/text%3E%3C/svg%3E">
-<link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
-<link href='https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap' rel='stylesheet'>
+<!-- c -->
 <style>
 :root{--c1:#0a1f5c;--c2:#0b3fb5;--c3:#5bb6f5;--c4:#34c7a5;--c5:#f5b942;--c6:#ef6a63;--c7:#e5222b;--mut:#5f6f95;--line:#e3e9f6;--bg:#eef2fa;--hand:'Caveat','Segoe Script','Bradley Hand',cursive}
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-snap-type:y proximity}
+html{scroll-behavior:auto}
 body{background:linear-gradient(180deg,#eef2fa,#f8faff 60%,#eef2fa);color:var(--c1);font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.5}
 header{position:sticky;top:0;z-index:10;background:rgba(10,31,92,.96);backdrop-filter:blur(8px);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:calc(12px + env(safe-area-inset-top)) 18px 12px}
 header b{letter-spacing:.2em;font-size:14px;font-weight:900}header b i{font-style:normal;color:#ff7b81}
@@ -29,12 +28,12 @@ header b{letter-spacing:.2em;font-size:14px;font-weight:900}header b i{font-styl
 .cat{font-family:var(--hand);font-size:28px;font-weight:700;line-height:1;color:var(--c1)}
 .no{font-size:12px;font-weight:800;letter-spacing:.1em;color:var(--mut)}
 .art{position:relative;margin:12px 14px 0;height:240px;border-radius:24px;display:grid;place-items:center;background:linear-gradient(135deg,var(--ta,#e6efff),var(--tb,#fff));overflow:hidden}
-.art:before,.art:after{content:'';position:absolute;border-radius:50%;opacity:.55;animation:drift 9s ease-in-out infinite}
+.art:before,.art:after{content:'';position:absolute;border-radius:50%;opacity:.55}
 .art:before{width:150px;height:150px;left:-40px;top:-40px;background:var(--tc,#cfe0ff)}
 .art:after{width:110px;height:110px;right:-30px;bottom:-30px;background:var(--td,#ffe3a3);animation-delay:-4s}
 @keyframes drift{50%{transform:translate(14px,10px) scale(1.08)}}
 .tile{position:relative;z-index:1;width:172px;height:172px;border-radius:44px;background:#fff;display:grid;place-items:center;box-shadow:0 22px 44px rgba(10,31,92,.16)}
-.on .tile{animation:fl 5s ease-in-out 1.6s infinite}
+<!-- c -->
 @keyframes fl{50%{transform:translateY(-8px) rotate(-1.5deg)}}
 .ic{width:118px;height:118px;display:block;overflow:visible}
 .ic .c1{fill:var(--c1)}.ic .c2{fill:var(--c2)}.ic .c3{fill:var(--c3)}.ic .c4{fill:var(--c4)}.ic .c5{fill:var(--c5)}.ic .c6{fill:var(--c6)}.ic .c7{fill:var(--c7)}.ic .c8{fill:#fff}
@@ -91,7 +90,7 @@ footer .cs{max-width:520px;margin:18px auto 0;text-align:center}
 footer .cs a{text-align:center}
 :root{--c1:#e8f3ff;--c2:#2b7bff;--c3:#4cc9ff;--c4:#27d3b0;--c5:#ffc857;--c6:#ff6b6b;--mut:#8fa6d4;--line:#1b2a55;--bg:#0b1636;--cy:#4cc9ff;--hand:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
 html{background:#050b1c}
-body{background:radial-gradient(900px 520px at 50% -8%,rgba(43,123,255,.28),transparent 70%),radial-gradient(700px 500px at 100% 60%,rgba(76,201,255,.1),transparent 70%),linear-gradient(rgba(76,201,255,.05) 1px,transparent 1px) 0 0/44px 44px,linear-gradient(90deg,rgba(76,201,255,.05) 1px,transparent 1px) 0 0/44px 44px,#050b1c;background-attachment:fixed;color:var(--c1)}
+body{background:radial-gradient(900px 520px at 50% -8%,rgba(43,123,255,.28),transparent 70%),radial-gradient(700px 500px at 100% 60%,rgba(76,201,255,.1),transparent 70%),linear-gradient(rgba(76,201,255,.05) 1px,transparent 1px) 0 0/44px 44px,linear-gradient(90deg,rgba(76,201,255,.05) 1px,transparent 1px) 0 0/44px 44px,#050b1c;color:var(--c1)}
 header{background:rgba(5,11,28,.84);border-bottom:1px solid rgba(76,201,255,.25)}
 header b{letter-spacing:.28em;color:#fff;text-shadow:0 0 14px rgba(76,201,255,.6)}
 header b i{color:var(--cy)}
@@ -102,8 +101,8 @@ header b i{color:var(--cy)}
 .dk .cat{color:var(--cy)}
 .no,.dk .no{color:#7f9bd0}
 .art{background:radial-gradient(circle at 50% 55%,rgba(43,123,255,.38),transparent 62%),linear-gradient(rgba(76,201,255,.07) 1px,transparent 1px) 0 0/28px 28px,linear-gradient(90deg,rgba(76,201,255,.07) 1px,transparent 1px) 0 0/28px 28px,linear-gradient(180deg,#071233,#030816);border:1px solid rgba(76,201,255,.2)}
-.art:before{background:rgba(43,123,255,.4);filter:blur(20px)}
-.art:after{background:rgba(76,201,255,.25);filter:blur(20px)}
+.art:before{background:radial-gradient(circle,rgba(43,123,255,.45),transparent 68%)}
+.art:after{background:radial-gradient(circle,rgba(76,201,255,.3),transparent 68%)}
 .tile{background:linear-gradient(160deg,rgba(76,201,255,.18),rgba(43,123,255,.06));border:1px solid rgba(76,201,255,.55);box-shadow:0 0 36px rgba(76,201,255,.38),inset 0 0 28px rgba(76,201,255,.14)}
 .ic .c1{fill:#cfeaff}
 .ic [stroke='#0a1f5c']{stroke:#cfeaff}
@@ -172,11 +171,18 @@ header{display:none!important}.hero{padding-top:22px}
 .ar svg{width:28px;height:28px;transition:transform .3s}
 .open .ar svg{transform:rotate(90deg)}
 .mt{display:none;margin-top:14px}.open .mt{display:block}
-#snd{position:fixed;left:50%;bottom:calc(40px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:5;display:flex;align-items:center;gap:10px;padding:14px 24px;border-radius:40px;border:1.5px solid rgba(76,201,255,.85);background:rgba(8,25,70,.82);color:#fff;font:800 14px/1 system-ui,sans-serif;letter-spacing:.1em;white-space:nowrap;box-shadow:0 0 24px rgba(76,201,255,.5);animation:sp 1.8s ease-in-out infinite}
+#snd{position:fixed;left:50%;bottom:calc(40px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:5;display:flex;align-items:center;gap:10px;padding:14px 24px;border-radius:40px;border:1.5px solid rgba(76,201,255,.85);background:rgba(8,25,70,.82);color:#fff;font:800 14px/1 system-ui,sans-serif;letter-spacing:.1em;white-space:nowrap;box-shadow:0 0 24px rgba(76,201,255,.5)}html.pi #app *,html.pi #app *:before,html.pi #app *:after{animation-play-state:paused!important}
 #snd{top:calc(14px + env(safe-area-inset-top));bottom:auto;left:14px;transform:none;padding:9px 16px 9px 12px;gap:7px;font-size:12px;border:2px solid #fff;background:#13307a;box-shadow:0 6px 16px rgba(0,0,0,.4)}
 #snd svg{width:24px;height:24px;flex:none}
 @keyframes sp{50%{box-shadow:0 0 40px rgba(76,201,255,.95)}}
 #cn,.no{display:none!important}
+.sh{content-visibility:auto;contain-intrinsic-size:auto 640px}
+.sh:first-child{content-visibility:visible}
+.win,.win.dk{box-shadow:0 12px 30px rgba(0,0,0,.5)}
+.tile{box-shadow:0 0 16px rgba(76,201,255,.3)}
+.ic{opacity:0;transform:scale(.85);transition:opacity .5s ease,transform .6s cubic-bezier(.2,.8,.2,1)}
+.on .ic,.gt .ic{opacity:1;transform:none}
+.ic>*,.on .ic>*{opacity:1;transform:none;animation:none}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.win,.bd>*,.ic>*{opacity:1!important;transform:none!important}}
 </style></head><body>
 <div id='intro'><video id='iv' playsinline muted autoplay preload='auto'></video><button id='snd' type='button' aria-label='Səs'></button><button id='skip' type='button'>MƏHSULLAR →</button></div>
@@ -269,7 +275,7 @@ S.push({kind:'one',cat:'Video',tn:TINTS[4],k:'vid',t:'Video təqdimat',d:'Üç �
 S.push({kind:'one',cat:'Tərəfdaş olun',tn:TINTS[2],k:'part',t:'Dünyaya açılın',d:'Yeni biznes imkanlarını kəşf edin, fürsətləri qaçırmayın. Zavodlar və təchizatçılar üçün: məhsulunuzu rəqəmsal vitrində göstərək — şəkilli kataloq, onlayn sifariş, onlayn ödəniş, çatdırılma və video təqdimat.',btns:[['WHATSAPP-DA YAZIN ↗',wa('Salam, QAYO TEXNOLOGİYA: tərəfdaşlıq barədə yazıram'),'b1']]});
 /* kanallar əlaqə vərəqindədir */
 S.push({kind:'one',cat:'Əlaqə',tn:['#1a3a9a','#0a1f5c','#2a4fc0','#e5222b'],k:'wa',t:'Gəlin danışaq',d:'Zavod və ya təchizatçı olaraq əməkdaşlıq barədə birbaşa WhatsApp-da yazın.',dk:1,btns:[['WHATSAPP-DA YAZIN ↗',wa('Salam, QAYO TEXNOLOGİYA kataloqunu gördüm, əməkdaşlıq barədə yazıram'),'b1']]});
-for(let i=S.length-1;i>=0;i--){const s=S[i];if(s.kind==='nums'||(s.kind==='rows'&&(s.cat==='Niyə QAYO?'||s.cat==='Xüsusiyyətlər')))S.splice(i,1)}
+for(let i=S.length-1;i>=0;i--){const s=S[i];if(s.kind==='nums'||(s.kind==='one'&&(s.cat==='Video'||s.cat==='Tərəfdaş olun'||s.cat==='Əlaqə'))||(s.kind==='rows'&&(s.cat==='Niyə QAYO?'||s.cat==='Xüsusiyyətlər'||s.cat==='İstiqamətlərimiz')))S.splice(i,1)}
 const N=S.length;
 S.forEach((s,i)=>s.n=i+1);
 const idx={};S.forEach(s=>{if(s.kind==='mod')idx[s.id]=s.n});
@@ -313,6 +319,7 @@ if(s.kind==='nums')return wrap(s,`${top(s,s.cat)}<div class='bd'><h3>${s.t}</h3>
 return '';}).join('');
 document.getElementById('app').innerHTML=html;
 document.getElementById('ftc').innerHTML=STRIP;
+document.querySelectorAll('a[target]').forEach(a=>a.removeAttribute('target'));
 document.getElementById('app').addEventListener('click',e=>{const b=e.target.closest('.ar');if(!b)return;const w=b.closest('.win');const o=w.classList.toggle('open');b.setAttribute('aria-expanded',o)});
 const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
 function count(el){el.querySelectorAll('[data-n]').forEach(b=>{const to=+b.dataset.n;if(RM){b.textContent=to;return}const t0=performance.now()+500;(function f(t){const p=Math.min(Math.max((t-t0)/1300,0),1);b.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(performance.now())})}
@@ -325,16 +332,20 @@ try{
 const it=document.getElementById('intro'),iv=document.getElementById('iv'),sk=document.getElementById('skip');
 iv.src=matchMedia('(orientation:portrait)').matches?'/media/qayo-texnologiya-9x16.mp4':'/media/qayo-texnologiya-16x9.mp4';
 const de=document.documentElement;
-const end=()=>{it.classList.add('out');de.style.overflow='';try{iv.pause()}catch(e){}setTimeout(()=>{it.style.display='none'},700)};
+const end=()=>{it.classList.add('out');de.style.overflow='';de.classList.remove('pi');try{iv.pause()}catch(e){}setTimeout(()=>{it.style.display='none'},700)};
 iv.addEventListener('ended',end);iv.addEventListener('error',end);sk.addEventListener('click',end);
+const cx=navigator.connection||{};let st=0,wt=0;
+iv.addEventListener('playing',()=>{st=1;clearTimeout(wt)});iv.addEventListener('waiting',()=>{if(st)return;clearTimeout(wt);wt=setTimeout(end,2500)});
+if(cx.saveData||/(^|-)2g$/.test(cx.effectiveType||'')){setTimeout(end,0)}else{setTimeout(()=>{if(!st)end()},3500)}
 const go=()=>{try{const p=iv.play();if(p&&p.catch)p.catch(()=>{})}catch(e){}};
 const sn=document.getElementById('snd');
 const SP="<path d='M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z' fill='#fff'/>";
 const SI=m=>{if(!m){sn.style.display='none';return}sn.innerHTML=`<svg viewBox='0 0 24 24' fill='none' stroke='#fff' stroke-width='1.8' stroke-linecap='round'>${SP}${m?"<path d='M16 9.5l5 5M21 9.5l-5 5'/>":"<path d='M15.5 9a4 4 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11'/>"}</svg><span>${m?'SƏSİ AÇ':'SƏS AÇIQDIR'}</span>`;sn.style.animation=m?'':'none'};SI(true);
-sn.addEventListener('click',()=>{iv.muted=false;SI(false);go()});
-const unmute=e=>{if(e.target===sk||sn.contains(e.target))return;iv.muted=false;SI(false);go();it.removeEventListener('pointerdown',unmute)};
-it.addEventListener('pointerdown',unmute);
-it.classList.add('on');de.style.overflow='hidden';go();
+let snOn=false;const un=()=>{if(snOn)return;iv.muted=false;iv.volume=1;let p;try{p=iv.play()}catch(e){}const ok=()=>{if(!iv.muted){snOn=true;SI(false)}};const bad=()=>{iv.muted=true;try{iv.play()}catch(e){}SI(true)};if(p&&p.then)p.then(ok,bad);else ok()};
+sn.addEventListener('click',un);
+const unmute=e=>{if(e.target===sk||sn.contains(e.target))return;un()};
+it.addEventListener('click',unmute);it.addEventListener('touchend',unmute);
+it.classList.add('on');de.style.overflow='hidden';de.classList.add('pi');go();
 }catch(e){const x=document.getElementById('intro');if(x)x.style.display='none'}
 })();
 </script></body></html>
