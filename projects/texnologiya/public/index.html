@@ -130,11 +130,56 @@ h3,.dk h3{text-transform:uppercase;letter-spacing:.06em;color:#fff;font-weight:8
 footer{background:linear-gradient(180deg,rgba(5,11,28,0),#030816);border-top:1px solid rgba(76,201,255,.25);color:#7f9bd0}
 footer b{color:#fff;text-shadow:0 0 14px rgba(76,201,255,.6)}
 #ftc{scroll-snap-align:start;scroll-margin-top:58px;max-width:560px;margin:0 auto;padding:12px 14px 0}#ftc .cs{margin-top:0;padding:8px;gap:6px}#ftc .cs a{width:78px;padding:8px 4px 7px}#ftc .cs i{width:48px;height:48px;margin-bottom:6px;font-size:24px}#ftc .cs svg{width:28px;height:28px}
+.hero{padding:10px 14px 26px;grid-template-columns:minmax(0,1fr)}
+.hw{width:100%;max-width:560px;justify-self:center;text-align:center}
+.hw>*{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
+.on .hw>*{opacity:1;transform:none}
+.on .hw>:nth-child(2){transition-delay:.3s}.on .hw>:nth-child(3){transition-delay:.45s}.on .hw>:nth-child(4){transition-delay:.6s}.on .hw>:nth-child(5){transition-delay:.9s}
+.gl{width:100%;height:auto;display:block;margin:0 auto}
+.arc{stroke-dasharray:260;stroke-dashoffset:260}
+.on .arc{animation:dr 1.4s ease forwards;animation-delay:var(--d)}
+@keyframes dr{to{stroke-dashoffset:0}}
+.hub{animation:hp 2s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes hp{50%{transform:scale(1.7);opacity:.15}}
+.hero h1{font-size:clamp(32px,10vw,52px);font-weight:800;letter-spacing:.07em;line-height:1.1;color:#fff;text-shadow:0 0 28px rgba(76,201,255,.7);margin-top:2px}
+.tg{margin-top:12px;font-size:clamp(13px,4vw,18px);font-weight:700;letter-spacing:.16em;color:#dff3ff;line-height:1.6;text-shadow:0 0 16px rgba(76,201,255,.5)}
+.pl{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px;text-align:left}
+.pi{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:rgba(8,25,70,.78);border:1.5px solid rgba(76,201,255,.6);box-shadow:0 0 14px rgba(76,201,255,.25);color:#eaf7ff;font-weight:700;font-size:11.5px;letter-spacing:.05em;line-height:1.25;min-height:58px}
+.pi:last-child{grid-column:1/-1;justify-content:center}
+.pi svg{flex:none;width:26px;height:26px;filter:drop-shadow(0 0 5px #4cc9ff)}
+.hero .hint{margin-top:22px}
+@media(prefers-reduced-motion:reduce){.hw>*{opacity:1!important;transform:none!important}.arc{stroke-dashoffset:0!important}}
+.hw #ftc{scroll-snap-align:none;scroll-margin-top:0;max-width:none;padding:0;margin-top:16px}
+.hw .gl{margin-top:6px}.hw #ftc{margin-top:8px}.hw .pl{margin-top:18px}
+header{display:none!important}.hero{padding-top:22px}
+.hero h1{white-space:nowrap;font-size:clamp(20px,7.2vw,44px);letter-spacing:.04em}
+.tg{font-size:clamp(10px,3.4vw,18px);letter-spacing:.08em;white-space:nowrap}
+.lb{opacity:0}.on .lb{animation:fi .6s ease forwards;animation-delay:calc(var(--d) + .5s)}
+@keyframes fi{to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.lb{opacity:1!important}}
+.hw #ftc .cs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;overflow:visible;padding:8px}
+.hw #ftc .cs a{width:auto;min-width:0;padding:7px 2px 6px;font-size:8.5px;letter-spacing:.02em;border-radius:14px}
+.hw #ftc .cs i{width:38px;height:38px;border-radius:11px;margin-bottom:5px;font-size:19px}
+.hw #ftc .cs svg{width:22px;height:22px}
+.win .art{height:310px}
+.win .tile{width:236px;height:236px;border-radius:60px}
+.win .ic{width:168px;height:168px}
+.wrow span{display:none}
+.chip:not(.live){display:none!important}
+.ar{margin-top:14px;width:54px;height:54px;border-radius:50%;border:0;background:linear-gradient(135deg,#ff3b44,#c4161e);display:grid;place-items:center;box-shadow:0 0 22px rgba(255,59,68,.55);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.ar svg{width:28px;height:28px;transition:transform .3s}
+.open .ar svg{transform:rotate(90deg)}
+.mt{display:none;margin-top:14px}.open .mt{display:block}
+#snd{position:fixed;left:50%;bottom:calc(40px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:5;display:flex;align-items:center;gap:10px;padding:14px 24px;border-radius:40px;border:1.5px solid rgba(76,201,255,.85);background:rgba(8,25,70,.82);color:#fff;font:800 14px/1 system-ui,sans-serif;letter-spacing:.1em;white-space:nowrap;box-shadow:0 0 24px rgba(76,201,255,.5);animation:sp 1.8s ease-in-out infinite}
+#snd{top:calc(14px + env(safe-area-inset-top));bottom:auto;left:14px;transform:none;padding:9px 16px 9px 12px;gap:7px;font-size:12px;border:2px solid #fff;background:#13307a;box-shadow:0 6px 16px rgba(0,0,0,.4)}
+#snd svg{width:24px;height:24px;flex:none}
+@keyframes sp{50%{box-shadow:0 0 40px rgba(76,201,255,.95)}}
+#cn,.no{display:none!important}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.win,.bd>*,.ic>*{opacity:1!important;transform:none!important}}
 </style></head><body>
-<div id='intro'><video id='iv' playsinline muted autoplay preload='auto'></video><button id='skip' type='button'>MƏHSULLAR →</button></div>
+<div id='intro'><video id='iv' playsinline muted autoplay preload='auto'></video><button id='snd' type='button' aria-label='Səs'></button><button id='skip' type='button'>MƏHSULLAR →</button></div>
 <div id='pg'></div>
-<header><b>QAYO <i>TEXNOLOGİYA</i></b><span id='cn'>01 / 29</span></header><div id='ftc'></div>
+<header><b>QAYO <i>TEXNOLOGİYA</i></b><span id='cn'>01 / 29</span></header>
 <main id='app'></main>
 <noscript><div style='padding:30px 20px'><h2>QAYO TEXNOLOGİYA</h2><p>Rəqəmsal texnologiyalarla biznes əlaqələrinizi genişləndirin.</p><p><a href='https://wa.me/994502111418'>WhatsApp-da yazın</a></p></div></noscript>
 <footer><b>QAYO TEXNOLOGİYA</b>Software &amp; Intelligence · © 2026</footer>
@@ -180,6 +225,7 @@ const CS=[
 ['YOUTUBE','https://www.youtube.com/@AnarQahramanov-g2f','#d92d27',`<svg viewBox='0 0 24 24' fill='#fff'><path d='M8 5v14l11-7z'/></svg>`],
 ['LINKEDIN','https://www.linkedin.com/in/anar-qehramanov','#2f66b8','in'],
 ['X','https://x.com/qehramanov86','#000','X'],
+['TIKTOK','#','#000',`<svg viewBox='0 0 24 24' fill='#fff'><path d='M16.5 3c.3 2.4 1.8 4 4 4.2v3.1c-1.5 0-2.9-.5-4-1.3v6.2a5.6 5.6 0 1 1-5.6-5.6c.3 0 .6 0 .9.1v3.2a2.5 2.5 0 1 0 1.6 2.3V3z'/></svg>`],
 ['MENYU','#s2','#eef2fa',`<svg viewBox='0 0 24 24' fill='none' stroke='#234a9a' stroke-width='2.6' stroke-linecap='round'><path d='M5 7h14M5 12h14M5 17h14'/></svg>`]];
 const STRIP=`<div class='cs'>${CS.map(c=>`<a href='${c[1]}'${c[1].startsWith('http')?" target='_blank' rel='noopener'":''}><i style='background:${c[2]}'>${c[3]}</i>${c[0]}</a>`).join('')}</div>`;
 const IT=['PLASTİK BORULAR','SANTEXNİKA','İSTİLİK SİSTEMLƏRİ','ELEKTRİK KABELLƏRİ'];
@@ -221,6 +267,7 @@ S.push({kind:'one',cat:'Video',tn:TINTS[4],k:'vid',t:'Video təqdimat',d:'Üç �
 S.push({kind:'one',cat:'Tərəfdaş olun',tn:TINTS[2],k:'part',t:'Dünyaya açılın',d:'Yeni biznes imkanlarını kəşf edin, fürsətləri qaçırmayın. Zavodlar və təchizatçılar üçün: məhsulunuzu rəqəmsal vitrində göstərək — şəkilli kataloq, onlayn sifariş, onlayn ödəniş, çatdırılma və video təqdimat.',btns:[['WHATSAPP-DA YAZIN ↗',wa('Salam, QAYO TEXNOLOGİYA: tərəfdaşlıq barədə yazıram'),'b1']]});
 /* kanallar əlaqə vərəqindədir */
 S.push({kind:'one',cat:'Əlaqə',tn:['#1a3a9a','#0a1f5c','#2a4fc0','#e5222b'],k:'wa',t:'Gəlin danışaq',d:'Zavod və ya təchizatçı olaraq əməkdaşlıq barədə birbaşa WhatsApp-da yazın.',dk:1,btns:[['WHATSAPP-DA YAZIN ↗',wa('Salam, QAYO TEXNOLOGİYA kataloqunu gördüm, əməkdaşlıq barədə yazıram'),'b1']]});
+for(let i=S.length-1;i>=0;i--){const s=S[i];if(s.kind==='nums'||(s.kind==='rows'&&(s.cat==='Niyə QAYO?'||s.cat==='Xüsusiyyətlər')))S.splice(i,1)}
 const N=S.length;
 S.forEach((s,i)=>s.n=i+1);
 const idx={};S.forEach(s=>{if(s.kind==='mod')idx[s.id]=s.n});
@@ -228,12 +275,32 @@ const wrap=(s,inner,cls)=>`<section class='sh' id='s${s.n}' data-i='${s.n}'><div
 const top=(s,c)=>`<div class='top'><span class='cat'>${c}</span><span class='no'>${pad(s.n)}/${N}</span></div>`;
 const art=(s)=>`<div class='art' style='--ta:${s.tn[0]};--tb:${s.tn[1]};--tc:${s.tn[2]};--td:${s.tn[3]}'><div class='tile'>${ic(s.k)}</div></div>`;
 const btnH=b=>`<a class='btn ${b[2]}'${b[1].startsWith('http')?" target='_blank' rel='noopener'":''} href='${b[1]}'>${b[0]}</a>`;
+const SV={web:`<circle cx='12' cy='12' r='9'/><path d='M3 12h18M12 3c3.5 3.2 3.5 14.8 0 18M12 3c-3.5 3.2-3.5 14.8 0 18'/>`,mob:`<rect x='7' y='2.5' width='10' height='19' rx='2.5'/><path d='M10.5 18.5h3'/>`,watch:`<rect x='7' y='6.5' width='10' height='11' rx='3'/><path d='M9 6.5l.7-3.5h4.6l.7 3.5M9 17.5l.7 3.5h4.6l.7-3.5M12 10v2.2l1.4 1'/>`,mkt:`<path d='M3 10v4h3l8 4.5v-13L6 10z'/><path d='M17.5 9.5a4 4 0 0 1 0 5M6 14l1.5 5.5h2.5L9 15'/>`,auto:`<circle cx='12' cy='12' r='3'/><path d='M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1'/>`,biz:`<circle cx='9' cy='8' r='3.2'/><path d='M3 20c0-3.6 2.7-6 6-6s6 2.4 6 6'/><circle cx='17.5' cy='9' r='2.4'/><path d='M16.5 14.3c3 .1 4.7 2 4.7 5'/>`,desk:`<rect x='3' y='4' width='18' height='12' rx='2'/><path d='M8 20h8M12 16v4'/>`};
+const HS=[['Veb platformalar','web'],['Mobil tətbiqlər','mob'],['Ağıllı cihaz sistemləri','watch'],['Rəqəmsal marketinq','mkt'],['Avtomatlaşdırma və idarəetmə sistemləri','auto'],['Biznes və müştəri idarəetməsi','biz'],['Masaüstü proqram təminatı','desk']];
+function heroGlobe(){let r=7;const R=()=>(r=(r*9301+49297)%233280)/233280;const cx=200,cy=140,Rr=120;
+let h=`<defs><radialGradient id='hg' cx='40%' cy='35%' r='75%'><stop offset='0' stop-color='#2f8cff'/><stop offset='.55' stop-color='#0b2a78'/><stop offset='1' stop-color='#050f38'/></radialGradient><filter id='hb'><feGaussianBlur stdDeviation='5'/></filter></defs>`;
+for(let i=0;i<70;i++)h+=`<circle cx='${(R()*400).toFixed(1)}' cy='${(R()*280).toFixed(1)}' r='${(R()*1.3+.3).toFixed(1)}' fill='#9fdcff' opacity='${(R()*.6+.2).toFixed(2)}'/>`;
+h+=`<circle cx='${cx}' cy='${cy}' r='${Rr+30}' fill='rgba(76,201,255,.14)' filter='url(#hb)'/><image href='/media/globe.jpg' x='70' y='10' width='260' height='260' preserveAspectRatio='xMidYMid slice' style='mix-blend-mode:screen'/>`;
+for(let i=-3;i<=-4;i++){const y=cy+i*Rr/4,w=Math.sqrt(Rr*Rr-(i*Rr/4)*(i*Rr/4));h+=`<ellipse cx='${cx}' cy='${y}' rx='${w}' ry='${w*.14}' fill='none' stroke='rgba(120,210,255,.32)'/>`}
+for(let i=0;i<0;i++)h+=`<ellipse cx='${cx}' cy='${cy}' rx='${Rr*Math.abs(Math.cos(i*Math.PI/6))}' ry='${Rr}' fill='none' stroke='rgba(120,210,255,.28)'/>`;
+const N=[[135,70],[100,130],[115,200],[165,245],[265,70],[305,135],[280,205]];
+N.forEach((p,i)=>{const mx=(cx+p[0])/2,my=Math.min(cy,p[1])-45;h+=`<path class='arc' style='--d:${(i*.12+.5).toFixed(2)}s' d='M${cx} ${cy} Q${mx} ${my} ${p[0]} ${p[1]}' fill='none' stroke='#e6f9ff' stroke-width='1.5'/><circle cx='${p[0]}' cy='${p[1]}' r='6' fill='#4cc9ff' opacity='.45'/><circle cx='${p[0]}' cy='${p[1]}' r='3' fill='#fff'/>`});
+const LB=['ABŞ','BRAZİLİYA','NİGERİYA','CƏNUBİ AFRİKA','ALMANİYA','TÜRKİYƏ','HİNDİSTAN'];
+const FLG={us:`<rect width='30' height='20' fill='#fff'/><path d='M0 1.5h30M0 5.5h30M0 9.5h30M0 13.5h30M0 17.5h30' stroke='#c8102e' stroke-width='2'/><rect width='13' height='10.5' fill='#3c3b6e'/>`,br:`<rect width='30' height='20' fill='#009c3b'/><path d='M15 2l12 8-12 8-12-8z' fill='#ffdf00'/><circle cx='15' cy='10' r='4.3' fill='#002776'/>`,ng:`<rect width='30' height='20' fill='#fff'/><rect width='10' height='20' fill='#008751'/><rect x='20' width='10' height='20' fill='#008751'/>`,za:`<rect width='30' height='10' fill='#de3831'/><rect y='10' width='30' height='10' fill='#002395'/><path d='M0 3.5l9 6.5-9 6.5M9 10h21' stroke='#007a4d' stroke-width='5' fill='none'/><path d='M0 5.5l6 4.5-6 4.5z' fill='#000'/>`,de:`<rect width='30' height='7' fill='#000'/><rect y='6.6' width='30' height='6.8' fill='#dd0000'/><rect y='13.3' width='30' height='6.7' fill='#ffce00'/>`,tr:`<rect width='30' height='20' fill='#e30a17'/><circle cx='11' cy='10' r='5' fill='#fff'/><circle cx='12.5' cy='10' r='4' fill='#e30a17'/><circle cx='17' cy='10' r='1.8' fill='#fff'/>`,in:`<rect width='30' height='7' fill='#ff9933'/><rect y='6.6' width='30' height='6.8' fill='#fff'/><rect y='13.3' width='30' height='6.7' fill='#138808'/><circle cx='15' cy='10' r='2.6' fill='none' stroke='#000080' stroke-width='1'/>`,az:`<rect width='30' height='7' fill='#00b5e2'/><rect y='6.6' width='30' height='6.8' fill='#ef3340'/><rect y='13.3' width='30' height='6.7' fill='#509e2f'/><circle cx='13.5' cy='10' r='3' fill='#fff'/><circle cx='14.5' cy='10' r='2.4' fill='#ef3340'/><circle cx='17.5' cy='10' r='.9' fill='#fff'/>`};
+const LC=['us','br','ng','za','de','tr','in'];
+const lab=(x,y,t,a,d,c)=>{const w=t.length*6.4+32,rx=a==='e'?x-w:a==='s'?x:x-w/2;return `<g class='lb' style='--d:${d}s'><rect x='${rx.toFixed(1)}' y='${y-9}' width='${w.toFixed(1)}' height='15' rx='4' fill='rgba(5,15,50,.85)' stroke='#4cc9ff' stroke-opacity='.7' stroke-width='.8'/>${FLG[c]?`<svg x='${(rx+6).toFixed(1)}' y='${y-6.5}' width='15' height='10' viewBox='0 0 30 20'>${FLG[c]}</svg>`:''}<text x='${(rx+w/2+10).toFixed(1)}' y='${y+1.5}' text-anchor='middle' font-size='9.5' font-weight='800' letter-spacing='.4' fill='#eaf7ff' font-family='system-ui,sans-serif'>${t}</text></g>`};
+N.forEach((p,i)=>{h+=lab(p[0]+(p[0]<cx?-9:9),p[1],LB[i],p[0]<cx?'e':'s',(i*.12+.9).toFixed(2),LC[i])});
+h+=lab(cx,cy+26,'AZƏRBAYCAN','c',1.9,'az');
+h+=`<circle class='hub' cx='${cx}' cy='${cy}' r='14' fill='#ff3b44' opacity='.35'/><circle cx='${cx}' cy='${cy}' r='6' fill='#ff3b44' stroke='#fff' stroke-width='1.5'/><ellipse cx='${cx}' cy='${cy+Rr+18}' rx='150' ry='14' fill='none' stroke='#4cc9ff' opacity='.7'/>`;
+return `<svg class='gl' viewBox='0 0 400 300'>${h}</svg>`}
+function heroHTML(s){return `<section class='sh hero' id='s${s.n}' data-i='${s.n}'><div class='hw'><h1>QAYO TEXNOLOGİYA</h1><div class='tg'>QLOBAL ŞƏBƏKƏMİZLƏ&nbsp;HƏR&nbsp;YERDƏYİK.</div>${heroGlobe()}<div id='ftc'></div><div class='pl'>${HS.map(m=>`<div class='pi'><svg viewBox='0 0 24 24' fill='none' stroke='#4cc9ff' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'>${SV[m[1]]}</svg><span>${m[0].toLocaleUpperCase('az')}</span></div>`).join('')}</div><div class='hint'>AŞAĞI SÜRÜŞDÜR ↓</div></div></section>`}
+const ARW=s=>`<button class='ar' type='button' aria-expanded='false' aria-label='Ətraflı'><svg viewBox='0 0 24 24' fill='none' stroke='#fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12h14M13 6l6 6-6 6'/></svg></button><div class='mt'>${s.hd?`<div class='hd'>${s.hd}</div>`:''}<p>${s.d}</p></div>`;
 const html=S.map(s=>{
-if(s.kind==='cover')return wrap(s,`${top(s,'Xoş gəldiniz')}<div class='art' style='--ta:#1a3a9a;--tb:#0a1f5c;--tc:#2a4fc0;--td:#e5222b'><div class='tile'>${ic('globe')}</div></div><div class='bd'><h3>QAYO TEXNOLOGİYA</h3><div class='sub'>QLOBAL ŞƏBƏKƏMİZLƏ HƏR YERDƏYİK.</div><p>Rəqəmsal texnologiyalarla biznes əlaqələrinizi genişləndirin.</p><div class='hint'>AŞAĞI SÜRÜŞDÜR ↓</div></div>`,'dk');
+if(s.kind==='cover')return heroHTML(s);if(s.kind==='coverOld')return wrap(s,`${top(s,'Xoş gəldiniz')}<div class='art' style='--ta:#1a3a9a;--tb:#0a1f5c;--tc:#2a4fc0;--td:#e5222b'><div class='tile'>${ic('globe')}</div></div><div class='bd'><h3>QAYO TEXNOLOGİYA</h3><div class='sub'>QLOBAL ŞƏBƏKƏMİZLƏ HƏR YERDƏYİK.</div><p>Rəqəmsal texnologiyalarla biznes əlaqələrinizi genişləndirin.</p><div class='hint'>AŞAĞI SÜRÜŞDÜR ↓</div></div>`,'dk');
 if(s.kind==='grid'){const G=[['ERP həlləri',P],['Sektorlar',SEC]];return wrap(s,`${top(s,'Bütün modullar')}<div class='bd'>${G.map(g=>`<div class='gh'>${g[0]}</div><div class='gg'>${g[1].map(m=>`<a class='gt' href='#s${idx[m[0]]}'><div class='tl'>${ic(m[1])}</div>${m[2]}</a>`).join('')}</div>`).join('')}</div>`,'wide');}
 if(s.kind==='mod'||s.kind==='one'){let b=(s.btns||[]).map(btnH);
-if(s.ask)b.push(btnH(['BU BARƏDƏ YAZ ↗',wa('Salam, QAYO TEXNOLOGİYA kataloqu — '+s.t+' barədə yazıram'),'b2']));
-let body=`<h3>${s.t}</h3>`+(s.chip?`<span class='chip'>İSTİQAMƏT</span>`:'')+(s.chip2?`<span class='chip live'>${s.chip2}</span>`:'')+(s.hd?`<div class='hd'>${s.hd}</div>`:'')+`<p>${s.d}</p>`;
+if(0)b.push(btnH(['BU BARƏDƏ YAZ ↗',wa('Salam, QAYO TEXNOLOGİYA kataloqu — '+s.t+' barədə yazıram'),'b2']));
+let body=`<h3>${s.t}</h3>`+(s.chip?`<span class='chip'>İSTİQAMƏT</span>`:'')+(s.chip2?`<span class='chip live'>${s.chip2}</span>`:'')+(s.kind==='mod'?ARW(s):(s.hd?`<div class='hd'>${s.hd}</div>`:'')+`<p>${s.d}</p>`);
 if(s.tags)body+=`<div class='chan'>${s.tags.map(t=>`<span>${t}</span>`).join('')}</div>`;
 if(s.chan)body+=`<div class='chan'>${CH.map(c=>`<a href='${c[1]}' target='_blank' rel='noopener'>${c[0]}</a>`).join('')}</div>`;
 if(b.length)body+=`<div class='btns'>${b.join('')}</div>`;
@@ -244,6 +311,7 @@ if(s.kind==='nums')return wrap(s,`${top(s,s.cat)}<div class='bd'><h3>${s.t}</h3>
 return '';}).join('');
 document.getElementById('app').innerHTML=html;
 document.getElementById('ftc').innerHTML=STRIP;
+document.getElementById('app').addEventListener('click',e=>{const b=e.target.closest('.ar');if(!b)return;const w=b.closest('.win');const o=w.classList.toggle('open');b.setAttribute('aria-expanded',o)});
 const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
 function count(el){el.querySelectorAll('[data-n]').forEach(b=>{const to=+b.dataset.n;if(RM){b.textContent=to;return}const t0=performance.now()+500;(function f(t){const p=Math.min(Math.max((t-t0)/1300,0),1);b.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(performance.now())})}
 document.querySelectorAll('.ic').forEach(sv=>{[...sv.children].forEach((x,j)=>x.style.setProperty('--i',j))});
@@ -258,7 +326,11 @@ const de=document.documentElement;
 const end=()=>{it.classList.add('out');de.style.overflow='';try{iv.pause()}catch(e){}setTimeout(()=>{it.style.display='none'},700)};
 iv.addEventListener('ended',end);iv.addEventListener('error',end);sk.addEventListener('click',end);
 const go=()=>{try{const p=iv.play();if(p&&p.catch)p.catch(()=>{})}catch(e){}};
-const unmute=e=>{if(e.target===sk)return;iv.muted=false;go();it.removeEventListener('pointerdown',unmute)};
+const sn=document.getElementById('snd');
+const SP="<path d='M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z' fill='#fff'/>";
+const SI=m=>{if(!m){sn.style.display='none';return}sn.innerHTML=`<svg viewBox='0 0 24 24' fill='none' stroke='#fff' stroke-width='1.8' stroke-linecap='round'>${SP}${m?"<path d='M16 9.5l5 5M21 9.5l-5 5'/>":"<path d='M15.5 9a4 4 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11'/>"}</svg><span>${m?'SƏSİ AÇ':'SƏS AÇIQDIR'}</span>`;sn.style.animation=m?'':'none'};SI(true);
+sn.addEventListener('click',()=>{iv.muted=false;SI(false);go()});
+const unmute=e=>{if(e.target===sk||sn.contains(e.target))return;iv.muted=false;SI(false);go();it.removeEventListener('pointerdown',unmute)};
 it.addEventListener('pointerdown',unmute);
 it.classList.add('on');de.style.overflow='hidden';go();
 }catch(e){const x=document.getElementById('intro');if(x)x.style.display='none'}
